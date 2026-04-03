@@ -29,7 +29,7 @@
         <div class="container px-4 px-lg-5 my-5">
             <div id="info" class="panel-collapse">
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">                       
-                {{ include('helpers/form/_group.html.twig', {
+                {{ include('helpers/form/group.html.twig', {
                             'field': form['titre_plat'], 'attr': {'attr':{'size': '30'}}
                         }) }}
                 </div>
@@ -39,7 +39,7 @@
                 </div>
                 {% endif %}                       
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
-                {{ include('helpers/form/_group.html.twig', {
+                {{ include('helpers/form/group.html.twig', {
                             'field': form['file'], 'attr': {'attr': {}}
                         }) }}  
                 </div>        
