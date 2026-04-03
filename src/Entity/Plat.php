@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\PlatRepository;
 
 #[ORM\Entity(repositoryClass: PlatRepository::class)]
-#[ORM\Table(name: '`Plat`')]    
+#[ORM\Table(name: '`plat`')]    
 class Plat {
     #[ORM\Id]  
     #[ORM\GeneratedValue]

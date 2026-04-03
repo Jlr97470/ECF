@@ -10,7 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\RoleRepository;
 
 #[ORM\Entity(repositoryClass: RoleRepository::class)]
-#[ORM\Table(name: '`Role`')]    
+#[ORM\Table(name: '`role`')]    
 #[UniqueEntity(fields: ['libelle'], message: 'Le nom du rôle existe déjà')]
 class Role {
     #[ORM\Id]  

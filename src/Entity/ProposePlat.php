@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProposePlatRepository::class)]
-#[ORM\Table(name: '`ProposePlat`')]     
+#[ORM\Table(name: '`proposeplat`')]     
 #[UniqueEntity(fields: ['menu_id', 'plat_id'], message: 'Cette combinaison de menu et de plat existe déjà')]
 class ProposePlat { 
     #[ORM\Id]

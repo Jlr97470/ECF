@@ -11,7 +11,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\MenuRepository;
 
 #[ORM\Entity(repositoryClass: MenuRepository::class)]
-#[ORM\Table(name: '`Menu`')]
+#[ORM\Table(name: '`menu`')]
 #[UniqueEntity(fields: ['titre'], message: 'Le titre existe déjà')]
 class Menu
 {

@@ -11,7 +11,7 @@ use App\Repository\UtilisateurRepository;
 
 
 #[ORM\Entity(repositoryClass: UtilisateurRepository::class)]
-#[ORM\Table(name: '`Utilisateur`')]
+#[ORM\Table(name: '`utilisateur`')]
 #[UniqueEntity(fields: ['email'], message: 'Cette adresse email est déjà utilisée.')]
 class Utilisateur implements UserInterface,PasswordAuthenticatedUserInterface
 {

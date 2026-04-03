@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: PossedeRepository::class)]
-#[ORM\Table(name: '`Possede`')]     
+#[ORM\Table(name: '`possede`')]     
 #[UniqueEntity(fields: ['utilisateur_id'], message: 'Cet utilisateur possède déjà ce rôle.')]
 class Possede { 
     #[ORM\Id]    

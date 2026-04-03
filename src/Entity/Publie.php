@@ -8,7 +8,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\PublieRepository;
 
 #[ORM\Entity(repositoryClass: PublieRepository::class)]
-#[ORM\Table(name: '`Publie`')]     
+#[ORM\Table(name: '`publie`')]     
 #[UniqueEntity(fields: ['utilisateur_id'], message: 'Cet utilisateur a déjà publié un avis.')]
 class Publie { 
     #[ORM\Id]

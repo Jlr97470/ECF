@@ -6,7 +6,7 @@ use App\Repository\HoraireRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HoraireRepository::class)]
-#[ORM\Table(name: '`Horaire`')]    
+#[ORM\Table(name: '`horaire`')]    
 class Horaire {
     #[ORM\Id]  
     #[ORM\GeneratedValue]

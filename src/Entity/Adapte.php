@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: AdapteRepository::class)]
-#[ORM\Table(name: '`Adapte`')]     
+#[ORM\Table(name: '`adapte`')]     
 #[UniqueEntity(fields: ['menu_id'], message: 'Ce menu est déjà associé à un régime.')]
 class Adapte { 
     #[ORM\Id]    

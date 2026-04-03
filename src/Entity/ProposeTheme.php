@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ProposeThemeRepository::class)]
-#[ORM\Table(name: '`ProposeTheme`')]     
+#[ORM\Table(name: '`proposetheme`')]     
 #[UniqueEntity(fields: ['menu_id'], message: 'Ce menu est déjà associé à un thème.')]
 class ProposeTheme { 
 

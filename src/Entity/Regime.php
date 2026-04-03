@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\RegimeRepository;
 
 #[ORM\Entity(repositoryClass: RegimeRepository::class)]
-#[ORM\Table(name: '`Regime`')]    
+#[ORM\Table(name: '`regime`')]    
 class Regime {
     #[ORM\Id]  
     #[ORM\GeneratedValue]

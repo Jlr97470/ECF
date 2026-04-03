@@ -10,7 +10,7 @@ use App\Repository\AllergeneRepository;
 
 
 #[ORM\Entity(repositoryClass: AllergeneRepository::class)]
-#[ORM\Table(name: '`Allergene`')]    
+#[ORM\Table(name: '`allergene`')]    
 class Allergene {
     #[ORM\Id]  
     #[ORM\GeneratedValue]

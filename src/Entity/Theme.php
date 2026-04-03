@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\ThemeRepository;
 
 #[ORM\Entity(repositoryClass: ThemeRepository::class)]
-#[ORM\Table(name: '`Theme`')]    
+#[ORM\Table(name: '`theme`')]    
 class Theme {
     #[ORM\Id]  
     #[ORM\GeneratedValue]

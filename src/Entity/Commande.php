@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: CommandeRepository::class)]
-#[ORM\Table(name: '`Commande`')]
+#[ORM\Table(name: '`commande`')]
 #[UniqueEntity(fields: ['numero_commande'], message: 'Le numéro de commande existe déjà')]
 class Commande
 {

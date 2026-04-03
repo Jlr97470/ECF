@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 use App\Repository\AvisRepository;
 
 #[ORM\Entity(repositoryClass: AvisRepository::class)]
-#[ORM\Table(name: '`Avis`')]    
+#[ORM\Table(name: '`avis`')]    
 class Avis {
     #[ORM\Id]  
     #[ORM\Column(type:"integer")]
