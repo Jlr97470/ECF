@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Listing Utilisateur{% endblock %}
+
+{% block content %}
+    <section class="py-5">               
+        <div class="container px-4 px-lg-5 my-5">
+            {# Titre de la page #}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Listing Utilisateur</h1>
+                </div>
+            </div>
+
+            <div class="row" role="alert">
+                <div class="col-xs-9 col-sm-10"></div>
+
+                <div class="col-xs-3 col-sm-2">
+                    <a href="{{ path('app_utilisateur_add') }}" role="button" class="btn btn-info text-right">
+                        <i class="fa fa-plus fa-fw"></i> Ajouter
+                    </a>
+                </div>
+            </div>
+        </div>            
+        <div class="container px-4 px-lg-5 my-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" {% if pagination.isSorted('utilisateur.nom') %} class="sorted"{% endif %}>
+                            {{ knp_pagination_sortable(pagination, 'Nom', 'utilisateur.nom') }}
+                        </th>
+                        <th scope="col" {% if pagination.isSorted('utilisateur.prenom') %} class="sorted"{% endif %}>
+                            {{ knp_pagination_sortable(pagination, 'Prénom', 'utilisateur.prenom') }}
+                        </th>
+                        <th scope="col" {% if pagination.isSorted('utilisateur.email') %} class="sorted"{% endif %}>
+                            {{ knp_pagination_sortable(pagination, 'Email', 'utilisateur.email') }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for utilisateur in pagination %}
+                    <tr>
+                        <th colspan="2" class="col">
+                            <a href="{{ path('app_utilisateur_index', {'id': utilisateur.utilisateurid}) }}" class="fw-bolder">{{ utilisateur.nom }} {{ utilisateur.prenom }}</a>
+                            <p class="text-muted">{{ utilisateur.email|nl2br }}</p>
+                            <p>{{ utilisateur.roles|join(', ')|nl2br }}</p>
+                        </th>
+                        <td>
+                            <a href="{{ path('app_utilisateur_remove', {'id': utilisateur.utilisateurid}) }}" role="button" class="btn btn-danger">Supprimer</a>
+                            <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.utilisateurid}) }}" role="button" class="btn btn-info">Modifier</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {# display navigation #}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>             
+        </div>
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}

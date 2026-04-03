@@ -1,0 +1,197 @@
+<?php
+
+namespace App\Entity;
+
+use App\Repository\CommandeRepository;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+#[ORM\Entity(repositoryClass: CommandeRepository::class)]
+#[ORM\Table(name: '`Commande`')]
+#[UniqueEntity(fields: ['numero_commande'], message: 'Le numéro de commande existe déjà')]
+class Commande
+{
+    #[ORM\Id]
+    #[ORM\Column(type:"string",length: 50, unique: true)]
+    private ?string $numero_commande = null;
+
+    #[ORM\Column(type:"date")]
+    private ?string $date_commande = null;
+
+    #[ORM\Column(type:"date")]
+    private ?string $date_prestation = null;
+
+    #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
+    #[ORM\JoinColumn(name: "utilisateur_id", referencedColumnName: "utilisateur_id", onDelete: "CASCADE")]
+    private ?Utilisateur $utilisateur_id = null;
+
+    #[ORM\ManyToOne(targetEntity: Menu::class)]
+    #[ORM\JoinColumn(name: "menu_id", referencedColumnName: "menu_id", onDelete: "CASCADE")]
+    private ?Menu $menu_id = null;
+
+    #[ORM\Column(type:"string",length: 50)]
+    private ?string $heure_livraison = null;
+
+    #[ORM\Column(type:"float")]
+    private ?float $prix_menu = null;
+
+    #[ORM\Column(type:"integer")]
+    private ?float $nombre_personne = null;
+
+    #[ORM\Column(type:"float")]
+    private ?float $prix_livraison = null;
+
+    #[ORM\Column(type:"string",length: 50)]
+    private ?string $statut = null; 
+
+    #[ORM\Column(type:"boolean")]
+    private ?bool $pret_materiel = null;
+
+    #[ORM\Column(type:"boolean")]
+    private ?bool $restition_materiel = null;
+
+    public function getNumeroCommande(): ?string
+    {
+        return $this->numero_commande;
+    }   
+
+    public function setNumeroCommande(string $numero_commande): static
+    {
+        $this->numero_commande = $numero_commande;
+
+        return $this;
+    }
+
+    public function getDateCommande(): ?string
+    {
+        return $this->date_commande;
+    }
+
+    public function setDateCommande(string $date_commande): static
+    {
+        $this->date_commande = $date_commande;
+
+        return $this;
+    }
+
+    public function getDatePrestation(): ?string
+    {
+        return $this->date_prestation;
+    }
+
+    public function setDatePrestation(string $date_prestation): static
+    {
+        $this->date_prestation = $date_prestation;
+
+        return $this;
+    }
+
+    public function getUtilisateurId(): ?Utilisateur
+    {
+        return $this->utilisateur_id;
+    }
+
+    public function setUtilisateurId(?Utilisateur $utilisateur_id): static
+    {
+        $this->utilisateur_id = $utilisateur_id;
+
+        return $this;
+    }
+
+    public function getMenuId(): ?Menu
+    {
+        return $this->menu_id;
+    }
+    
+    public function setMenuId(?Menu $menu_id): static
+    {
+        $this->menu_id = $menu_id;
+
+        return $this;
+    }
+    
+    public function getHeureLivraison(): ?string
+    {
+        return $this->heure_livraison;
+    }
+
+    public function setHeureLivraison(string $heure_livraison): static
+    {
+        $this->heure_livraison = $heure_livraison;
+
+        return $this;
+    }
+
+    public function getPrixMenu(): ?float
+    {
+        return $this->prix_menu;
+    }
+
+    public function setPrixMenu(float $prix_menu): static
+    {
+        $this->prix_menu = $prix_menu;
+
+        return $this;
+    }
+
+    public function getNombrePersonne(): ?float
+    {
+        return $this->nombre_personne;
+    }
+    
+    public function setNombrePersonne(float $nombre_personne): static
+    {
+        $this->nombre_personne = $nombre_personne;
+
+        return $this;
+    }
+
+    public function getPrixLivraison(): ?float
+    {
+        return $this->prix_livraison;
+    }
+
+    public function setPrixLivraison(float $prix_livraison): static
+    {
+        $this->prix_livraison = $prix_livraison;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): static
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function isPretMateriel(): ?bool
+    {
+        return $this->pret_materiel;
+    }
+
+    public function setPretMateriel(bool $pret_materiel): static
+    {
+        $this->pret_materiel = $pret_materiel;
+
+        return $this;
+    }
+
+    public function isRestitionMateriel(): ?bool
+    {
+        return $this->restition_materiel;
+    }
+
+    public function setRestitionMateriel(bool $restition_materiel): static
+    {
+        $this->restition_materiel = $restition_materiel;
+
+        return $this;
+    }
+
+}    

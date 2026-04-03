@@ -1,0 +1,103 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ allergene.libelle }} {% endblock %}
+
+{% block content %}
+    <section class="py-5">               
+         <div class="container px-4 px-lg-5 my-5">
+            {# Titre de la page #}
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">{{ allergene.libelle }}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="container px-4 px-lg-5 my-5">
+            <p><strong>ID: </strong><br>{{ allergene.allergeneid }}</p>
+            <p><strong>Libellé: </strong><br>{{ allergene.libelle }}</p>
+        </div>        
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row" role="alert">
+                <div class="col-xs-9 col-sm-10">
+                    <a href="{{ path('app_allergene_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
+                </div>
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                <div class="col-xs-3 col-sm-2">            
+                    <a href="{{ path('app_allergene_edit', {'id': allergene.allergeneid}) }}" role="button" class="btn btn-info">Modifier</a>
+                </div>
+                {% endif %}
+            </div>        
+        </div>
+        <div class="container px-4 px-lg-5 my-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="2">
+                            <h2>Plats associés : </h2>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plat in plats %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{{ path('app_plat_index', {'id': plat.platid}) }}" class="fw-bolder">{{ plat.titreplat }}</a>
+                            <p><img src="{{ path('app_plat_photo', {'id': plat.platid}) }}" alt="{{ plat.titreplat }}" class="img-fluid"></p>
+                        </th>
+                        <td>
+                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                            <a href="{{ path('app_allergene_platremove', {'idallergene': allergene.allergeneid, 'idplat': plat.platid}) }}" class="btn btn-danger">Supprimer</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h2>Listing Plats</h2>
+                </div>
+            </div>        
+        </div>
+        <div class="container px-4 px-lg-5 my-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" {% if pagination.isSorted('plat.titre_plat') %} class="sorted"{% endif %}>
+                            {{ knp_pagination_sortable(pagination, 'Titre', 'plat.titre_plat') }}
+                        </th>
+                        <th scope="col" {% if pagination.isSorted('plat.photo') %} class="sorted"{% endif %}>
+                            {{ knp_pagination_sortable(pagination, 'Photo', 'plat.photo') }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for plat in pagination %}
+                    <tr>
+                        <th scope="row">
+                            <a href="{{ path('app_plat_index', {'id': plat.platid}) }}" class="fw-bolder">{{ plat.titreplat|nl2br }}</a>
+                            <p><img src="{{ path('app_plat_photo', {'id': plat.platid}) }}" alt="{{ plat.titreplat }}" class="img-fluid"></p>
+                        </th>
+                        <td>
+                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                            <a href="{{ path('app_allergene_platadd', {'idallergene': allergene.allergeneid, 'idplat': plat.platid}) }}" class="btn btn-success">Ajouter</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {# display navigation #}
+            <div class="navigation">
+                {{ knp_pagination_render(pagination) }}
+            </div>             
+        </div>        
+        {% endif %}
+    </section>
+{% endblock %}
+
+{% block stylesheets %}
+{% endblock %}
