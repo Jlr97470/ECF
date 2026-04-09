@@ -44,6 +44,8 @@ class MenuController extends AbstractController
 
         $theme = $menu->getProposeTheme()->getThemeId();
 
+        $regime = $menu->getAdapte()->getRegimeId();
+
         if ($plats){
             // On récupère tous les articles disponibles en base de données
             $queryBuilder = $em->createQueryBuilder()
@@ -70,6 +72,7 @@ class MenuController extends AbstractController
 
         return $this->render('menu/index.html.twig', [
             'theme' => $theme,
+            'regime' => $regime,
             'menu' => $menu,
             'plats' => $plats,
             'pagination' => $pagination

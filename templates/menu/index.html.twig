@@ -17,14 +17,14 @@
                 <thead>
                     <tr>
                         <th scope="col" colspan="2">
-                            <h2>Thèmes associés : </h2>
+                            <h2>Thème associé : </h2>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <th scope="row">
-                            {{ theme.libelle }}
+                            <a href="{{ path('app_theme_index', {'id': theme.themeid}) }}" class="fw-bolder">{{ theme.libelle }}</a>
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
@@ -34,6 +34,29 @@
                 </tbody>
             </table>
         </div>
+        <div class="container px-4 px-lg-5 my-5">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" colspan="2">
+                            <h2>Régime associé : </h2>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            <a href="{{ path('app_regime_index', {'id': regime.regimeid}) }}" class="fw-bolder">{{ regime.libelle }}</a>
+                        </th>
+                        <td>
+                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
         <div class="container px-4 px-lg-5 my-5">
             <p><strong>Nombre de personnes minimum : </strong><br>{{ menu.nombrepersonneminimum }}</p>
             <p><strong>Prix par personne : </strong><br>{{ menu.prixparpersonne }} €</p>

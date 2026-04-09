@@ -10,15 +10,32 @@ use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 use App\Entity\Avis;
+use App\Entity\Publie;
 use App\Form\AvisType;
+
 class AvisController extends AbstractController
 {
     #[Route('/avis/liste', name: 'app_avis_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
         // On récupère tous les articles disponibles en base de données
-        $query = $em->createQuery('SELECT avis FROM App\Entity\Avis avis');
-            
+        $user = $this->getUser();
+        
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles())))
+            {
+                $query = $em->createQuery('SELECT avis FROM App\Entity\Avis avis');
+            }
+        else
+            {
+                $publie = $user->getPublie();
+                if ($publie) {
+                    $query = $em->createQuery('SELECT avis FROM App\Entity\Avis avis WHERE avis.avis_id = :avisId')
+                        ->setParameter('avisId', $publie->getAvisId());
+                } else {
+                    $query = $em->createQuery('SELECT avis FROM App\Entity\Avis avis WHERE 1=0');
+                }
+            }
+
         $pagination = $paginator->paginate(
         $query, /* query NOT result */
         $request->query->getInt('page', 1), /* page number */
@@ -47,19 +64,46 @@ class AvisController extends AbstractController
         $mode       = 'new';
         $avis    = new Avis();
 
-        $form = $this->createForm(AvisType::class, $avis);
+        $form = $this->createForm(AvisType::class, $avis, [
+            'user' => $this->getUser(),
+        ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $maxId = $em->getRepository(Avis::class)->createQueryBuilder('b')
+            ->select("MAX(b.avis_id) as maxId")
+            ->getQuery()
+            ->getSingleResult();            
+
+            $avis->setAvisId($maxId['maxId'] + 1);
 
             $this->saveAvis($avis, $mode,$em);
+
+            $user = $this->getUser();
+
+            $publie = $user->getPublie();
+
+            if ($publie) {
+                $publie->setAvisId($avis);
+                $em->persist($publie);
+                $em->flush();
+            }
+            else
+            {
+                $publie = new Publie();
+                $publie->setUtilisateurId($user);
+                $publie->setAvisId($avis);
+                $user->addPublie($publie);
+                $em->persist($user);
+                $em->flush();
+            }            
 
             return $this->redirectToRoute('app_avis_liste');
         }
 
         $parameters = array(
             'form'      => $form->createView(),
-            'Avis'      => $avis,
+            'avis'      => $avis,
             'mode'      => $mode
         );
 
@@ -73,7 +117,9 @@ class AvisController extends AbstractController
         // On récupère l'Avis qui correspond à l'id passé dans l'url
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
 
-        $form = $this->createForm(AvisType::class, $avis);
+        $form = $this->createForm(AvisType::class, $avis, [
+            'user' => $this->getUser(),
+        ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {

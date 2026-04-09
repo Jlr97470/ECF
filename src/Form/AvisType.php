@@ -14,8 +14,21 @@ use Symfony\Component\Validator\Constraints\Length;
 use App\Entity\Avis;
 class AvisType extends AbstractType
 {
+    public function addStatutField(FormBuilderInterface $builder)
+    {
+        $builder->add('statut', ChoiceType::class, [
+            'label' => 'Statut de l\'Avis',
+            'attr' => ['placeholder' => 'Statut de l\'Avis'],
+            'required' => true,
+            'choices' => [
+                'En Attente' => Null,
+                'Validé' => 'Validé'
+            ]
+        ]);
+    }
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $options['user'] ?? null;
         // Titre
         $builder->add('note', TextType::class, [
             'label' => 'Note de l\'Avis',
@@ -30,9 +43,10 @@ class AvisType extends AbstractType
                 'max' => 50,
                 'maxMessage' => 'Votre avis ne peut pas avoir plus de {{ limit }} caractères',
             ]),
-    ]
-        ])
-        ->add('description', TextType::class, [
+        ]
+        ]);
+
+        $builder->add('description', TextType::class, [
             'label' => 'Description de l\'Avis',   
             'attr' => ['placeholder' => 'Description de l\'Avis'],
             'required' => true,
@@ -46,16 +60,11 @@ class AvisType extends AbstractType
                 'maxMessage' => 'Votre description ne peut pas avoir plus de {{ limit }} caractères',
             ]),
             ]
-        ])
-        ->add('statut', ChoiceType::class, [
-            'label' => 'Statut de l\'Avis',
-            'attr' => ['placeholder' => 'Statut de l\'Avis'],
-            'required' => true,
-            'choices' => [
-                'En Attente' => Null,
-                'Validé' => 'Validé'
-            ]
         ]);
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles()))) {
+            $this->addStatutField($builder);
+        }
         // Bouton Envoyer
         $builder->add('submit', SubmitType::class, array(
             'label' => 'Enregistrer'
@@ -66,6 +75,7 @@ class AvisType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Avis::class,
+            'user' => null,
         ]);
     }
 

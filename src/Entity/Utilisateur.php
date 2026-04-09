@@ -53,7 +53,7 @@ class Utilisateur implements UserInterface,PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(targetEntity: Publie::class, mappedBy: 'utilisateur_id', orphanRemoval: true, cascade: ['persist'])]
     private ?Publie $publie= null;    
     private ?array $roles = null;
-    public function getUtilisateurid(): ?int
+    public function getUtilisateurId(): ?int
     {
         return $this->utilisateur_id;
     }
@@ -227,7 +227,7 @@ class Utilisateur implements UserInterface,PasswordAuthenticatedUserInterface
     /**
     * @return Publie<int, Publie>
     */  
-    public function getPublie(): Publie
+    public function getPublie(): ?Publie
     {
         return $this->publie;
     }

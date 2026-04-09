@@ -21,7 +21,7 @@ class Avis {
     #[ORM\Column(type:"string",length: 50)]
     private ?string $description = null;
 
-    #[ORM\Column(type:"string",length: 50)]
+    #[ORM\Column(type:"string",length: 50,nullable: true)]
     private ?string $statut = null;
 
     #[ORM\OneToMany(targetEntity: Publie::class, mappedBy: 'avis_id', orphanRemoval: true, cascade: ['persist'])]
@@ -31,12 +31,12 @@ class Avis {
         $this->publie = new ArrayCollection();
     }
 
-    public function getAvisid(): ?int
+    public function getAvisId(): ?int
     {
         return $this->avis_id;
     }
 
-    public function setAvisid(int $avis_id): static
+    public function setAvisId(int $avis_id): static
     {
         $this->avis_id = $avis_id;
 
