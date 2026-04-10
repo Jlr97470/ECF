@@ -142,7 +142,7 @@ class PlatController extends AbstractController
                 );
             }            
   
-            $plat->setPhoto(  file_get_contents($this->getParameter('images_directory') . '/' . $fichier) );
+            $plat->setPhoto(file_get_contents($this->getParameter('upload_directory') . '/' . $fichier) );
             
             $this->addFlash('success', 'Image téléchargée avec succès');           
 
