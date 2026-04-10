@@ -1,6 +1,4 @@
-CREATE DATABASE  IF NOT EXISTS `ecf`
-DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci 
-/*!80016 DEFAULT ENCRYPTION='N' */;
+CREATE DATABASE  IF NOT EXISTS `ecf` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `ecf`;
 -- MySQL dump 10.13  Distrib 8.0.45, for Win64 (x86_64)
 --
@@ -25,7 +23,7 @@ SET @@SESSION.SQL_LOG_BIN= 0;
 -- GTID state at the beginning of the backup 
 --
 
--- SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '96e16437-2762-11f1-809e-d843ae15e402:1-2008773';
+--SET @@GLOBAL.GTID_PURGED=/*!80000 '+'*/ '96e16437-2762-11f1-809e-d843ae15e402:1-3255076';
 
 --
 -- Table structure for table `adapte`
@@ -36,10 +34,9 @@ DROP TABLE IF EXISTS `adapte`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `adapte` (
   `menu_id` int NOT NULL,
-  `regime_id` int NOT NULL,
-  PRIMARY KEY (`menu_id`,`regime_id`),
-  KEY `IDX_B89478F4CCD7E912` (`menu_id`),
-  KEY `IDX_B89478F435E7D534` (`regime_id`),
+  `regime_id` int DEFAULT NULL,
+  PRIMARY KEY (`menu_id`),
+  KEY `IDX_BF387DC235E7D534` (`regime_id`),
   CONSTRAINT `FK_B89478F435E7D534` FOREIGN KEY (`regime_id`) REFERENCES `regime` (`regime_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_B89478F4CCD7E912` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -64,7 +61,7 @@ DROP TABLE IF EXISTS `allergene`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `allergene` (
   `allergene_id` int NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(50) NOT NULL,
+  `libelle` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`allergene_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -88,9 +85,9 @@ DROP TABLE IF EXISTS `avis`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `avis` (
   `avis_id` int NOT NULL,
-  `note` varchar(50) NOT NULL,
-  `description` varchar(50) NOT NULL,
-  `statut` varchar(50) NOT NULL,
+  `note` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `statut` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`avis_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -101,7 +98,7 @@ CREATE TABLE `avis` (
 
 LOCK TABLES `avis` WRITE;
 /*!40000 ALTER TABLE `avis` DISABLE KEYS */;
-INSERT INTO `avis` VALUES (1,'15','Trés satisfait du service !!','Validé'),(2,'17','Trés bon plat !!','Validé'),(3,'18','Trés professionel !!','Validé');
+INSERT INTO `avis` VALUES (1,'15','Trés satisfait du service !!','Validé'),(2,'17','Trés bon plat !!','Validé'),(3,'18','Trés professionel !!','Validé'),(4,'14','test','Validé'),(5,'14','test',NULL);
 /*!40000 ALTER TABLE `avis` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,21 +110,21 @@ DROP TABLE IF EXISTS `commande`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `commande` (
-  `numero_commande` varchar(50) NOT NULL,
+  `numero_commande` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `date_commande` date NOT NULL,
   `date_prestation` date NOT NULL,
-  `heure_livraison` varchar(50) NOT NULL,
+  `heure_livraison` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `prix_menu` double NOT NULL,
   `nombre_personne` int NOT NULL,
   `prix_livraison` double NOT NULL,
-  `statut` varchar(50) NOT NULL,
+  `statut` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `pret_materiel` tinyint NOT NULL,
   `restition_materiel` tinyint NOT NULL,
   `utilisateur_id` int DEFAULT NULL,
   `menu_id` int DEFAULT NULL,
   PRIMARY KEY (`numero_commande`),
-  KEY `IDX_979CC42BFB88E14F` (`utilisateur_id`),
-  KEY `IDX_979CC42BCCD7E912` (`menu_id`),
+  KEY `IDX_6EEAA67DFB88E14F` (`utilisateur_id`),
+  KEY `IDX_6EEAA67DCCD7E912` (`menu_id`),
   CONSTRAINT `FK_979CC42BCCD7E912` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_979CC42BFB88E14F` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -153,8 +150,8 @@ CREATE TABLE `contient` (
   `plat_id` int NOT NULL,
   `allergene_id` int NOT NULL,
   PRIMARY KEY (`plat_id`,`allergene_id`),
-  KEY `IDX_25464C00D73DB560` (`plat_id`),
-  KEY `IDX_25464C004646AB2` (`allergene_id`),
+  KEY `IDX_DC302E56D73DB560` (`plat_id`),
+  KEY `IDX_DC302E564646AB2` (`allergene_id`),
   CONSTRAINT `FK_25464C004646AB2` FOREIGN KEY (`allergene_id`) REFERENCES `allergene` (`allergene_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_25464C00D73DB560` FOREIGN KEY (`plat_id`) REFERENCES `plat` (`plat_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -178,7 +175,7 @@ DROP TABLE IF EXISTS `doctrine_migration_versions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `doctrine_migration_versions` (
-  `version` varchar(191) NOT NULL,
+  `version` varchar(191) COLLATE utf8mb4_general_ci NOT NULL,
   `executed_at` datetime DEFAULT NULL,
   `execution_time` int DEFAULT NULL,
   PRIMARY KEY (`version`)
@@ -191,7 +188,7 @@ CREATE TABLE `doctrine_migration_versions` (
 
 LOCK TABLES `doctrine_migration_versions` WRITE;
 /*!40000 ALTER TABLE `doctrine_migration_versions` DISABLE KEYS */;
-INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20260210123117','2026-02-10 13:31:24',1054),('DoctrineMigrations\\Version20260227062142','2026-02-27 07:21:55',64),('DoctrineMigrations\\Version20260303135901','2026-03-03 14:59:17',94);
+INSERT INTO `doctrine_migration_versions` VALUES ('DoctrineMigrations\\Version20260210123117','2026-02-10 13:31:24',1054),('DoctrineMigrations\\Version20260227062142','2026-02-27 07:21:55',64),('DoctrineMigrations\\Version20260303135901','2026-03-03 14:59:17',94),('DoctrineMigrations\\Version20260409112828','2026-04-09 13:28:33',177),('DoctrineMigrations\\Version20260409112930','2026-04-09 13:29:34',19);
 /*!40000 ALTER TABLE `doctrine_migration_versions` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -204,9 +201,9 @@ DROP TABLE IF EXISTS `horaire`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `horaire` (
   `horaire_id` int NOT NULL AUTO_INCREMENT,
-  `jour` varchar(50) NOT NULL,
-  `heure_ouverture` varchar(50) NOT NULL,
-  `heure_fermeture` varchar(50) NOT NULL,
+  `jour` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `heure_ouverture` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `heure_fermeture` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`horaire_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -230,14 +227,14 @@ DROP TABLE IF EXISTS `menu`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `menu` (
   `menu_id` int NOT NULL AUTO_INCREMENT,
-  `titre` varchar(50) NOT NULL,
+  `titre` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `nombre_personne_minimum` int NOT NULL,
   `prix_par_personne` double NOT NULL,
-  `regime` varchar(50) NOT NULL,
-  `description` varchar(50) NOT NULL,
+  `regime` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `quantite_restante` int NOT NULL,
   PRIMARY KEY (`menu_id`),
-  UNIQUE KEY `UNIQ_DD3795ADFF7747B4` (`titre`)
+  UNIQUE KEY `UNIQ_7D053A93FF7747B4` (`titre`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -291,7 +288,7 @@ DROP TABLE IF EXISTS `plat`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `plat` (
   `plat_id` int NOT NULL AUTO_INCREMENT,
-  `titre_plat` varchar(50) NOT NULL,
+  `titre_plat` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `photo` longblob NOT NULL,
   PRIMARY KEY (`plat_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -316,10 +313,9 @@ DROP TABLE IF EXISTS `possede`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `possede` (
   `utilisateur_id` int NOT NULL,
-  `role_id` int NOT NULL,
+  `role_id` int DEFAULT NULL,
   PRIMARY KEY (`utilisateur_id`),
-  KEY `IDX_F2B62C94FB88E14F` (`utilisateur_id`),
-  KEY `IDX_F2B62C94D60322AC` (`role_id`),
+  KEY `IDX_3D0B1508D60322AC` (`role_id`),
   CONSTRAINT `FK_F2B62C94D60322AC` FOREIGN KEY (`role_id`) REFERENCES `role` (`role_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_F2B62C94FB88E14F` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -346,8 +342,8 @@ CREATE TABLE `proposeplat` (
   `menu_id` int NOT NULL,
   `plat_id` int NOT NULL,
   PRIMARY KEY (`menu_id`,`plat_id`),
-  KEY `IDX_CEDB8FF3CCD7E912` (`menu_id`),
-  KEY `IDX_CEDB8FF3D73DB560` (`plat_id`),
+  KEY `IDX_E875AF1ACCD7E912` (`menu_id`),
+  KEY `IDX_E875AF1AD73DB560` (`plat_id`),
   CONSTRAINT `FK_CEDB8FF3CCD7E912` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_CEDB8FF3D73DB560` FOREIGN KEY (`plat_id`) REFERENCES `plat` (`plat_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -372,10 +368,9 @@ DROP TABLE IF EXISTS `proposetheme`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `proposetheme` (
   `menu_id` int NOT NULL,
-  `theme_id` int NOT NULL,
+  `theme_id` int DEFAULT NULL,
   PRIMARY KEY (`menu_id`),
-  KEY `IDX_2D4B3220CCD7E912` (`menu_id`),
-  KEY `IDX_2D4B322059027487` (`theme_id`),
+  KEY `IDX_F4BBC6DC59027487` (`theme_id`),
   CONSTRAINT `FK_2D4B322059027487` FOREIGN KEY (`theme_id`) REFERENCES `theme` (`theme_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_2D4B3220CCD7E912` FOREIGN KEY (`menu_id`) REFERENCES `menu` (`menu_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -400,10 +395,9 @@ DROP TABLE IF EXISTS `publie`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `publie` (
   `utilisateur_id` int NOT NULL,
-  `avis_id` int NOT NULL,
+  `avis_id` int DEFAULT NULL,
   PRIMARY KEY (`utilisateur_id`),
-  KEY `IDX_D57B8E1EFB88E14F` (`utilisateur_id`),
-  KEY `IDX_D57B8E1E197E709F` (`avis_id`),
+  KEY `IDX_D2D78B28197E709F` (`avis_id`),
   CONSTRAINT `FK_D57B8E1E197E709F` FOREIGN KEY (`avis_id`) REFERENCES `avis` (`avis_id`) ON DELETE CASCADE,
   CONSTRAINT `FK_D57B8E1EFB88E14F` FOREIGN KEY (`utilisateur_id`) REFERENCES `utilisateur` (`utilisateur_id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -415,7 +409,7 @@ CREATE TABLE `publie` (
 
 LOCK TABLES `publie` WRITE;
 /*!40000 ALTER TABLE `publie` DISABLE KEYS */;
-INSERT INTO `publie` VALUES (17,1),(18,3);
+INSERT INTO `publie` VALUES (17,1),(18,3),(29,5);
 /*!40000 ALTER TABLE `publie` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -428,7 +422,7 @@ DROP TABLE IF EXISTS `regime`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `regime` (
   `regime_id` int NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(50) NOT NULL,
+  `libelle` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`regime_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -452,9 +446,9 @@ DROP TABLE IF EXISTS `role`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `role` (
   `role_id` int NOT NULL,
-  `libelle` varchar(50) NOT NULL,
+  `libelle` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`role_id`),
-  UNIQUE KEY `UNIQ_F75B2554A4D60759` (`libelle`)
+  UNIQUE KEY `UNIQ_57698A6AA4D60759` (`libelle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -477,7 +471,7 @@ DROP TABLE IF EXISTS `theme`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `theme` (
   `theme_id` int NOT NULL AUTO_INCREMENT,
-  `libelle` varchar(50) NOT NULL,
+  `libelle` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   PRIMARY KEY (`theme_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -501,16 +495,16 @@ DROP TABLE IF EXISTS `utilisateur`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `utilisateur` (
   `utilisateur_id` int NOT NULL AUTO_INCREMENT,
-  `email` varchar(50) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `prenom` varchar(50) NOT NULL,
-  `nom` varchar(50) NOT NULL,
-  `telephone` varchar(50) DEFAULT NULL,
-  `ville` varchar(50) DEFAULT NULL,
-  `pays` varchar(50) DEFAULT NULL,
-  `adresse_postal` varchar(50) DEFAULT NULL,
+  `email` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `prenom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nom` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `telephone` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `ville` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `pays` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `adresse_postal` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   PRIMARY KEY (`utilisateur_id`),
-  UNIQUE KEY `UNIQ_9B80EC64E7927C74` (`email`)
+  UNIQUE KEY `UNIQ_1D1C63B3E7927C74` (`email`)
 ) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -542,4 +536,4 @@ SET @@SESSION.SQL_LOG_BIN = @MYSQLDUMP_TEMP_LOG_BIN;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-04-03 12:48:24
+-- Dump completed on 2026-04-10  9:46:52
