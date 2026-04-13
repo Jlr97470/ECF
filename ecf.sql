@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : ven. 10 avr. 2026 à 13:52
+-- Généré le : lun. 13 avr. 2026 à 16:19
 -- Version du serveur : 9.6.0
 -- Version de PHP : 8.3.23
 
@@ -111,10 +111,17 @@ CREATE TABLE `commande` (
   `prix_livraison` double NOT NULL,
   `statut` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `pret_materiel` tinyint NOT NULL,
-  `restition_materiel` tinyint NOT NULL,
+  `restitution_materiel` tinyint(1) NOT NULL,
   `utilisateur_id` int DEFAULT NULL,
   `menu_id` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `commande`
+--
+
+INSERT INTO `commande` (`numero_commande`, `date_commande`, `date_prestation`, `heure_livraison`, `prix_menu`, `nombre_personne`, `prix_livraison`, `statut`, `pret_materiel`, `restitution_materiel`, `utilisateur_id`, `menu_id`) VALUES
+('123456456', '2023-05-04', '2023-03-03', '12:00', 125, 5, 125, 'En cours', 1, 1, 17, 4);
 
 -- --------------------------------------------------------
 
@@ -160,7 +167,8 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 ('DoctrineMigrations\\Version20260227062142', '2026-02-27 07:21:55', 64),
 ('DoctrineMigrations\\Version20260303135901', '2026-03-03 14:59:17', 94),
 ('DoctrineMigrations\\Version20260409112828', '2026-04-09 13:28:33', 177),
-('DoctrineMigrations\\Version20260409112930', '2026-04-09 13:29:34', 19);
+('DoctrineMigrations\\Version20260409112930', '2026-04-09 13:29:34', 19),
+('DoctrineMigrations\\Version20260413120009', '2026-04-13 14:13:23', 27);
 
 -- --------------------------------------------------------
 
@@ -584,7 +592,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT pour la table `messenger_messages`
 --
 ALTER TABLE `messenger_messages`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT pour la table `plat`
