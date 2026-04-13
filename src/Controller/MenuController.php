@@ -184,7 +184,7 @@ class MenuController extends AbstractController
     /**
      * Enregistrer un Menu en base de données
      * 
-     * @param   Menu     $Menu
+     * @param   Menu     $menu
      * @param   string      $mode 
      */
     private function saveMenu(Menu $menu, string $mode, EntityManagerInterface $em): void{

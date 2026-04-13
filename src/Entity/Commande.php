@@ -16,10 +16,10 @@ class Commande
     private ?string $numero_commande = null;
 
     #[ORM\Column(type:"date")]
-    private ?string $date_commande = null;
+    private ?\DateTime $date_commande = null;
 
     #[ORM\Column(type:"date")]
-    private ?string $date_prestation = null;
+    private ?\DateTime $date_prestation = null;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
     #[ORM\JoinColumn(name: "utilisateur_id", referencedColumnName: "utilisateur_id", onDelete: "CASCADE")]
@@ -36,7 +36,7 @@ class Commande
     private ?float $prix_menu = null;
 
     #[ORM\Column(type:"integer")]
-    private ?float $nombre_personne = null;
+    private ?int $nombre_personne = null;
 
     #[ORM\Column(type:"float")]
     private ?float $prix_livraison = null;
@@ -48,7 +48,7 @@ class Commande
     private ?bool $pret_materiel = null;
 
     #[ORM\Column(type:"boolean")]
-    private ?bool $restition_materiel = null;
+    private ?bool $restitution_materiel = null;
 
     public function getNumeroCommande(): ?string
     {
@@ -62,24 +62,24 @@ class Commande
         return $this;
     }
 
-    public function getDateCommande(): ?string
+    public function getDateCommande(): ?\DateTime
     {
         return $this->date_commande;
     }
 
-    public function setDateCommande(string $date_commande): static
+    public function setDateCommande(\DateTime $date_commande): static
     {
         $this->date_commande = $date_commande;
 
         return $this;
     }
 
-    public function getDatePrestation(): ?string
+    public function getDatePrestation(): ?\DateTime
     {
         return $this->date_prestation;
     }
 
-    public function setDatePrestation(string $date_prestation): static
+    public function setDatePrestation(\DateTime $date_prestation): static
     {
         $this->date_prestation = $date_prestation;
 
@@ -182,14 +182,14 @@ class Commande
         return $this;
     }
 
-    public function isRestitionMateriel(): ?bool
+    public function isRestitutionMateriel(): ?bool
     {
-        return $this->restition_materiel;
+        return $this->restitution_materiel;
     }
 
-    public function setRestitionMateriel(bool $restition_materiel): static
+    public function setRestitutionMateriel(bool $restitution_materiel): static
     {
-        $this->restition_materiel = $restition_materiel;
+        $this->restitution_materiel = $restitution_materiel;
 
         return $this;
     }
