@@ -23,7 +23,10 @@
                 {% endif %}
             </p>
             <p><strong>Client : </strong><br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
-            <p><strong>Nombre de personnes : </strong><br>{{ commande.nombrepersonne }}</p>
+            <p><strong>Adresse : </strong><br>{{ commande.utilisateurId.adressepostal }}</p>
+            <p><strong>Ville : </strong><br>{{ commande.utilisateurId.ville }}</p>
+            <p><strong>Pays : </strong><br>{{ commande.utilisateurId.pays }}</p>
+            <p><strong>Telephone : </strong><br>{{ commande.utilisateurId.telephone }}</p>
             <p><strong>Heure de livraison : </strong><br>{{ commande.heurelivraison }}</p>
             <p><strong>Prix du Menu : </strong><br>{{ commande.prixmenu }} €</p>
             <p><strong>Nombre de personnes : </strong><br>{{ commande.nombrepersonne }}</p>

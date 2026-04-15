@@ -10944,31 +10944,13 @@ select:not(:focus)::placeholder {
   opacity: 0;
 }
 
-datePicker {
+.datePicker {
+  position: relative;
   font-size: 1rem;
-  outline: none;
-  border: 1px solid gray;
-  border-radius: 5px;
-  padding: 0.5rem 0.3rem;
+  left: 170px;
+  top: 0%;
+  background-color: white;
   color: gray;
-  transition: 0.1s ease-out;
-}
-
-datePicker:focus {
-  border-color: #6200ee;
-}
-
-datePicker:focus+label {
-  color: #6200ee;
-  top: 0;
-  transform: translateY(-50%) scale(0.9) !important;
-}
-
-datePicker:not(:placeholder-shown)+label {
-  top: 0;
-  transform: translateY(-50%) scale(0.9) !important;
-}
-
-datePicker:not(:focus)::placeholder {
-  opacity: 0;
+  padding: 0 0.3rem;
+  margin: 0 1rem;
 }
