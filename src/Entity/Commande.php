@@ -12,13 +12,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class Commande
 {
     #[ORM\Id]
-    #[ORM\Column(type:"string",length: 50, unique: true)]
+    #[ORM\Column(type:"string",length: 50, unique: true, nullable: false)]
     private ?string $numero_commande = null;
 
-    #[ORM\Column(type:"date")]
+    #[ORM\Column(type:"date", nullable: false)]
     private ?\DateTime $date_commande = null;
 
-    #[ORM\Column(type:"date")]
+    #[ORM\Column(type:"date", nullable: true)]
     private ?\DateTime $date_prestation = null;
 
     #[ORM\ManyToOne(targetEntity: Utilisateur::class)]
@@ -29,25 +29,25 @@ class Commande
     #[ORM\JoinColumn(name: "menu_id", referencedColumnName: "menu_id", onDelete: "CASCADE")]
     private ?Menu $menu_id = null;
 
-    #[ORM\Column(type:"string",length: 50)]
+    #[ORM\Column(type:"string",length: 50,nullable: true)]
     private ?string $heure_livraison = null;
 
-    #[ORM\Column(type:"float")]
+    #[ORM\Column(type:"float",nullable: false)]
     private ?float $prix_menu = null;
 
-    #[ORM\Column(type:"integer")]
+    #[ORM\Column(type:"integer", nullable: false)]
     private ?int $nombre_personne = null;
 
-    #[ORM\Column(type:"float")]
+    #[ORM\Column(type:"float", nullable: false)]
     private ?float $prix_livraison = null;
 
-    #[ORM\Column(type:"string",length: 50)]
+    #[ORM\Column(type:"string",length: 50,  nullable: false)]
     private ?string $statut = null; 
 
-    #[ORM\Column(type:"boolean")]
+    #[ORM\Column(type:"boolean", nullable: false)]
     private ?bool $pret_materiel = null;
 
-    #[ORM\Column(type:"boolean")]
+    #[ORM\Column(type:"boolean",nullable: false)]
     private ?bool $restitution_materiel = null;
 
     public function getNumeroCommande(): ?string
@@ -79,7 +79,7 @@ class Commande
         return $this->date_prestation;
     }
 
-    public function setDatePrestation(\DateTime $date_prestation): static
+    public function setDatePrestation(?\DateTime $date_prestation): static
     {
         $this->date_prestation = $date_prestation;
 

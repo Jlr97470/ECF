@@ -38,6 +38,11 @@ class MenuController extends AbstractController
         // On récupère l'Menu qui correspond à l'id passé dans l'url
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
 
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n\'existe pas');
+            return $this->redirectToRoute('app_menu_liste');
+        }
+
         $plats = $menu->getProposePlats()->map(function($proposeplat) {
             return $proposeplat->getPlatId();
         })->toArray();
@@ -91,7 +96,7 @@ class MenuController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             $this->saveMenu($menu, $mode, $em);
 
-            return $this->redirectToRoute('app_menu_liste');
+            return $this->redirectToRoute('app_menu_index', ['id' => $menu->getMenuId()]);
         }
 
         $parameters = array(
@@ -110,13 +115,18 @@ class MenuController extends AbstractController
         // On récupère l'Menu qui correspond à l'id passé dans l'url
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
 
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n\'existe pas');
+            return $this->redirectToRoute('app_menu_liste');
+        }
+
         $form = $this->createForm(MenuType::class, $menu);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {            
             $this->saveMenu($menu, $mode, $em);
 
-            return $this->redirectToRoute('app_menu_liste');
+            return $this->redirectToRoute('app_menu_index', ['id' => $id]);
         }
 
         $parameters = array(
@@ -134,6 +144,11 @@ class MenuController extends AbstractController
         // On récupère l'Menu qui correspond à l'id passé dans l'URL
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
 
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n\'existe pas');
+            return $this->redirectToRoute('app_menu_liste');
+        }
+
         // L'Menu est supprimé
         $em->remove($menu);
         $em->flush();
@@ -149,7 +164,17 @@ class MenuController extends AbstractController
         // On récupère l'Menu qui correspond à l'id passé dans l'url
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
 
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n\'existe pas');
+            return $this->redirectToRoute('app_menu_liste');
+        }
+
         $plat=  $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
+        
+        if (!$plat) {
+            $this->addFlash('error', 'Le plat n\'existe pas');
+            return $this->redirectToRoute('app_menu_index', ['id' => $idmenu]);
+        }
 
         $proposeplat = new ProposePlat();
         $proposeplat->setMenuId($menu);
@@ -167,6 +192,11 @@ class MenuController extends AbstractController
     {
         // On récupère l'Menu qui correspond à l'id passé dans l'url
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
+
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n\'existe pas');
+            return $this->redirectToRoute('app_menu_liste');
+        }
 
         $proposeplat=  $menu->getProposePlats()->filter(function($proposeplat) use ($idplat) {
             return $proposeplat->getPlatId()->getPlatId() === $idplat;

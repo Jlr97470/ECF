@@ -32,10 +32,16 @@ class CommandeController extends AbstractController
     }    
 
     #[Route('/commande/index/{id}', name: 'app_commande_index')]
-    public function index(EntityManagerInterface $em, Request $request, int $id, PaginatorInterface $paginator): Response
+    public function index(EntityManagerInterface $em, Request $request, string $id, PaginatorInterface $paginator): Response
     {
         // On récupère l'commande qui correspond à l'id passé dans l'url
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
+
+        if (!$commande) {
+            $this->addFlash('error', 'Le commande n\'existe pas');
+
+            return $this->redirectToRoute('app_commande_liste');
+        }
 
         $menu = $commande->getMenuId();
 
@@ -69,23 +75,49 @@ class CommandeController extends AbstractController
         ]);
     }
 
-    #[Route('/commande/add', name: 'app_commande_add')]
-    public function add(EntityManagerInterface $em, Request $request): Response
+    #[Route('/commande/add/{idmenu}', name: 'app_commande_add')]
+    public function add(EntityManagerInterface $em, Request $request, int $idmenu): Response
     {
-        $mode       = 'new';
+        $mode       = 'edit';
         $commande    = new Commande();
 
-        $form = $this->createForm(CommandeType::class, $commande);
+        $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
+
+        if ($menu){
+            $commande->setMenuId($menu);
+
+        }
+
+        $form = $this->createForm(CommandeType::class, $commande, [
+            'user' => $this->getUser(),
+        ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
+            $commande->setNumeroCommande(uniqid('CMD-'));
+            $commande->setDateCommande(new \DateTime());
             $commande->setStatut('En cours');
-
+            $commande->setPretmateriel(false);
+            $commande->setRestitutionmateriel(false);
             $commande->setUtilisateurId($this->getUser());
+
+            if ($commande->getMenuId()->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
+                $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$commande->getMenuId()->getNombrePersonneMinimum());
+                return $this->redirectToRoute('app_commande_add', ['idmenu' => $idmenu]);
+            }
+
+            $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());
+            $commande->setPrixlivraison($commande->getMenuId()->getPrixParPersonne() *$commande->getNombrePersonne() * 0.1);  
+
+            if ($commande->getMenuId()) {
+                $menu = $commande->getMenuId();
+                $menu->setQuantiteRestante($menu->getQuantiteRestante() - $commande->getNombrepersonne());
+                $em->persist($menu);
+            }
 
             $this->savecommande($commande, $mode, $em);
 
-            return $this->redirectToRoute('app_commande_liste');
+            return $this->redirectToRoute('app_commande_index', ['id' => $commande->getNumeroCommande()]);
         }
 
         $parameters = array(
@@ -98,19 +130,41 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/commande/edit/{id}', name: 'app_commande_edit')]
-    public function edit(EntityManagerInterface $em, Request $request, int $id=null): Response
+    public function edit(EntityManagerInterface $em, Request $request, string $id): Response
     {
         $mode = 'update';
         // On récupère l'commande qui correspond à l'id passé dans l'url
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
 
-        $form = $this->createForm(CommandeType::class, $commande);
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()) {            
-            $this->savecommande($commande, $mode, $em);
+        if (!$commande) {
+            $this->addFlash('error', 'Le commande n\'existe pas');
 
             return $this->redirectToRoute('app_commande_liste');
+        }
+
+        $form = $this->createForm(CommandeType::class, $commande, [
+            'user' => $this->getUser(),
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {  
+
+            if ($commande->getMenuId()->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
+                $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$commande->getMenuId()->getNombrePersonneMinimum());
+                return $this->redirectToRoute('app_commande_edit', ['id' => $id]);
+            }
+            
+            if ($commande->getMenuId()->getQuantiteRestante() < $commande->getNombrepersonne()) {
+                $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$commande->getMenuId()->getQuantiteRestante());
+                return $this->redirectToRoute('app_commande_edit', ['id' => $id]);
+            }
+
+            $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());
+            $commande->setPrixlivraison($commande->getMenuId()->getPrixParPersonne() *$commande->getNombrePersonne() * 0.1);  
+
+            $this->savecommande($commande, $mode, $em);
+
+            return $this->redirectToRoute('app_commande_index', ['id' => $id]);
         }
 
         $parameters = array(
@@ -123,10 +177,22 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/commande/remove/{id}', name: 'app_commande_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, string $id): Response
     {
         // On récupère l'commande qui correspond à l'id passé dans l'URL
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
+
+        if (!$commande) {
+            $this->addFlash('error', 'Le commande n\'existe pas');
+
+            return $this->redirectToRoute('app_commande_liste');
+        }
+
+        if ($commande->getMenuId()) {
+            $menu = $commande->getMenuId();
+            $menu->setQuantiteRestante($menu->getQuantiteRestante() + $commande->getNombrepersonne());
+            $em->persist($menu);
+        }
 
         // L'commande est supprimé
         $em->remove($commande);
@@ -138,12 +204,42 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/commande/menuadd/{idcommande}/{idmenu}', name: 'app_commande_menuadd')]
-    public function menuadd(EntityManagerInterface $em, int $idcommande, int $idmenu): Response
+    public function menuadd(EntityManagerInterface $em, string $idcommande, int $idmenu): Response
     {
         // On récupère l'commande qui correspond à l'id passé dans l'url
         $commande = $em->getRepository(commande::class)->findOneBy(['numero_commande' => $idcommande]);
 
         $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
+
+        if (!$commande) {
+            $this->addFlash('error', 'Le commande n\'existe pas');
+
+            return $this->redirectToRoute('app_commande_liste');
+        }
+
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n\'existe pas');      
+            return $this->redirectToRoute('app_commande_index', ['id' => $idcommande]);
+        }
+
+        if ($commande->getMenuId()) {
+            $menu = $commande->getMenuId();
+            $menu->setQuantiteRestante($menu->getQuantiteRestante() + $commande->getNombrepersonne());
+            $em->persist($menu);
+        }        
+
+        if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
+            $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
+            return $this->redirectToRoute('app_commande_edit', ['id' => $idcommande]);
+        }
+        
+        if ($menu->getQuantiteRestante() < $commande->getNombrepersonne()) {
+            $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$menu->getQuantiteRestante());
+            return $this->redirectToRoute('app_commande_edit', ['id' => $idcommande]);
+        }        
+
+        $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrepersonne());
+        $commande->setPrixlivraison($commande->getMenuId()->getPrixParPersonne() *$commande->getNombrepersonne() * 0.1);  
 
         $commande->setMenuId($menu);
         $em->persist($commande);
@@ -152,26 +248,7 @@ class CommandeController extends AbstractController
         $this->addFlash('success', 'Le menu a été ajouté avec succès');
 
         return $this->redirectToRoute('app_commande_index', ['id' => $idcommande]);
-    }   
-    
-    #[Route('/commande/menuremove/{idcommande}/{idmenu}', name: 'app_commande_menuremove')]
-    public function menuremove(EntityManagerInterface $em, int $idcommande, int $idmenu): Response
-    {
-        // On récupère l'commande qui correspond à l'id passé dans l'url
-        $commande = $em->getRepository(commande::class)->findOneBy(['numero_commande' => $idcommande]);
-
-        $menu=  $commande->getMenuId();
-
-        if ($menu) {
-            $commande->setMenuId(null);
-            $em->persist($commande);
-            $em->flush();
-        }
-
-        $this->addFlash('success', 'Le menu a été supprimé avec succès');
-
-        return $this->redirectToRoute('app_commande_index', ['id' => $idcommande]);
-    }     
+    }    
     
     /**
      * Enregistrer un commande en base de données

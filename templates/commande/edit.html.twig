@@ -28,6 +28,7 @@
         </div>
         <div class="container px-4 px-lg-5 my-5">
             <div id="info" class="panel-collapse">
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['numerocommande'], 'attr': {'attr':{'size': '30'}}
@@ -38,11 +39,13 @@
                             'field': form['datecommande'], 'attr': {'attr':{'size': '30', 'class': 'datePicker'}}
                         }) }}   
                 </div>
+                {% endif %}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l    3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['dateprestation'], 'attr': {'attr':{'size': '30', 'class': 'datePicker'}}
                         }) }}
                 </div>
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                  <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['heurelivraison'], 'attr': {'attr':{'size': '30'}}
@@ -53,11 +56,13 @@
                             'field': form['prixmenu'], 'attr': {'attr':{'size': '30'}}
                         }) }}   
                 </div>
+                {% endif %}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['nombrepersonne'], 'attr': {'attr':{'size': '30'}}
                         }) }}
-                </div>        
+                </div>  
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}      
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['prixlivraison'], 'attr': {'attr':{'size': '30'}}
@@ -68,16 +73,19 @@
                             'field': form['statut'], 'attr': {'attr':{'rows': '8', 'cols': '30'}}
                         }) }}
                 </div>
+                {% endif %}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['pretmateriel'], 'attr': {'attr':{}}
                         }) }}
                 </div>
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['restitutionmateriel'], 'attr': {'attr':{}}
                         }) }}
                 </div>
+                {% endif %}
             </div>
             <div class="row">
                 {% if not form.vars.valid %}

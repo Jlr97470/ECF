@@ -47,6 +47,11 @@ class PlatController extends AbstractController
         // On récupère l'plat qui correspond à l'id passé dans l'url
         $plat = $em->getRepository(Plat::class)->findOneBy(['plat_id' => $id]);
 
+        if (!$plat) {
+            $this->addFlash('error', 'Le plat n"existe pas');
+            return $this->redirectToRoute('app_plat_liste');
+        }
+
         $allergenes = $plat->getContients()->map(function($contient) {
             return $contient->getAllergeneId();
         })->toArray();  
@@ -107,7 +112,7 @@ class PlatController extends AbstractController
 
             $this->saveplat($plat, $mode,$em);
 
-            return $this->redirectToRoute('app_plat_liste');
+            return $this->redirectToRoute('app_plat_index', ['id' => $plat->getPlatId()]);
         }
 
         $parameters = array(
@@ -125,6 +130,11 @@ class PlatController extends AbstractController
         $mode = 'update';
         // On récupère l'plat qui correspond à l'id passé dans l'url
         $plat = $em->getRepository(plat::class)->findOneBy(['plat_id' => $id]);
+
+        if (!$plat) {
+            $this->addFlash('error', 'Le plat n"existe pas');
+            return $this->redirectToRoute('app_plat_liste');
+        }
 
         $form = $this->createForm(platType::class, $plat);
         $form->handleRequest($request);
@@ -148,7 +158,7 @@ class PlatController extends AbstractController
 
             $this->saveplat($plat, $mode,$em);
 
-            return $this->redirectToRoute('app_plat_liste');
+            return $this->redirectToRoute('app_plat_index', ['id' => $id]);
         }
 
         $parameters = array(
@@ -166,6 +176,11 @@ class PlatController extends AbstractController
         // On récupère l'plat qui correspond à l'id passé dans l'URL
         $plat = $em->getRepository(Plat::class)->findOneBy(['plat_id' => $id]);
 
+        if (!$plat) {
+            $this->addFlash('error', 'Le plat n"existe pas');
+            return $this->redirectToRoute('app_plat_liste');
+        }
+
         // L'plat est supprimé
         $em->remove($plat);
         $em->flush();
@@ -181,7 +196,17 @@ class PlatController extends AbstractController
         // On récupère l'Menu qui correspond à l'id passé dans l'url
         $plat=  $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
 
+        if (!$plat) {
+            $this->addFlash('error', 'Le plat n"existe pas');
+            return $this->redirectToRoute('app_plat_index', ['id' => $idplat]);
+        }
+
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $idallergene]);
+
+        if (!$allergene) {
+            $this->addFlash('error', 'L"Allergene n"existe pas');
+            return $this->redirectToRoute('app_plat_index', ['id' => $idplat]);
+        }
 
         $contient = new Contient();
         $contient->setPlatId($plat);
@@ -199,6 +224,11 @@ class PlatController extends AbstractController
     {
         // On récupère l'Plat qui correspond à l'id passé dans l'url
         $plat = $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
+
+        if (!$plat) {
+            $this->addFlash('error', 'Le plat n"existe pas');
+            return $this->redirectToRoute('app_plat_index', ['id' => $idplat]);
+        }   
 
         $contient = $plat->getContients()->filter(function($contient) use ($idallergene) {
             return $contient->getAllergeneId()->getAllergeneId() === $idallergene;

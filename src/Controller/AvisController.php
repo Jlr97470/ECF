@@ -52,6 +52,11 @@ class AvisController extends AbstractController
     {
         // On récupère l'Avis qui correspond à l'id passé dans l'url
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
+
+        if (!$avis) {
+            $this->addFlash('error', 'L"Avis n"existe pas');
+            return $this->redirectToRoute('app_avis_liste');
+        }
       
         return $this->render('avis/index.html.twig', [
             'avis' => $avis,
@@ -98,7 +103,7 @@ class AvisController extends AbstractController
                 $em->flush();
             }            
 
-            return $this->redirectToRoute('app_avis_liste');
+            return $this->redirectToRoute('app_avis_index', ['id' => $avis->getAvisId()]);
         }
 
         $parameters = array(
@@ -117,6 +122,11 @@ class AvisController extends AbstractController
         // On récupère l'Avis qui correspond à l'id passé dans l'url
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
 
+        if (!$avis) {
+            $this->addFlash('error', 'L"Avis n"existe pas');
+            return $this->redirectToRoute('app_avis_liste');
+        }
+
         $form = $this->createForm(AvisType::class, $avis, [
             'user' => $this->getUser(),
         ]);
@@ -126,7 +136,7 @@ class AvisController extends AbstractController
            
             $this->saveAvis($avis, $mode,$em);
 
-            return $this->redirectToRoute('app_avis_liste');
+            return $this->redirectToRoute('app_avis_index', ['id' => $id]);
         }
 
         $parameters = array(
@@ -143,6 +153,11 @@ class AvisController extends AbstractController
     {
         // On récupère l'Avis qui correspond à l'id passé dans l'URL
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
+
+        if (!$avis) {
+            $this->addFlash('error', 'L"Avis n"existe pas');
+            return $this->redirectToRoute('app_avis_liste');
+        }
 
         // L'Avis est supprimé
         $em->remove($avis);

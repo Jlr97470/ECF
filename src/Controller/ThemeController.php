@@ -38,6 +38,11 @@ class ThemeController extends AbstractController
         // On récupère l'Theme qui correspond à l'id passé dans l'url
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $id]);
 
+        if (!$theme) {
+            $this->addFlash('error', 'Le theme n"existe pas');
+            return $this->redirectToRoute('app_theme_liste');
+        }
+
         $menus = $theme->getProposeThemes()->map(function($proposetheme) {
             return $proposetheme->getMenuId();
         })->toArray();
@@ -86,7 +91,7 @@ class ThemeController extends AbstractController
 
             $this->saveTheme($theme, $mode,$em);
 
-            return $this->redirectToRoute('app_theme_liste');
+            return $this->redirectToRoute('app_theme_index', ['id' => $theme->getThemeId()]);
         }
 
         $parameters = array(
@@ -105,6 +110,11 @@ class ThemeController extends AbstractController
         // On récupère l'Theme qui correspond à l'id passé dans l'url
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $id]);
 
+        if (!$theme) {
+            $this->addFlash('error', 'Le theme n"existe pas');
+            return $this->redirectToRoute('app_theme_liste');
+        }
+
         $form = $this->createForm(ThemeType::class, $theme);
         $form->handleRequest($request);
 
@@ -112,7 +122,7 @@ class ThemeController extends AbstractController
            
             $this->saveTheme($theme, $mode,$em);
 
-            return $this->redirectToRoute('app_theme_liste');
+            return $this->redirectToRoute('app_theme_index', ['id' => $id]);
         }
 
         $parameters = array(
@@ -130,6 +140,11 @@ class ThemeController extends AbstractController
         // On récupère l'Theme qui correspond à l'id passé dans l'URL
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $id]);
 
+        if (!$theme) {
+            $this->addFlash('error', 'L"Theme n"existe pas');
+            return $this->redirectToRoute('app_theme_liste');
+        }
+
         // L'Theme est supprimé
         $em->remove($theme);
         $em->flush();
@@ -144,7 +159,17 @@ class ThemeController extends AbstractController
         // On récupère le Theme qui correspond à l'id passé dans l'url
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $idtheme]);
 
+        if (!$theme) {
+            $this->addFlash('error', 'Le theme n"existe pas');
+            return $this->redirectToRoute('app_theme_liste');
+        }
+
         $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
+
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n"existe pas');
+            return $this->redirectToRoute('app_theme_index', ['id' => $idtheme]);
+        }
 
         $proposetheme=  $menu->getProposeTheme();
 
@@ -173,6 +198,11 @@ class ThemeController extends AbstractController
     {
         // On récupère le Theme qui correspond à l'id passé dans l'url
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $idtheme]);
+
+        if (!$theme) {
+            $this->addFlash('error', 'Le theme n"existe pas');
+            return $this->redirectToRoute('app_theme_liste');
+        }
 
         $proposetheme=  $theme->getProposeThemes()->filter(function($proposetheme) use ($idmenu) {
             return $proposetheme->getMenuId()->getMenuId() === $idmenu;

@@ -114,6 +114,8 @@
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                             <a href="{{ path('app_theme_menuadd', {'idtheme': theme.themeid, 'idmenu': menu.menuid}) }}" class="btn btn-info">Ajouter</a>
+                            {% else %}
+                            <a href="{{ path('app_commande_add', {'menuid': menu.menuid}) }}" role="button" class="btn btn-danger">Ajouter à une commande</a>
                            {% endif %}
                         </td>
                     </tr>

@@ -19,7 +19,7 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 
 class CommandeType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function addNumeroCommandeField(FormBuilderInterface $builder)
     {
         // Numero de commande
         $builder->add('numerocommande', TextType::class, [
@@ -35,7 +35,10 @@ class CommandeType extends AbstractType
                 ])
             ]
         ]);
+    }    
 
+    public function addDateCommandeField(FormBuilderInterface $builder)
+    {
         // Date de la commande
         $builder->add('datecommande', DateType::class, [
             'label' => 'Date de la commande',
@@ -47,24 +50,15 @@ class CommandeType extends AbstractType
                 ])
             ]
         ]);
+    }    
 
-        // Date de la prestation
-        $builder->add('dateprestation', DateType::class, [
-            'label' => 'Date de la prestation',
-            'attr' => ['placeholder' => 'Date de la prestation'],
-            'required' => true,
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Ce champ ne peut être vide'
-                ])
-            ]
-        ]);
-
+    public function addHeureLivraisonField(FormBuilderInterface $builder)
+    {
         // Heure de livraison
         $builder->add('heurelivraison', TextType::class, [
             'label' => 'Heure de livraison',
             'attr' => ['placeholder' => 'Heure de livraison'],      
-            'required' => true,
+            'required' => false,
             'constraints' => [
                 new NotBlank([
                     'message' => 'Ce champ ne peut être vide'
@@ -74,7 +68,10 @@ class CommandeType extends AbstractType
                 ])
             ]
         ]);
-
+    }  
+    
+    public function addPrixMenuField(FormBuilderInterface $builder)
+    {
         // Prix menu      
         $builder->add('prixmenu', MoneyType::class, [
             'label' => 'Prix du Menu',
@@ -90,22 +87,10 @@ class CommandeType extends AbstractType
                 ])
             ]
         ]);
-
-        // Nombre de personnes
-        $builder->add('nombrepersonne', NumberType::class, [      
-            'label' => 'Nombre de personnes',
-            'attr' => ['placeholder' => 'Nombre de personnes'],
-            'required' => true,
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Ce champ ne peut être vide'
-                ]), new GreaterThan([
-                    'value' => 0,
-                    'message' => 'Le nombre de personnes doit être supérieur à 0'
-                ])
-            ]
-        ]);
-
+    }   
+    
+    public function addPrixLivraisonField(FormBuilderInterface $builder)
+    {
         // Prix de livraison
         $builder->add('prixlivraison', MoneyType::class, [
             'label' => 'Prix de livraison',
@@ -120,7 +105,10 @@ class CommandeType extends AbstractType
                 ])
             ]
         ]);
-
+    }   
+    
+    public function addStatutField(FormBuilderInterface $builder)
+    {
         $builder->add('statut', ChoiceType::class, [
             'label' => 'Statut',
             'attr' => ['placeholder' => 'Statut'],
@@ -139,18 +127,62 @@ class CommandeType extends AbstractType
                     'message' => 'Ce champ ne peut être vide'
                 ]),
             ],
-        ]);        
-
-        // Pret matériel
-        $builder->add('pretmateriel', CheckboxType::class, [
-            'label' => 'Prêt de matériel',
-            'required' => false,        
-        ]);
-
+        ]); 
+    }  
+    
+    public function addRestitutionMaterielField(FormBuilderInterface $builder)
+    {
         // Restitution matériel
         $builder->add('restitutionmateriel', CheckboxType::class, [
             'label' => 'Restitution du matériel',
             'required' => false,        
+        ]);
+    }     
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        $user = $options['user'] ?? null;
+
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles()))) {
+            $this->addNumeroCommandeField($builder);
+            $this->addDateCommandeField($builder);
+            $this->addHeureLivraisonField($builder);
+            $this->addPrixMenuField($builder);
+            $this->addPrixLivraisonField($builder);
+            $this->addStatutField($builder);
+            $this->addRestitutionMaterielField($builder);
+        }        
+
+        // Date de la prestation
+        $builder->add('dateprestation', DateType::class, [
+            'label' => 'Date de la prestation',
+            'attr' => ['placeholder' => 'Date de la prestation'],
+            'required' => false,
+            'constraints' => [
+                new NotBlank([      
+                    'message' => 'Ce champ ne peut être vide'
+                ])
+            ]
+        ]);
+
+        // Nombre de personnes
+        $builder->add('nombrepersonne', NumberType::class, [      
+            'label' => 'Nombre de personnes',
+            'attr' => ['placeholder' => 'Nombre de personnes'],
+            'required' => true,
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Ce champ ne peut être vide'
+                ]), new GreaterThan([
+                    'value' => 0,
+                    'message' => 'Le nombre de personnes doit être supérieur à 0'
+                ])
+            ]
+        ]);       
+
+        // Pret matériel
+        $builder->add('pretmateriel', CheckboxType::class, [
+            'label' => 'Prêt de matériel',
+            'required' => true,        
         ]);
 
         // Bouton Envoyer
@@ -164,6 +196,7 @@ class CommandeType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Commande::class,
+            'user' => null,
         ]);
     }
 

@@ -14,14 +14,6 @@
 
             <div class="row" role="alert">
                 <div class="col-xs-9 col-sm-10"></div>
-
-                <div class="col-xs-3 col-sm-2">
-                    {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                    <a href="{{ path('app_commande_add') }}" role="button" class="btn btn-info text-right">
-                        <i class="fa fa-plus fa-fw"></i> Ajouter
-                    </a>
-                    {% endif %}
-                </div>
             </div>
         </div>
         <div class="container px-4 px-lg-5 my-5">
@@ -91,8 +83,8 @@
                             <p>Restitution de matériel : <br>{{ commande.restitutionmateriel ? 'Oui' : 'Non' }}</p>
                         </th>
                         <td colspan="2" >
-                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                             <a href="{{ path('app_commande_remove', {'id': commande.numerocommande}) }}" role="button" class="btn btn-danger">Supprimer</a>
+                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                             <a href="{{ path('app_commande_edit', {'id': commande.numerocommande}) }}" role="button" class="btn btn-info">Modifier</a>
                             {% endif %}
                         </td>

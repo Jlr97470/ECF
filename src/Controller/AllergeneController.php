@@ -38,6 +38,11 @@ class AllergeneController extends AbstractController
         // On récupère l'Allergene qui correspond à l'id passé dans l'url
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
 
+        if (!$allergene) {
+            $this->addFlash('error', 'L"Allergene n"existe pas');
+            return $this->redirectToRoute('app_allergene_liste');
+        }
+
         $plats = $allergene->getContients()->map(function($plat) {
             return $plat->getPlatId();
         })->toArray();
@@ -86,7 +91,7 @@ class AllergeneController extends AbstractController
 
             $this->saveAllergene($allergene, $mode,$em);
 
-            return $this->redirectToRoute('app_allergene_liste');
+            return $this->redirectToRoute('app_allergene_index', ['id' => $allergene->getAllergeneId()]);
         }
 
         $parameters = array(
@@ -105,6 +110,11 @@ class AllergeneController extends AbstractController
         // On récupère l'Allergene qui correspond à l'id passé dans l'url
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
 
+        if (!$allergene) {
+            $this->addFlash('error', 'L"Allergene n"existe pas');
+            return $this->redirectToRoute('app_allergene_liste');
+        }
+
         $form = $this->createForm(AllergeneType::class, $allergene);
         $form->handleRequest($request);
 
@@ -112,7 +122,7 @@ class AllergeneController extends AbstractController
            
             $this->saveAllergene($allergene, $mode,$em);
 
-            return $this->redirectToRoute('app_allergene_liste');
+            return $this->redirectToRoute('app_allergene_index', ['id' => $id]);
         }
 
         $parameters = array(
@@ -130,6 +140,11 @@ class AllergeneController extends AbstractController
         // On récupère l'Allergene qui correspond à l'id passé dans l'URL
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
 
+        if (!$allergene) {
+            $this->addFlash('error', 'L"Allergene n"existe pas');
+            return $this->redirectToRoute('app_allergene_liste');
+        }
+
         // L'Allergene est supprimé
         $em->remove($allergene);
         $em->flush();
@@ -145,7 +160,17 @@ class AllergeneController extends AbstractController
         // On récupère l'Allergene qui correspond à l'id passé dans l'url
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $idallergene]);
 
+        if (!$allergene) {
+            $this->addFlash('error', 'L"Allergene n"existe pas');
+            return $this->redirectToRoute('app_allergene_liste');
+        }
+
         $plat=  $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
+
+        if (!$plat) {
+            $this->addFlash('error', 'Le plat n"existe pas');
+            return $this->redirectToRoute('app_allergene_index', ['id' => $idallergene]);
+        }
 
         $contient = new Contient();
         $contient->setAllergeneId($allergene);
@@ -163,6 +188,11 @@ class AllergeneController extends AbstractController
     {
         // On récupère l'Allergene qui correspond à l'id passé dans l'url
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $idallergene]);
+
+        if (!$allergene) {
+            $this->addFlash('error', 'L"Allergene n"existe pas');
+            return $this->redirectToRoute('app_allergene_liste');
+        }
 
         $contient=  $allergene->getContients()->filter(function($contient) use ($idplat) {
             return $contient->getPlatId()->getPlatId() === $idplat;

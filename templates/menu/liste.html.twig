@@ -66,6 +66,8 @@
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                             <a href="{{ path('app_menu_remove', {'id': menu.menuid}) }}" role="button" class="btn btn-danger">Supprimer</a>
                             <a href="{{ path('app_menu_edit', {'id': menu.menuid}) }}" role="button" class="btn btn-info">Modifier</a>
+                            {% else %}
+                            <a href="{{ path('app_commande_add', {'idmenu': menu.menuid}) }}" role="button" class="btn btn-danger">Ajouter à une commande</a>
                             {% endif %}
                         </td>
                     </tr>

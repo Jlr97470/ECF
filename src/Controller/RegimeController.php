@@ -38,6 +38,11 @@ class RegimeController extends AbstractController
         // On récupère l'regime qui correspond à l'id passé dans l'url
         $regime = $em->getRepository(Regime::class)->findOneBy(['regime_id' => $id]);
 
+        if (!$regime) {
+            $this->addFlash('error', 'Le regime n"existe pas');
+            return $this->redirectToRoute('app_regime_liste');
+        }
+
         $menus = $regime->getAdaptes()->map(function($adapte) {
             return $adapte->getMenuId();
         })->toArray();
@@ -86,7 +91,7 @@ class RegimeController extends AbstractController
 
             $this->saveregime($regime, $mode,$em);
 
-            return $this->redirectToRoute('app_regime_liste');
+            return $this->redirectToRoute('app_regime_index', ['id' => $regime->getRegimeId()]);
         }
 
         $parameters = array(
@@ -105,6 +110,11 @@ class RegimeController extends AbstractController
         // On récupère l'regime qui correspond à l'id passé dans l'url
         $regime = $em->getRepository(regime::class)->findOneBy(['regime_id' => $id]);
 
+        if (!$regime) {
+            $this->addFlash('error', 'Le regime n"existe pas');
+            return $this->redirectToRoute('app_regime_liste');
+        }
+
         $form = $this->createForm(RegimeType::class, $regime);
         $form->handleRequest($request);
 
@@ -112,7 +122,7 @@ class RegimeController extends AbstractController
            
             $this->saveregime($regime, $mode,$em);
 
-            return $this->redirectToRoute('app_regime_liste');
+            return $this->redirectToRoute('app_regime_index', ['id' => $id]);
         }
 
         $parameters = array(
@@ -130,6 +140,10 @@ class RegimeController extends AbstractController
         // On récupère l'regime qui correspond à l'id passé dans l'URL
         $regime = $em->getRepository(regime::class)->findOneBy(['regime_id' => $id]);
 
+        if (!$regime) {
+            $this->addFlash('error', 'L"regime n"existe pas');
+            return $this->redirectToRoute('app_regime_liste');
+        }
         // L'regime est supprimé
         $em->remove($regime);
         $em->flush();
@@ -144,7 +158,17 @@ class RegimeController extends AbstractController
         // On récupère le regime qui correspond à l'id passé dans l'url
         $regime = $em->getRepository(regime::class)->findOneBy(['regime_id' => $idregime]);
 
+        if (!$regime) {
+            $this->addFlash('error', 'Le regime n"existe pas');
+            return $this->redirectToRoute('app_regime_liste');
+        }
+
         $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
+
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n"existe pas');
+            return $this->redirectToRoute('app_regime_index', ['id' => $idregime]);
+        }
 
         $adapte=  $menu->getAdapte();
 
@@ -173,6 +197,18 @@ class RegimeController extends AbstractController
     {
         // On récupère le regime qui correspond à l'id passé dans l'url
         $regime = $em->getRepository(Regime::class)->findOneBy(['regime_id' => $idregime]);
+
+        if (!$regime) {
+            $this->addFlash('error', 'Le regime n"existe pas');
+            return $this->redirectToRoute('app_regime_liste');
+        }
+
+        $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
+
+        if (!$menu) {
+            $this->addFlash('error', 'Le menu n"existe pas');
+            return $this->redirectToRoute('app_regime_index', ['id' => $idregime]);
+        }
 
         $adapte=  $regime->getAdaptes()->filter(function($adapte) use ($idmenu) {
             return $adapte->getMenuId()->getMenuId() === $idmenu;
