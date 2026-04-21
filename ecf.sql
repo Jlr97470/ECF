@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : lun. 13 avr. 2026 à 16:19
+-- Généré le : mar. 21 avr. 2026 à 10:38
 -- Version du serveur : 9.6.0
 -- Version de PHP : 8.3.23
 
@@ -93,7 +93,7 @@ INSERT INTO `avis` (`avis_id`, `note`, `description`, `statut`) VALUES
 (2, '17', 'Trés bon plat !!', 'Validé'),
 (3, '18', 'Trés professionel !!', 'Validé'),
 (4, '14', 'test', 'Validé'),
-(5, '14', 'test', NULL);
+(5, '14', 'test', 'Validé');
 
 -- --------------------------------------------------------
 
@@ -104,8 +104,8 @@ INSERT INTO `avis` (`avis_id`, `note`, `description`, `statut`) VALUES
 CREATE TABLE `commande` (
   `numero_commande` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_commande` date NOT NULL,
-  `date_prestation` date NOT NULL,
-  `heure_livraison` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `date_prestation` date DEFAULT NULL,
+  `heure_livraison` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `prix_menu` double NOT NULL,
   `nombre_personne` int NOT NULL,
   `prix_livraison` double NOT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE `commande` (
 --
 
 INSERT INTO `commande` (`numero_commande`, `date_commande`, `date_prestation`, `heure_livraison`, `prix_menu`, `nombre_personne`, `prix_livraison`, `statut`, `pret_materiel`, `restitution_materiel`, `utilisateur_id`, `menu_id`) VALUES
-('123456456', '2023-05-04', '2023-03-03', '12:00', 125, 5, 125, 'En cours', 1, 1, 17, 4);
+('CMD-69e63673b7c33', '2026-04-20', '2026-05-18', '18:00', 62.5, 5, 6.25, 'Accepté', 0, 0, 29, 1);
 
 -- --------------------------------------------------------
 
@@ -168,7 +168,8 @@ INSERT INTO `doctrine_migration_versions` (`version`, `executed_at`, `execution_
 ('DoctrineMigrations\\Version20260303135901', '2026-03-03 14:59:17', 94),
 ('DoctrineMigrations\\Version20260409112828', '2026-04-09 13:28:33', 177),
 ('DoctrineMigrations\\Version20260409112930', '2026-04-09 13:29:34', 19),
-('DoctrineMigrations\\Version20260413120009', '2026-04-13 14:13:23', 27);
+('DoctrineMigrations\\Version20260413120009', '2026-04-13 14:13:23', 27),
+('DoctrineMigrations\\Version20260420125038', '2026-04-20 14:51:05', 77);
 
 -- --------------------------------------------------------
 
@@ -223,8 +224,8 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`menu_id`, `titre`, `nombre_personne_minimum`, `prix_par_personne`, `regime`, `description`, `quantite_restante`) VALUES
-(1, 'Menu Enfant Cheese Burger', 1, 12.5, 'Sel', 'Cheesse Burger + Frites + Boisons + Glace', 12),
-(4, 'Menu Enfant Double Cheese Burger', 1, 14, 'Sel', 'Double Cheese Burger + Frites + Boisons', 5);
+(1, 'Menu Enfant Cheese Burger', 1, 12.5, 'Sel', 'Cheesse Burger + Frites + Boisons + Glace', 17),
+(4, 'Menu Enfant Double Cheese Burger', 1, 14, 'Sel', 'Double Cheese Burger + Frites + Boisons', 15);
 
 -- --------------------------------------------------------
 
