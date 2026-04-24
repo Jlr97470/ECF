@@ -85,7 +85,11 @@ class CommandeController extends AbstractController
 
         if ($menu){
             $commande->setMenuId($menu);
-
+        }
+        else
+        {
+            $this->addFlash('error', 'Le menu n\'existe pas');      
+            return $this->redirectToRoute('app_commande_liste');
         }
 
         $form = $this->createForm(CommandeType::class, $commande, [
@@ -101,19 +105,22 @@ class CommandeController extends AbstractController
             $commande->setRestitutionmateriel(false);
             $commande->setUtilisateurId($this->getUser());
 
-            if ($commande->getMenuId()->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
-                $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$commande->getMenuId()->getNombrePersonneMinimum());
+            if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
+                $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
                 return $this->redirectToRoute('app_commande_add', ['idmenu' => $idmenu]);
             }
 
-            $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());
-            $commande->setPrixlivraison($commande->getMenuId()->getPrixParPersonne() *$commande->getNombrePersonne() * 0.1);  
-
-            if ($commande->getMenuId()) {
-                $menu = $commande->getMenuId();
-                $menu->setQuantiteRestante($menu->getQuantiteRestante() - $commande->getNombrepersonne());
-                $em->persist($menu);
+            if ($menu->getQuantiteRestante() < $commande->getNombrepersonne()) {
+                $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$menu->getQuantiteRestante());
+                return $this->redirectToRoute('app_commande_add', ['idmenu' => $idmenu]);
             }
+
+            $commande->setPrixMenu($menu->getPrixParPersonne()*$commande->getNombrePersonne());
+            $commande->setPrixlivraison($menu->getPrixParPersonne() *$commande->getNombrePersonne() * 0.1);  
+
+            $menu = $commande->getMenuId();
+            $menu->setQuantiteRestante($menu->getQuantiteRestante() - $commande->getNombrepersonne());
+            $em->persist($menu);
 
             $this->savecommande($commande, $mode, $em);
 
@@ -188,6 +195,11 @@ class CommandeController extends AbstractController
             return $this->redirectToRoute('app_commande_liste');
         }
 
+        if ($commande->getStatut() <> 'En cours') {
+            $this->addFlash('error', 'Le commande ne peut pas être supprimé car il déjà en cours de livraison ou livré');   
+            return $this->redirectToRoute('app_commande_index', ['id' => $id]);
+        }
+
         if ($commande->getMenuId()) {
             $menu = $commande->getMenuId();
             $menu->setQuantiteRestante($menu->getQuantiteRestante() + $commande->getNombrepersonne());
@@ -223,9 +235,9 @@ class CommandeController extends AbstractController
         }
 
         if ($commande->getMenuId()) {
-            $menu = $commande->getMenuId();
-            $menu->setQuantiteRestante($menu->getQuantiteRestante() + $commande->getNombrepersonne());
-            $em->persist($menu);
+            $menu_old = $commande->getMenuId();
+            $menu_old->setQuantiteRestante($menu_old->getQuantiteRestante() + $commande->getNombrepersonne());
+            $em->persist($menu_old);
         }        
 
         if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
@@ -238,11 +250,13 @@ class CommandeController extends AbstractController
             return $this->redirectToRoute('app_commande_edit', ['id' => $idcommande]);
         }        
 
-        $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrepersonne());
-        $commande->setPrixlivraison($commande->getMenuId()->getPrixParPersonne() *$commande->getNombrepersonne() * 0.1);  
+        $commande->setPrixMenu($menu->getPrixParPersonne()*$commande->getNombrepersonne());
+        $commande->setPrixlivraison($menu->getPrixParPersonne() *$commande->getNombrepersonne() * 0.1);  
+        $menu->setQuantiteRestante($menu->getQuantiteRestante() - $commande->getNombrepersonne());
 
         $commande->setMenuId($menu);
         $em->persist($commande);
+        $em->persist($menu);
         $em->flush();
 
         $this->addFlash('success', 'Le menu a été ajouté avec succès');

@@ -42,6 +42,7 @@ class CommandeType extends AbstractType
         // Date de la commande
         $builder->add('datecommande', DateType::class, [
             'label' => 'Date de la commande',
+            'format' => 'dd-MM-yyyy',
             'attr' => ['placeholder' => 'Date de la commande'],
             'required' => true,
             'constraints' => [
@@ -58,7 +59,7 @@ class CommandeType extends AbstractType
         $builder->add('heurelivraison', TextType::class, [
             'label' => 'Heure de livraison',
             'attr' => ['placeholder' => 'Heure de livraison'],      
-            'required' => false,
+            'required' => true,
             'constraints' => [
                 new NotBlank([
                     'message' => 'Ce champ ne peut être vide'
@@ -114,7 +115,7 @@ class CommandeType extends AbstractType
             'attr' => ['placeholder' => 'Statut'],
             'required' => true,
             'choices' => [
-                'En Cours' => 'En Cours',
+                'En cours' => 'En cours',
                 'Accepté' => 'Accepté',
                 'En préparation' => 'En préparation',
                 'En cours de livraison' => 'En cours de livraison',
@@ -155,6 +156,7 @@ class CommandeType extends AbstractType
         // Date de la prestation
         $builder->add('dateprestation', DateType::class, [
             'label' => 'Date de la prestation',
+            'format' => 'dd-MM-yyyy',
             'attr' => ['placeholder' => 'Date de la prestation'],
             'required' => false,
             'constraints' => [

@@ -29,7 +29,7 @@ class Commande
     #[ORM\JoinColumn(name: "menu_id", referencedColumnName: "menu_id", onDelete: "CASCADE")]
     private ?Menu $menu_id = null;
 
-    #[ORM\Column(type:"string",length: 50,nullable: true)]
+    #[ORM\Column(type:"string",length: 50,nullable: false)]
     private ?string $heure_livraison = null;
 
     #[ORM\Column(type:"float",nullable: false)]
