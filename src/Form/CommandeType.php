@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -66,7 +67,11 @@ class CommandeType extends AbstractType
                 ]), new Length([        
                     // max length allowed by Symfony for security reasons
                     'max' => 50,
-                ])
+                ]),
+                new Regex([
+                    'message' => 'Veuillez entrer une heure au format HH:MM',
+                    'pattern' => '/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/',
+                ]),
             ]
         ]);
     }  

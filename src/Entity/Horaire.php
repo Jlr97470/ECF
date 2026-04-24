@@ -13,13 +13,13 @@ class Horaire {
     #[ORM\Column]
     private ?int $horaire_id = null;
 
-    #[ORM\Column(type:"string",length: 50)]
+    #[ORM\Column(type:"string",length: 50,nullable: false)]
     private ?string $jour = null;
 
-    #[ORM\Column(type:"string",length: 50)]
+    #[ORM\Column(type:"string",length: 50,nullable: false)]
     private ?string $heure_ouverture = null;
 
-    #[ORM\Column(type:"string",length: 50)]
+    #[ORM\Column(type:"string",length: 50,nullable: false)]
     private ?string $heure_fermeture = null;
     public function getHoraireId(): ?int
     {
