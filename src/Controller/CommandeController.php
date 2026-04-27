@@ -20,7 +20,26 @@ class CommandeController extends AbstractController
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
         // On récupère tous les articles disponibles en base de données
-        $query = $em->createQuery('SELECT commande FROM App\Entity\Commande commande');
+        $user = $this->getUser();
+        
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles())))
+        {
+            // On récupère tous les articles disponibles en base de données
+            $queryBuilder = $em->createQueryBuilder()
+                ->select('menu')
+                ->from(Commande::class, 'commande');            
+        }
+        else
+        {
+            // On récupère tous les articles disponibles en base de données
+            $queryBuilder = $em->createQueryBuilder()
+                ->select('commande')
+                ->from(Commande::class, 'commande')
+                ->where('commande.utilisateur_id IN (:user)')
+                ->setParameter('user', $user);
+        }
+
+        $query = $queryBuilder->getQuery();
 
         $pagination = $paginator->paginate(
         $query, /* query NOT result */
