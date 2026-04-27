@@ -22,7 +22,11 @@
                     Aucun menu associé
                 {% endif %}
             </p>
+        {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+            <p><strong>Client : </strong><br><a href="{{path('app_utilisateur_index',{'id':commande.utilisateurId.utilisateurid}) }}"  class="fw-bolder"> {{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</a></p>
+        {% else %}
             <p><strong>Client : </strong><br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
+        {% endif %}
             <p><strong>Adresse : </strong><br>{{ commande.utilisateurId.adressepostal }}</p>
             <p><strong>Ville : </strong><br>{{ commande.utilisateurId.ville }}</p>
             <p><strong>Pays : </strong><br>{{ commande.utilisateurId.pays }}</p>
@@ -34,6 +38,16 @@
             <p><strong>Statut : </strong><br>{{ commande.statut }}</p>
             <p><strong>Pret de matériel : </strong><br>{{ commande.pretmateriel ? 'Oui' : 'Non' }}</p>
             <p><strong>Restitution de matériel : </strong><br>{{ commande.restitutionmateriel ? 'Oui' : 'Non' }}</p>
+        </div>
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row" role="alert">
+                <div class="col-xs-9 col-sm-10">
+                    <a href="{{ path('app_commande_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
+                </div>
+                <div class="col-xs-3 col-sm-2">            
+                    <a href="{{ path('app_commande_edit', {'id': commande.numerocommande}) }}" role="button" class="btn btn-info">Modifier</a>
+                </div>
+            </div>        
         </div>
         {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
         <div class="container px-4 px-lg-5 my-5">
@@ -83,7 +97,7 @@
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="{{path('app_commande_menuadd',{'idcommande':commande.numerocommande,'idmenu':menu.menuid})}}" class="btn btn-info">Ajouter</a>
+                            <a href="{{path('app_commande_menuadd',{'idcommande':commande.numerocommande,'idmenu':menu.menuid})}}" class="btn btn-info">Ajouter menu</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -95,7 +109,7 @@
                 {{ knp_pagination_render(pagination) }}
             </div>             
         </div>
-        {% endif %}
+       {% endif %}
     </section>
 {% endblock %}
 

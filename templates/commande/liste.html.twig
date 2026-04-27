@@ -69,7 +69,11 @@
                                     Aucun menu associé
                                 {% endif %}
                             </p>
-                            <p>Client : <br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
+                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                            <p>Client : <br><a href="{{path('app_utilisateur_index',{'id':commande.utilisateurId.utilisateurid}) }}"  class="fw-bolder"> {{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</a></p>
+                            {% else %}
+                             <p>Client : <br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
+                            {% endif %}
                             <p>Adresse : <br>{{ commande.utilisateurId.adressepostal }}</p>
                             <p>Ville : <br>{{ commande.utilisateurId.ville }}</p>
                             <p>Pays : <br>{{ commande.utilisateurId.pays }}</p>
@@ -84,9 +88,7 @@
                         </th>
                         <td colspan="2" >
                             <a href="{{ path('app_commande_remove', {'id': commande.numerocommande}) }}" role="button" class="btn btn-danger">Supprimer</a>
-                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                             <a href="{{ path('app_commande_edit', {'id': commande.numerocommande}) }}" role="button" class="btn btn-info">Modifier</a>
-                            {% endif %}
                         </td>
                     </tr>
                     {% endfor %}

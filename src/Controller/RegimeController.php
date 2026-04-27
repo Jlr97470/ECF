@@ -235,9 +235,9 @@ class RegimeController extends AbstractController
         $em->persist($regime);
         $em->flush();
         if($mode == 'new') {
-            $this->addFlash('success', 'L"regime a été ajouté avec succès');
+            $this->addFlash('success', 'Le regime a été ajouté avec succès');
         } else {
-            $this->addFlash('success', 'L"regime a été modifié avec succès');
+            $this->addFlash('success', 'Le regime a été modifié avec succès');
         }
     }    
 

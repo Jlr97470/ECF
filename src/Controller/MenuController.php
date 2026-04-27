@@ -222,9 +222,9 @@ class MenuController extends AbstractController
         $em->flush();
         
         if($mode == 'new') {
-            $this->addFlash('success', 'Menu créé avec succès');
+            $this->addFlash('success', 'Le menu est créé avec succès');
         } else {
-            $this->addFlash('success', 'Menu mis à jour avec succès');
+            $this->addFlash('success', 'Le menu est mis à jour avec succès');
         }
     }    
 }
