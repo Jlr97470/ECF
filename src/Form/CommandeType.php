@@ -53,29 +53,7 @@ class CommandeType extends AbstractType
             ]
         ]);
     }    
-
-    public function addHeureLivraisonField(FormBuilderInterface $builder)
-    {
-        // Heure de livraison
-        $builder->add('heurelivraison', TextType::class, [
-            'label' => 'Heure de livraison',
-            'attr' => ['placeholder' => 'Heure de livraison'],      
-            'required' => true,
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Ce champ ne peut être vide'
-                ]), new Length([        
-                    // max length allowed by Symfony for security reasons
-                    'max' => 50,
-                ]),
-                new Regex([
-                    'message' => 'Veuillez entrer une heure au format HH:MM',
-                    'pattern' => '/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/',
-                ]),
-            ]
-        ]);
-    }  
-    
+   
     public function addPrixMenuField(FormBuilderInterface $builder)
     {
         // Prix menu      
@@ -151,7 +129,6 @@ class CommandeType extends AbstractType
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles()))) {
             $this->addNumeroCommandeField($builder);
             $this->addDateCommandeField($builder);
-            $this->addHeureLivraisonField($builder);
             $this->addPrixMenuField($builder);
             $this->addPrixLivraisonField($builder);
             $this->addStatutField($builder);
@@ -184,8 +161,25 @@ class CommandeType extends AbstractType
                     'message' => 'Le nombre de personnes doit être supérieur à 0'
                 ])
             ]
-        ]);       
+        ]);      
 
+        $builder->add('heurelivraison', TextType::class, [
+            'label' => 'Heure de livraison',
+            'attr' => ['placeholder' => 'Heure de livraison'],      
+            'required' => true,
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Ce champ ne peut être vide'
+                ]), new Length([        
+                    // max length allowed by Symfony for security reasons
+                    'max' => 50,
+                ]),
+                new Regex([
+                    'message' => 'Veuillez entrer une heure au format HH:MM',
+                    'pattern' => '/^([01]?[0-9]|2[0-3]):[0-5][0-9]$/',
+                ]),
+            ]
+        ]);
         // Pret matériel
         $builder->add('pretmateriel', CheckboxType::class, [
             'label' => 'Prêt de matériel',

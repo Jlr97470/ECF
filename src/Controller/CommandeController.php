@@ -26,7 +26,7 @@ class CommandeController extends AbstractController
         {
             // On récupère tous les articles disponibles en base de données
             $queryBuilder = $em->createQueryBuilder()
-                ->select('menu')
+                ->select('commande')
                 ->from(Commande::class, 'commande');            
         }
         else

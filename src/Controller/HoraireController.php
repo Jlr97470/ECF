@@ -106,10 +106,10 @@ class HoraireController extends AbstractController
     public function remove(EntityManagerInterface $em, int $id): Response
     {
         // On récupère l'Allergene qui correspond à l'id passé dans l'URL
-        $horaire = $em->getRepository(Horaire::class)->findOneBy(['allergene_id' => $id]);
+        $horaire = $em->getRepository(Horaire::class)->findOneBy(['horaire_id' => $id]);
 
         if (!$horaire) {
-            $this->addFlash('error', 'L"Allergene n"existe pas');
+            $this->addFlash('error', 'L"Horaire n"existe pas');
             return $this->redirectToRoute('app_horaire_liste');
         }
 
@@ -117,7 +117,7 @@ class HoraireController extends AbstractController
         $em->remove($horaire);
         $em->flush();
 
-        $this->addFlash('success', 'L"Allergene a été supprimé avec succès');
+        $this->addFlash('success', 'L"Horaire a été supprimé avec succès');
 
         return $this->redirectToRoute('app_horaire_liste');
     }

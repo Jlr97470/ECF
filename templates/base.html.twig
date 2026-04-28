@@ -50,16 +50,16 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu Administration</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_utilisateur_liste' ? 'active' : '' }}" href="{{ path('app_utilisateur_liste') }}">Utilisateurs</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_utilisateur' ? 'active' : '' }}" href="{{ path('app_utilisateur_liste') }}">Utilisateurs</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_menu_liste' ? 'active' : '' }}" href="{{ path('app_menu_liste') }}">Menus</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_plat_liste' ? 'active' : '' }}" href="{{ path('app_plat_liste') }}">Plats</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_avis_liste' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_theme_liste' ? 'active' : '' }}" href="{{ path('app_theme_liste') }}">Themes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_allergene_liste' ? 'active' : '' }}" href="{{ path('app_allergene_liste') }}">Allergènes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_regime_liste' ? 'active' : '' }}" href="{{ path('app_regime_liste') }}">Regimes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_horaire_liste' ? 'active' : '' }}" href="{{ path('app_horaire_liste') }}">Horaires</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_commande_liste' ? 'active' : '' }}" href="{{ path('app_commande_liste') }}">Commandes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_menu' ? 'active' : '' }}" href="{{ path('app_menu_liste') }}">Menus</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_plat' ? 'active' : '' }}" href="{{ path('app_plat_liste') }}">Plats</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_avis' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_theme' ? 'active' : '' }}" href="{{ path('app_theme_liste') }}">Themes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_allergene' ? 'active' : '' }}" href="{{ path('app_allergene_liste') }}">Allergènes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_regime' ? 'active' : '' }}" href="{{ path('app_regime_liste') }}">Regimes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_horaire' ? 'active' : '' }}" href="{{ path('app_horaire_liste') }}">Horaires</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_commande' ? 'active' : '' }}" href="{{ path('app_commande_liste') }}">Commandes</a></li>
                         </ul>
                     </li>
                     {% endif %}
@@ -67,16 +67,16 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu Employées</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_profile_index' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profiles</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_profile' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profiles</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_menu_liste' ? 'active' : '' }}" href="{{ path('app_menu_liste') }}">Menus</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_plat_liste' ? 'active' : '' }}" href="{{ path('app_plat_liste') }}">Plats</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_avis_liste' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_theme_liste' ? 'active' : '' }}" href="{{ path('app_theme_liste') }}">Themes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_allergene_liste' ? 'active' : '' }}" href="{{ path('app_allergene_liste') }}">Allergènes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_regime_liste' ? 'active' : '' }}" href="{{ path('app_regime_liste') }}">Regimes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_horaire_liste' ? 'active' : '' }}" href="{{ path('app_horaire_liste') }}">Horaires</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_commande_liste' ? 'active' : '' }}" href="{{ path('app_commande_liste') }}">Commandes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_menu' ? 'active' : '' }}" href="{{ path('app_menu_liste') }}">Menus</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_plat' ? 'active' : '' }}" href="{{ path('app_plat_liste') }}">Plats</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_avis' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_theme' ? 'active' : '' }}" href="{{ path('app_theme_liste') }}">Themes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_allergene' ? 'active' : '' }}" href="{{ path('app_allergene_liste') }}">Allergènes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_regime' ? 'active' : '' }}" href="{{ path('app_regime_liste') }}">Regimes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_horaire' ? 'active' : '' }}" href="{{ path('app_horaire_liste') }}">Horaires</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_commande' ? 'active' : '' }}" href="{{ path('app_commande_liste') }}">Commandes</a></li>
                         </ul>
                     </li>
                     {% endif %}
@@ -84,16 +84,16 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Menu</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_profile_index' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profiles</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_profile' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profiles</a></li>
                             <li><hr class="dropdown-divider" /></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_menu_liste' ? 'active' : '' }}" href="{{ path('app_menu_liste') }}">Menus</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_plat_liste' ? 'active' : '' }}" href="{{ path('app_plat_liste') }}">Plats</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_avis_liste' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_theme_liste' ? 'active' : '' }}" href="{{ path('app_theme_liste') }}">Themes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_allergene_liste' ? 'active' : '' }}" href="{{ path('app_allergene_liste') }}">Allergènes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_regime_liste' ? 'active' : '' }}" href="{{ path('app_regime_liste') }}">Regimes</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_horaire_liste' ? 'active' : '' }}" href="{{ path('app_horaire_liste') }}">Horaires</a></li>
-                            <li><a class="dropdown-item {{ app.request.get('_route') == 'app_commande_liste' ? 'active' : '' }}" href="{{ path('app_commande_liste') }}">Commandes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_menu' ? 'active' : '' }}" href="{{ path('app_menu_liste') }}">Menus</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_plat' ? 'active' : '' }}" href="{{ path('app_plat_liste') }}">Plats</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_avis' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_theme' ? 'active' : '' }}" href="{{ path('app_theme_liste') }}">Themes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_allergenee' ? 'active' : '' }}" href="{{ path('app_allergene_liste') }}">Allergènes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_regime' ? 'active' : '' }}" href="{{ path('app_regime_liste') }}">Regimes</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_horaire' ? 'active' : '' }}" href="{{ path('app_horaire_liste') }}">Horaires</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_commande' ? 'active' : '' }}" href="{{ path('app_commande_liste') }}">Commandes</a></li>
                         </ul>
                     </li>
                     {% endif %}

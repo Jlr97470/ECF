@@ -45,12 +45,12 @@
                             'field': form['dateprestation'], 'attr': {'attr':{'size': '30', 'class': 'datePicker'}}
                         }) }}
                 </div>
-                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                  <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['heurelivraison'], 'attr': {'attr':{'size': '30'}}
                         }) }}
                 </div>
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['prixmenu'], 'attr': {'attr':{'size': '30'}}
