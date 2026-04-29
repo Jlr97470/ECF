@@ -97,7 +97,7 @@
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="{{path('app_commande_menuadd',{'idcommande':commande.numerocommande,'idmenu':menu.menuid})}}" class="btn btn-info">Ajouter menu</a>
+                            <a href="{{path('app_commande_menuadd',{'idcommande':commande.numerocommande,'idmenu':menu.menuid})}}" class="btn btn-success">Ajouter menu</a>
                             {% endif %}
                         </td>
                     </tr>

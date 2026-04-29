@@ -83,7 +83,7 @@
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="{{ path('app_allergene_platadd', {'idallergene': allergene.allergeneid, 'idplat': plat.platid}) }}" class="btn btn-success">Ajouter</a>
+                            <a href="{{ path('app_allergene_platadd', {'idallergene': allergene.allergeneid, 'idplat': plat.platid}) }}" class="btn btn-success">Ajouter plat</a>
                             {% endif %}
                         </td>
                     </tr>

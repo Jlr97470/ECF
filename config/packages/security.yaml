@@ -41,7 +41,9 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/(/|login|logout|register), roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/(menu|plat), roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/(/|menu|plat|allergene|theme|regime), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(/|avis|commande), roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/horaire, roles: [ROLE_USE,ROLE_ADMIN] }
         - { path: ^/profile, roles: [ROLE_USE,ROLE_USER] }
         - { path: ^/utilisateur, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
