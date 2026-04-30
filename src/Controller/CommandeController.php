@@ -99,7 +99,7 @@ class CommandeController extends AbstractController
     #[Route('/commande/add/{idmenu}', name: 'app_commande_add')]
     public function add(EntityManagerInterface $em, Request $request, ?int $idmenu): Response
     {
-        $mode       = 'edit';
+        $mode       = 'new';
         $commande    = new Commande();
 
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
@@ -108,28 +108,29 @@ class CommandeController extends AbstractController
             $commande->setMenuId($menu);
         }
 
+        $user = $this->getUser();
+    
+        if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles())))
+        {
+        }
+        else
+        {
+            $commande->setUtilisateurId($user);
+        }
+
+        $commande->setNumeroCommande(uniqid('CMD-'));
+        $commande->setDateCommande(new \DateTime());
+        $commande->setStatut('En cours');
+        $commande->setPretmateriel(false);
+        $commande->setRestitutionmateriel(false);
+
         $form = $this->createForm(CommandeType::class, $commande, [
             'user' => $this->getUser(),
         ]);
+
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
-            $commande->setNumeroCommande(uniqid('CMD-'));
-            $commande->setDateCommande(new \DateTime());
-            $commande->setStatut('En cours');
-            $commande->setPretmateriel(false);
-            $commande->setRestitutionmateriel(false);
-
-            $user = $this->getUser();
-        
-            if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles())))
-            {
-            }
-            else
-            {
-                $commande->setUtilisateurId($user);
-            }
-
             if ($menu){
 
                 if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {

@@ -24,7 +24,11 @@
                 <tbody>
                     <tr>
                         <th scope="row">
-                            <a href="{{ path('app_theme_index', {'id': theme.themeid}) }}" class="fw-bolder">{{ theme.libelle }}</a>
+                            {% if theme %}
+                                <a href="{{ path('app_theme_index', {'id': theme.themeid}) }}" class="fw-bolder">{{ theme.libelle }}</a>
+                            {% else %}
+                                <span class="text-muted">Aucun thème associé</span>
+                            {% endif %}
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
@@ -46,7 +50,11 @@
                 <tbody>
                     <tr>
                         <th scope="row">
-                            <a href="{{ path('app_regime_index', {'id': regime.regimeid}) }}" class="fw-bolder">{{ regime.libelle }}</a>
+                            {% if regime %}
+                                <a href="{{ path('app_regime_index', {'id': regime.regimeid}) }}" class="fw-bolder">{{ regime.libelle }}</a>
+                            {% else %}
+                                <span class="text-muted">Aucun régime associé</span>
+                            {% endif %}
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}

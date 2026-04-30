@@ -47,9 +47,19 @@ class MenuController extends AbstractController
             return $proposeplat->getPlatId();
         })->toArray();
 
-        $theme = $menu->getProposeTheme()->getThemeId();
-
-        $regime = $menu->getAdapte()->getRegimeId();
+        if ($menu->getProposeTheme()) {
+            $theme = $menu->getProposeTheme()->getThemeId();
+        }
+        else {
+            $theme = null;
+        }
+        
+        if ($menu->getAdapte()) {
+            $regime = $menu->getAdapte()->getRegimeId();
+        }
+        else {
+            $regime = null;
+        }
 
         if ($plats){
             // On récupère tous les articles disponibles en base de données
