@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use App\ImageOptimizer;
 
 use App\Entity\Plat;
 use App\Entity\Contient;
@@ -85,7 +86,7 @@ class PlatController extends AbstractController
     }
 
     #[Route('/plat/add', name: 'app_plat_add')]
-    public function add(EntityManagerInterface $em, Request $request): Response
+    public function add(EntityManagerInterface $em, Request $request, ImageOptimizer $imageOptimizer): Response
     {
         $mode       = 'new';
         $plat    = new plat();
@@ -104,6 +105,8 @@ class PlatController extends AbstractController
                     $this->getParameter('upload_directory'),
                     $fichier, 
                 );
+
+                $imageOptimizer->resize($this->getParameter('upload_directory') . '/' . $fichier);
             }
 
             $plat->setPhoto( file_get_contents($this->getParameter('upload_directory') . '/' . $fichier)  );
@@ -125,7 +128,7 @@ class PlatController extends AbstractController
     }
 
     #[Route('/plat/edit/{id}', name: 'app_plat_edit')]
-    public function edit(EntityManagerInterface $em, Request $request, int $id=null): Response
+    public function edit(EntityManagerInterface $em, Request $request, int $id, ImageOptimizer $imageOptimizer): Response
     {
         $mode = 'update';
         // On récupère l'plat qui correspond à l'id passé dans l'url
@@ -150,6 +153,8 @@ class PlatController extends AbstractController
                     $this->getParameter('upload_directory'),
                     $fichier, 
                 );
+
+                $imageOptimizer->resize($this->getParameter('upload_directory') . '/' . $fichier);
             }            
   
             $plat->setPhoto(file_get_contents($this->getParameter('upload_directory') . '/' . $fichier) );

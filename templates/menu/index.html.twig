@@ -90,6 +90,11 @@
                     <a href="{{ path('app_menu_edit', {'id': menu.menuid}) }}" role="button" class="btn btn-info">Modifier</a>
                 </div>
                 {% endif %}
+                {% if (not app.user or 'ROLE_USER' in app.user.roles) %}
+                <div class="col-xs-3 col-sm-2">            
+                    <a href="{{ path('app_commande_add', {'idmenu': menu.menuid}) }}" role="button" class="btn btn-danger">Ajouter à une commande</a>
+                </div>
+                {% endif %}                
             </div>        
         </div>
         <div class="container px-4 px-lg-5 my-5">
