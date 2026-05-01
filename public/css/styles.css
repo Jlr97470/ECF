@@ -10954,3 +10954,61 @@ select:not(:focus)::placeholder {
   padding: 0 0.3rem;
   margin: 0 1rem;
 }
+
+dialog {
+  animation: fade-out 0.7s ease-out;
+}
+
+dialog:open {
+  animation: fade-in 0.7s ease-out;
+}
+
+dialog:open::backdrop {
+  background-color: black;
+  animation: backdrop-fade-in 0.7s ease-out forwards;
+}
+
+/* Animation keyframes */
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+    display: block;
+  }
+}
+
+@keyframes fade-out {
+  0% {
+    opacity: 1;
+    transform: scaleY(1);
+    display: block;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+    display: none;
+  }
+}
+
+@keyframes backdrop-fade-in {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 0.25;
+  }
+}
+
+body,
+button {
+  font-family: system-ui;
+}
