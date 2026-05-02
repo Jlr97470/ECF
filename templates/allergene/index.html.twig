@@ -46,7 +46,7 @@
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_allergene_platremove', {'idallergene': allergene.allergeneid, 'idplat': plat.platid}) }}';};});diadialog.showModal();" class="btn btn-danger">Supprimer</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_allergene_platremove', {'idallergene': allergene.allergeneid, 'idplat': plat.platid}) }}';};diadialog.style='visibility: hidden;'});diadialog.showModal();" class="btn btn-danger">Supprimer</a>
                             {% endif %}
                         </td>
                     </tr>

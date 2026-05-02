@@ -27,6 +27,13 @@
             {% endif %}
         </div>        
         <div class="container px-4 px-lg-5 my-5">
+            <div class="row" role="alert">
+                <div class="col-xs-9 col-sm-10">
+                    <a href="{{ path('app_regime_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
+                </div>
+            </div>        
+        </div> 
+        <div class="container px-4 px-lg-5 my-5">
             <div id="info" class="panel-collapse">
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">                       
                 {{ include('helpers/form/group.html.twig', {
@@ -34,7 +41,6 @@
                         }) }}   
                 </div>
             </div>        
-
             <div class="row">
                 {% if not form.vars.valid %}
                 <div class="col-md-8 error">

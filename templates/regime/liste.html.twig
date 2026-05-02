@@ -46,7 +46,7 @@
                         </td>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) %}
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_regime_remove', {'id': regime.regimeid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_regime_remove', {'id': regime.regimeid}) }}';};diadialog.style='visibility: hidden;'});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
                             <a href="{{ path('app_regime_edit', {'id': regime.regimeid}) }}" role="button" class="btn btn-info">Modifier</a>
                             {% endif %}
                         </td>

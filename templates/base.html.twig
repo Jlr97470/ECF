@@ -35,7 +35,7 @@
                         <a class="nav-link {{ app.request.get('_route') == 'homepage' ? 'active' : '' }}" href="{{ path('homepage') }}">Accueil</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Accés à Tous les menus</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Tous les menus</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_menu' ? 'active' : '' }}" href="{{ path('app_menu_liste') }}">Menus</a></li>
                             <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_plat' ? 'active' : '' }}" href="{{ path('app_plat_liste') }}">Plats</a></li>
@@ -58,7 +58,7 @@
                     {% endif %}
                     {% if app.user and 'ROLE_USE' in app.user.roles %}
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Employées</a>
+                        <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Employés</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_profile' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profiles</a></li>
                             <li><hr class="dropdown-divider" /></li>

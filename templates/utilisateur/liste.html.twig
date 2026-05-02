@@ -46,7 +46,7 @@
                             <p>{{ utilisateur.roles|join(', ')|nl2br }}</p>
                         </th>
                         <td>
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_utilisateur_remove', {'id': utilisateur.utilisateurid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_utilisateur_remove', {'id': utilisateur.utilisateurid}) }}';};diadialog.style='visibility: hidden;'});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
                             <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.utilisateurid}) }}" role="button" class="btn btn-info">Modifier</a>
                         </td>
                     </tr>
