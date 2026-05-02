@@ -15,7 +15,7 @@
                 <div class="col-xs-9 col-sm-10"></div>
 
                 <div class="col-xs-3 col-sm-2">
-                    {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                    {% if (app.user and 'ROLE_ADMIN' in app.user.roles) %}
                     <a href="{{ path('app_regime_add') }}" role="button" class="btn btn-info text-right">
                         <i class="fa fa-plus fa-fw"></i> Ajouter
                     </a>
@@ -46,7 +46,7 @@
                         </td>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="{{ path('app_regime_remove', {'id': regime.regimeid}) }}" role="button" class="btn btn-danger">Supprimer</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_regime_remove', {'id': regime.regimeid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
                             <a href="{{ path('app_regime_edit', {'id': regime.regimeid}) }}" role="button" class="btn btn-info">Modifier</a>
                             {% endif %}
                         </td>
