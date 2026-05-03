@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light {% if app.user and 'ROLE_ADMIN' in app.user.roles %}ROLE_ADMIN{% elseif app.user and 'ROLE_USER' in app.user.roles %}ROLE_USER{% elseif app.user and 'ROLE_USE' in app.user.roles %}ROLE_USE{% else %}bg-light{% endif %}">
         <div class="container px-4 px-lg-5">
             <a class="navbar-brand" href="{{ path('homepage') }}"><img src="{{ asset('assets/favicon.png') }}" alt="Favicon">Vite &amp; Gourmand</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -119,7 +119,7 @@
     <footer class="py-5 bg-dark">
         <div class="container">
             <p class="m-0 text-center text-white" id="Horaire">
-                 - Horaires d'ouverture : <br>  
+                 Horaires d'ouverture : <br>  
                 <script>
                     var horaireUrl = "{{ path('homepage_horaire') }}";
                     let oHttp = new XMLHttpRequest();
@@ -136,10 +136,20 @@
                 </script>
             </p>
             <p class="m-0 text-center text-white">
-                &copy;<a href="{{ path('homepage') }}" class="text-white"> Vite &amp; Gourmand</a> - 2026 - Tous droits réservés.
-                <a href="{{ path('homepage_conditiongeneralcgv') }}" class="text-white">Conditions générales de ventes (CGV)</a> | 
-                <a href="{{ path('homepage_conditiongeneralcgu') }}" class="text-white">Conditions générales d'utilisation (CGU)</a> | 
-                <a href="{{ path('homepage_mentionlegal') }}" class="text-white">Mention légale</a>
+                <table class="table table-dark table-striped text-center">
+                    <tr>
+                        <td><a href="{{ path('homepage') }}" class="text-white">&copy;Vite &amp; Gourmand</a> - 2026 - Tous droits réservés.</td>
+                    </tr>
+                    <tr>
+                        <td><a href="{{ path('homepage_conditiongeneralcgv') }}" class="text-white">Conditions générales de ventes (CGV).</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="{{ path('homepage_conditiongeneralcgu') }}" class="text-white">Conditions générales d'utilisation (CGU).</a></td>
+                    </tr>
+                    <tr>
+                        <td><a href="{{ path('homepage_mentionlegal') }}" class="text-white">Mention légale.</a></td>
+                    </tr>
+                </table>
             </p>
         </div>
     </footer>      

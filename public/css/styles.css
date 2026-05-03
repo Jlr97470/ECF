@@ -11012,3 +11012,15 @@ body,
 button {
   font-family: system-ui;
 }
+
+.ROLE_USE {
+  background-color:#ccccdd;
+}
+
+.ROLE_USER {
+  background-color:#ccddcc;
+} 
+
+.ROLE_ADMIN {
+  background-color:#ddcccc;
+}

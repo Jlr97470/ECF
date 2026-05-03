@@ -114,9 +114,14 @@ class HomeController extends AbstractController
 
         $tableau = array_map(fn (Horaire $horaire) => $horaire->getJour().': '.$horaire->getHeureOuverture().': '.$horaire->getHeureFermeture(), $horaires);
 
-        $html = implode('<br>', $tableau);    
+        $html = '<ul>';
 
-        return new Response($html, 200, ['Content-Type' => 'text/plain']);
+        foreach ($tableau as $ligne) {
+            $html .= '<li>'.$ligne.'</li>';
+        }
+        $html .= '</ul>';
+
+        return new Response($html, 200, ['Content-Type' => 'text/html']);
     }
 
 }
