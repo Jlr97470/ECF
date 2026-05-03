@@ -11014,13 +11014,13 @@ button {
 }
 
 .ROLE_USE {
-  background-color:#ccccdd;
+  background-color:#eeeeff;
 }
 
 .ROLE_USER {
-  background-color:#ccddcc;
+  background-color:#eeffee;
 } 
 
 .ROLE_ADMIN {
-  background-color:#ddcccc;
+  background-color:#ffeeee;
 }

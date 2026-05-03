@@ -118,39 +118,55 @@
     <!-- Footer-->
     <footer class="py-5 bg-dark">
         <div class="container">
-            <p class="m-0 text-center text-white" id="Horaire">
-                 Horaires d'ouverture : <br>  
-                <script>
-                    var horaireUrl = "{{ path('homepage_horaire') }}";
-                    let oHttp = new XMLHttpRequest();
-                    oHttp.open("POST", horaireUrl);
-                    
-                    oHttp.onreadystatechange = function () {
-                        if (oHttp.readyState === 4) {
-                            if (oHttp.responseText.length!=0) {
-                                document.getElementById("Horaire").innerHTML += oHttp.responseText;
-                            }
-                        }
-                    };
-                    oHttp.send();                    
-                </script>
-            </p>
-            <p class="m-0 text-center text-white">
-                <table class="table table-dark table-striped text-center">
-                    <tr>
-                        <td><a href="{{ path('homepage') }}" class="text-white">&copy;Vite &amp; Gourmand</a> - 2026 - Tous droits réservés.</td>
-                    </tr>
-                    <tr>
-                        <td><a href="{{ path('homepage_conditiongeneralcgv') }}" class="text-white">Conditions générales de ventes (CGV).</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="{{ path('homepage_conditiongeneralcgu') }}" class="text-white">Conditions générales d'utilisation (CGU).</a></td>
-                    </tr>
-                    <tr>
-                        <td><a href="{{ path('homepage_mentionlegal') }}" class="text-white">Mention légale.</a></td>
-                    </tr>
-                </table>
-            </p>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
+                    <p class="m-0 text-white" id="Horaire">
+                        Horaires d'ouverture : <br>  
+                        <script>
+                            var horaireUrl = "{{ path('homepage_horaire') }}";
+                            let oHttp = new XMLHttpRequest();
+                            oHttp.open("POST", horaireUrl);
+                            
+                            oHttp.onreadystatechange = function () {
+                                if (oHttp.readyState === 4) {
+                                    if (oHttp.responseText.length!=0) {
+                                        document.getElementById("Horaire").innerHTML += oHttp.responseText;
+                                    }
+                                }
+                            };
+                            oHttp.send();                    
+                        </script>
+                    </p>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase text-white">Vite &amp; Gourmand</h5>
+                    <p class="m-0 text-white">Entreprise de restauration spécialisée dans la préparation de repas pour toutes les occasions.</p>
+                </div>
+                <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
+                    <h5 class="text-uppercase text-white">Contact</h5>
+                    <p class="m-0 text-white">Adresse : 4 Rue commerson, 97442 Saint-Philippe, France</p>
+                    <p class="m-0 text-white">Téléphone : +33 1 23 45 67 89</p>
+                    <p class="m-0 text-white">Email : contact@viteetgourmand.fr</p>
+                </div>
+            </div>
+            <div class="row">
+                <p class="m-0 text-center text-white">
+                    <table class="table table-dark table-striped text-center">
+                        <tr>
+                            <td><a href="{{ path('homepage') }}" class="text-white">&copy;Vite &amp; Gourmand</a> - 2026 - Tous droits réservés.</td>
+                        </tr>
+                        <tr>
+                            <td><a href="{{ path('homepage_conditiongeneralcgv') }}" class="text-white">Conditions générales de ventes (CGV).</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="{{ path('homepage_conditiongeneralcgu') }}" class="text-white">Conditions générales d'utilisation (CGU).</a></td>
+                        </tr>
+                        <tr>
+                            <td><a href="{{ path('homepage_mentionlegal') }}" class="text-white">Mention légale.</a></td>
+                        </tr>
+                    </table>
+                </p>
+            </div>
         </div>
     </footer>      
     {% block scripts %}
