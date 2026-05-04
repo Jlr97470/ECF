@@ -82,6 +82,8 @@ class AvisController extends AbstractController
 
             $avis->setAvisId($maxId['maxId'] + 1);
 
+            $avis->setStatut('En attente de validation');
+
             $this->saveAvis($avis, $mode,$em);
 
             $user = $this->getUser();

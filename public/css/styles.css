@@ -10955,6 +10955,10 @@ select:not(:focus)::placeholder {
   margin: 0 1rem;
 }
 
+dialog:not([open]) {
+  visibility: hidden;
+}
+
 dialog {
   animation: fade-out 0.7s ease-out;
 }
@@ -10969,7 +10973,6 @@ dialog:open::backdrop {
 }
 
 /* Animation keyframes */
-
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -10996,6 +10999,7 @@ dialog:open::backdrop {
     transform: scaleY(0);
     display: none;
   }
+
 }
 
 @keyframes backdrop-fade-in {

@@ -21,7 +21,7 @@ class AvisType extends AbstractType
             'attr' => ['placeholder' => 'Statut de l\'Avis'],
             'required' => true,
             'choices' => [
-                'En Attente' => Null,
+                'En Attente' => 'En attente de validation',
                 'Validé' => 'Validé'
             ]
         ]);

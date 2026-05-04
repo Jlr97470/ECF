@@ -43,10 +43,12 @@
                         <th colspan="2" class="col">
                             <a href="{{ path('app_utilisateur_index', {'id': utilisateur.utilisateurid}) }}" class="fw-bolder">{{ utilisateur.nom }} {{ utilisateur.prenom }}</a>
                             <p class="text-muted">{{ utilisateur.email|nl2br }}</p>
-                            <p>{{ utilisateur.roles|join(', ')|nl2br }}</p>
+                            <p>{% if 'ROLE_ADMIN' in utilisateur.roles %}Administrateur{% elseif 'ROLE_USER' in utilisateur.roles %}Employé{% else %}Client{% endif %}</p>
                         </th>
                         <td>
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_utilisateur_remove', {'id': utilisateur.utilisateurid}) }}';};diadialog.style='visibility: hidden;'});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                            {% if (utilisateur and 'ROLE_ADMIN' not in utilisateur.roles and app.user.utilisateurid != utilisateur.utilisateurid)  %}
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_utilisateur_remove', {'id': utilisateur.utilisateurid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                            {% endif %}
                             <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.utilisateurid}) }}" role="button" class="btn btn-info">Modifier</a>
                         </td>
                     </tr>

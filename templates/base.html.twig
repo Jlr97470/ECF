@@ -60,7 +60,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Employés</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_profile' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profiles</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_profile' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profil</a></li>
                             <li><hr class="dropdown-divider" /></li>
                             <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_avis' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
                             <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_horaire' ? 'active' : '' }}" href="{{ path('app_horaire_liste') }}">Horaires</a></li>
@@ -72,7 +72,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Compte</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_profile' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profiles</a></li>
+                            <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_profile' ? 'active' : '' }}" href="{{ path('app_profile_index') }}">Profil</a></li>
                             <li><hr class="dropdown-divider" /></li>
                             <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_avis' ? 'active' : '' }}" href="{{ path('app_avis_liste') }}">Avis</a></li>
                             <li><a class="dropdown-item {{ app.request.get('_route') starts with 'app_commande' ? 'active' : '' }}" href="{{ path('app_commande_liste') }}">Commandes</a></li>
@@ -104,7 +104,7 @@
         </div>
     {% endfor %}
     {% for message in app.flashes('error') %}   
-        <div class="alert alert-error">
+        <div class="alert alert-warning">
             {{ message }}
         </div>
     {% endfor %}

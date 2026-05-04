@@ -135,12 +135,23 @@ class CommandeController extends AbstractController
 
                 if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
                     $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
-                    return $this->redirectToRoute('app_commande_add', ['idmenu' => $idmenu]);
-                }
+                    $parameters = array(
+                        'form'      => $form->createView(),
+                        'commande'      => $commande,
+                        'mode'      => $mode
+                    );
+
+                    return $this->render('commande/edit.html.twig', $parameters);                }
 
                 if ($menu->getQuantiteRestante() < $commande->getNombrepersonne()) {
                     $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$menu->getQuantiteRestante());
-                    return $this->redirectToRoute('app_commande_add', ['idmenu' => $idmenu]);
+                    $parameters = array(
+                        'form'      => $form->createView(),
+                        'commande'      => $commande,
+                        'mode'      => $mode
+                    );
+
+                    return $this->render('commande/edit.html.twig', $parameters);
                 }
 
                 $commande->setPrixMenu($menu->getPrixParPersonne()*$commande->getNombrePersonne());
@@ -205,12 +216,26 @@ class CommandeController extends AbstractController
 
             if ($commande->getMenuId()->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
                 $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$commande->getMenuId()->getNombrePersonneMinimum());
-                return $this->redirectToRoute('app_commande_edit', ['id' => $id]);
+
+                $parameters = array(
+                    'form'      => $form->createView(),
+                    'commande'      => $commande,
+                    'mode'      => $mode
+                );
+
+                return $this->render('commande/edit.html.twig', $parameters);
             }
             
             if ($commande->getMenuId()->getQuantiteRestante() < $commande->getNombrepersonne()) {
                 $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$commande->getMenuId()->getQuantiteRestante());
-                return $this->redirectToRoute('app_commande_edit', ['id' => $id]);
+                
+                $parameters = array(
+                    'form'      => $form->createView(),
+                    'commande'      => $commande,
+                    'mode'      => $mode
+                );
+
+                return $this->render('commande/edit.html.twig', $parameters);
             }
 
             $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());

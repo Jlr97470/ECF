@@ -59,7 +59,7 @@
                         </td>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_horaire_remove', {'id': horaire.horaireid}) }}';};diadialog.style='visibility: hidden;'});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_horaire_remove', {'id': horaire.horaireid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
                             <a href="{{ path('app_horaire_edit', {'id': horaire.horaireid}) }}" role="button" class="btn btn-info">Modifier</a>
                             {% endif %}
                         </td>
