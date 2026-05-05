@@ -23,7 +23,7 @@ class UtilisateurController extends AbstractController
     {
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
 
-        $commandes = $em->getRepository(Commande::class)->findBy(['utilisateurId' => $utilisateur]);
+        $commandes = $em->getRepository(Commande::class)->findBy(['utilisateur_id' => $utilisateur]);
 
         foreach ($commandes as $commande) {
             if ($commande->getStatut() <> 'Terminé') {
