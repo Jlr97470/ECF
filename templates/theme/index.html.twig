@@ -22,7 +22,8 @@
                     <a href="{{ path('app_theme_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
                 </div>
                 {% if (app.user and 'ROLE_ADMIN' in app.user.roles)  %}
-                <div class="col-xs-3 col-sm-2">            
+                <div class="col-xs-3 col-sm-2"> 
+                    <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_theme_remove', {'id': theme.themeid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>                                
                     <a href="{{ path('app_theme_edit', {'id': theme.themeid}) }}" role="button" class="btn btn-info">Modifier</a>
                 </div>
                 {% endif %}
@@ -55,7 +56,7 @@
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_theme_menuremove', {'idtheme': theme.themeid, 'idmenu': menu.menuid}) }}';};});diadialog.showModal();" class="btn btn-danger">Supprimer</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_theme_menuremove', {'idtheme': theme.themeid, 'idmenu': menu.menuid}) }}';};});diadialog.showModal();" class="btn btn-danger">Supprimer menu</a>
                             {% endif %}
                         </td>
                     </tr>
@@ -112,7 +113,7 @@
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="{{ path('app_theme_menuadd', {'idtheme': theme.themeid, 'idmenu': menu.menuid}) }}" class="btn btn-info">Ajouter</a>
+                            <a href="{{ path('app_theme_menuadd', {'idtheme': theme.themeid, 'idmenu': menu.menuid}) }}" class="btn btn-info">Ajouter menu</a>
                             {% else %}
                             <a href="{{ path('app_commande_add', {'menuid': menu.menuid}) }}" role="button" class="btn btn-danger">Ajouter à une commande</a>
                            {% endif %}

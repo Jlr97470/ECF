@@ -43,7 +43,7 @@
                         <th colspan="2" class="col">
                             <a href="{{ path('app_utilisateur_index', {'id': utilisateur.utilisateurid}) }}" class="fw-bolder">{{ utilisateur.nom }} {{ utilisateur.prenom }}</a>
                             <p class="text-muted">{{ utilisateur.email|nl2br }}</p>
-                            <p>{% if 'ROLE_ADMIN' in utilisateur.roles %}Administrateur{% elseif 'ROLE_USER' in utilisateur.roles %}Employé{% else %}Client{% endif %}</p>
+                            <p>{% if 'ROLE_ADMIN' in utilisateur.roles %}Administrateur{% elseif 'ROLE_USE' in utilisateur.roles %}Employé{% else %}Client{% endif %}</p>
                         </th>
                         <td>
                             {% if (utilisateur and 'ROLE_ADMIN' not in utilisateur.roles and app.user.utilisateurid != utilisateur.utilisateurid)  %}
