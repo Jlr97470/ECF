@@ -11,11 +11,40 @@ use Knp\Component\Pager\PaginatorInterface;
 
 use App\Entity\Commande;
 use App\Entity\Menu;
+use App\Entity\Horaire;
 use App\Entity\Utilisateur;
 use App\Form\CommandeType;
 
 class CommandeController extends AbstractController
 {
+    public function verifierHeurePrestation(EntityManagerInterface $em,Commande $commande): bool
+    {
+        $jours= array("Dimanche", "Lundi", "Mardi",
+                  "Mercredi", "Jeudi", "Vendredi",
+                  "Samedi");
+
+        $JourPrestation =  $jours[Date('w', $commande->getDatePrestation()->getTimestamp())];
+
+        $heureLivraison = $commande->getHeureLivraison();
+
+        $queryBuilder = $em->createQueryBuilder()
+                ->select('horaire')
+                ->from(Horaire::class, 'horaire')
+                ->where('horaire.jour = :jour')
+                ->andWhere('horaire.heure_ouverture <= :heureLivraison')
+                ->andWhere('horaire.heure_fermeture >= :heureLivraison')
+                ->setParameter('jour', $JourPrestation)
+                ->setParameter('heureLivraison', $heureLivraison);
+
+        $horaire = $queryBuilder->getQuery()->getOneOrNullResult();
+
+        if (!$horaire) {
+            return false;
+        }
+
+        return true;        
+    }
+
     #[Route('/commande/liste', name: 'app_commande_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
@@ -133,6 +162,30 @@ class CommandeController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {
             if ($menu){
 
+                if (!$this->verifierHeurePrestation($em, $commande)) {
+                    $this->addFlash('error', 'La date de prestation doit être comprise dans les horaires d\'ouverture du service de livraison');
+
+                    $parameters = array(
+                        'form'      => $form->createView(),
+                        'commande'      => $commande,
+                        'mode'      => $mode
+                    );
+
+                    return $this->render('commande/edit.html.twig', $parameters);
+                }
+
+                if ($commande->getDateCommande() > $commande->getDatePrestation()) {
+                    $this->addFlash('error', 'La date de livraison doit être supérieure à la date de commande');
+
+                    $parameters = array(
+                        'form'      => $form->createView(),
+                        'commande'      => $commande,
+                        'mode'      => $mode
+                    );
+
+                    return $this->render('commande/edit.html.twig', $parameters);
+                }            
+
                 if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
                     $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
                     $parameters = array(
@@ -213,6 +266,30 @@ class CommandeController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {  
+
+            if (!$this->verifierHeurePrestation($em, $commande)) {
+                $this->addFlash('error', 'La date de prestation doit être comprise dans les horaires d\'ouverture du service de livraison');
+
+                $parameters = array(
+                    'form'      => $form->createView(),
+                    'commande'      => $commande,
+                    'mode'      => $mode
+                );
+
+                return $this->render('commande/edit.html.twig', $parameters);
+            }
+
+            if ($commande->getDateCommande() > $commande->getDatePrestation()) {
+                $this->addFlash('error', 'La date de livraison doit être supérieure à la date de commande');
+
+                $parameters = array(
+                    'form'      => $form->createView(),
+                    'commande'      => $commande,
+                    'mode'      => $mode
+                );
+
+                return $this->render('commande/edit.html.twig', $parameters);
+            }
 
             if ($commande->getMenuId()->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
                 $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$commande->getMenuId()->getNombrePersonneMinimum());

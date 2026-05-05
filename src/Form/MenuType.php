@@ -56,6 +56,7 @@ class MenuType extends AbstractType
             'label' => 'Prix par personne',
             'attr' => ['placeholder' => 'Prix par personne'],
             'required' => true,
+            'currency' => 'EUR',            
             'constraints' => [
                 new NotBlank([
                     'message' => 'Ce champ ne peut être vide'

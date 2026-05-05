@@ -13,11 +13,26 @@ use Knp\Component\Pager\PaginatorInterface;
 
 use App\Entity\Utilisateur;
 use App\Entity\Possede;
+use App\Entity\Commande;
 use App\Form\UtilisateurType;
 use App\Repository\RoleRepository;
 
 class UtilisateurController extends AbstractController
 {
+    public function verifiercommandeencours(EntityManagerInterface $em, int $id): bool
+    {
+        $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
+
+        $commandes = $em->getRepository(Commande::class)->findBy(['utilisateurId' => $utilisateur]);
+
+        foreach ($commandes as $commande) {
+            if ($commande->getStatut() <> 'Terminé') {
+                return false;
+            }
+        }
+
+        return true;        
+    }
     #[Route('/utilisateur/liste', name: 'app_utilisateur_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
@@ -155,7 +170,12 @@ class UtilisateurController extends AbstractController
     public function remove(EntityManagerInterface $em, int $id): Response
     {
         // On récupère l'utilisateur qui correspond à l'id passé dans l'URL
-        $utilisateur = $em->getRepository(Utilisateur::class)->findBy(['utilisateur_id' => $id])[0];
+        $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
+
+        if (!$this->verifiercommandeencours($em, $id)) {
+            $this->addFlash('error', 'L\'utilisateur ne peut pas être supprimé car il a des commandes en cours');
+            return $this->redirectToRoute('app_utilisateur_liste');
+        }
 
         // L'utilisateur est supprimé
         $em->remove($utilisateur);
