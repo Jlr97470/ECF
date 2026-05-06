@@ -54,7 +54,7 @@ class AvisController extends AbstractController
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
 
         if (!$avis) {
-            $this->addFlash('error', 'L"Avis n"existe pas');
+            $this->addFlash('danger', 'L"Avis n"existe pas');
             return $this->redirectToRoute('app_avis_liste');
         }
       
@@ -125,7 +125,7 @@ class AvisController extends AbstractController
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
 
         if (!$avis) {
-            $this->addFlash('error', 'L"Avis n"existe pas');
+            $this->addFlash('danger', 'L"Avis n"existe pas');
             return $this->redirectToRoute('app_avis_liste');
         }
 
@@ -157,7 +157,7 @@ class AvisController extends AbstractController
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
 
         if (!$avis) {
-            $this->addFlash('error', 'L"Avis n"existe pas');
+            $this->addFlash('danger', 'L"Avis n"existe pas');
             return $this->redirectToRoute('app_avis_liste');
         }
 

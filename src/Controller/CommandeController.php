@@ -88,7 +88,7 @@ class CommandeController extends AbstractController
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
 
         if (!$commande) {
-            $this->addFlash('error', 'Le commande n\'existe pas');
+            $this->addFlash('danger', 'Le commande n\'existe pas');
 
             return $this->redirectToRoute('app_commande_liste');
         }
@@ -163,7 +163,7 @@ class CommandeController extends AbstractController
             if ($menu){
 
                 if (!$this->verifierHeurePrestation($em, $commande)) {
-                    $this->addFlash('error', 'La date de prestation doit être comprise dans les horaires d\'ouverture du service de livraison');
+                    $this->addFlash('danger', 'La date de prestation doit être comprise dans les horaires d\'ouverture du service de livraison');
 
                     $parameters = array(
                         'form'      => $form->createView(),
@@ -175,7 +175,7 @@ class CommandeController extends AbstractController
                 }
 
                 if ($commande->getDateCommande() > $commande->getDatePrestation()) {
-                    $this->addFlash('error', 'La date de livraison doit être supérieure à la date de commande');
+                    $this->addFlash('danger', 'La date de livraison doit être supérieure à la date de commande');
 
                     $parameters = array(
                         'form'      => $form->createView(),
@@ -187,7 +187,7 @@ class CommandeController extends AbstractController
                 }            
 
                 if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
-                    $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
+                    $this->addFlash('danger', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
                     $parameters = array(
                         'form'      => $form->createView(),
                         'commande'      => $commande,
@@ -197,7 +197,7 @@ class CommandeController extends AbstractController
                     return $this->render('commande/edit.html.twig', $parameters);                }
 
                 if ($menu->getQuantiteRestante() < $commande->getNombrepersonne()) {
-                    $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$menu->getQuantiteRestante());
+                    $this->addFlash('danger', 'Le nombre de personne doit être inférieur ou égal à '.$menu->getQuantiteRestante());
                     $parameters = array(
                         'form'      => $form->createView(),
                         'commande'      => $commande,
@@ -237,7 +237,7 @@ class CommandeController extends AbstractController
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
 
         if (!$commande) {
-            $this->addFlash('error', 'Le commande n\'existe pas');
+            $this->addFlash('danger', 'Le commande n\'existe pas');
 
             return $this->redirectToRoute('app_commande_liste');
         }
@@ -250,12 +250,12 @@ class CommandeController extends AbstractController
         else
         {
             if ($commande->getUtilisateurId() && $commande->getUtilisateurId()->getUtilisateurId() !== $this->getUser()->getUtilisateurId()) {
-                $this->addFlash('error', 'Vous n\'êtes pas autorisé à modifier cette commande');
+                $this->addFlash('danger', 'Vous n\'êtes pas autorisé à modifier cette commande');
                 return $this->redirectToRoute('app_commande_index', ['id' => $id]);
             }
 
             if ($commande->getStatut() <> 'En cours') {
-                $this->addFlash('error', 'Le commande ne peut pas être modifié car il déjà en cours de livraison ou livré');   
+                $this->addFlash('danger', 'Le commande ne peut pas être modifié car il déjà en cours de livraison ou livré');   
                 return $this->redirectToRoute('app_commande_index', ['id' => $id]);
             }
         }
@@ -268,7 +268,7 @@ class CommandeController extends AbstractController
         if($form->isSubmitted() && $form->isValid()) {  
 
             if (!$this->verifierHeurePrestation($em, $commande)) {
-                $this->addFlash('error', 'La date de prestation doit être comprise dans les horaires d\'ouverture du service de livraison');
+                $this->addFlash('danger', 'La date de prestation doit être comprise dans les horaires d\'ouverture du service de livraison');
 
                 $parameters = array(
                     'form'      => $form->createView(),
@@ -280,7 +280,7 @@ class CommandeController extends AbstractController
             }
 
             if ($commande->getDateCommande() > $commande->getDatePrestation()) {
-                $this->addFlash('error', 'La date de livraison doit être supérieure à la date de commande');
+                $this->addFlash('danger', 'La date de livraison doit être supérieure à la date de commande');
 
                 $parameters = array(
                     'form'      => $form->createView(),
@@ -292,7 +292,7 @@ class CommandeController extends AbstractController
             }
 
             if ($commande->getMenuId()->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
-                $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$commande->getMenuId()->getNombrePersonneMinimum());
+                $this->addFlash('danger', 'Le nombre de personne doit être supérieur ou égal à '.$commande->getMenuId()->getNombrePersonneMinimum());
 
                 $parameters = array(
                     'form'      => $form->createView(),
@@ -304,7 +304,7 @@ class CommandeController extends AbstractController
             }
             
             if ($commande->getMenuId()->getQuantiteRestante() < $commande->getNombrepersonne()) {
-                $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$commande->getMenuId()->getQuantiteRestante());
+                $this->addFlash('danger', 'Le nombre de personne doit être inférieur ou égal à '.$commande->getMenuId()->getQuantiteRestante());
                 
                 $parameters = array(
                     'form'      => $form->createView(),
@@ -339,13 +339,13 @@ class CommandeController extends AbstractController
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
 
         if (!$commande) {
-            $this->addFlash('error', 'Le commande n\'existe pas');
+            $this->addFlash('danger', 'Le commande n\'existe pas');
 
             return $this->redirectToRoute('app_commande_liste');
         }
 
         if ($commande->getStatut() <> 'En cours') {
-            $this->addFlash('error', 'Le commande ne peut pas être supprimé car il déjà en cours de livraison ou livré');   
+            $this->addFlash('danger', 'Le commande ne peut pas être supprimé car il déjà en cours de livraison ou livré');   
             return $this->redirectToRoute('app_commande_index', ['id' => $id]);
         }
 
@@ -373,13 +373,13 @@ class CommandeController extends AbstractController
         $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
 
         if (!$commande) {
-            $this->addFlash('error', 'Le commande n\'existe pas');
+            $this->addFlash('danger', 'Le commande n\'existe pas');
 
             return $this->redirectToRoute('app_commande_liste');
         }
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n\'existe pas');      
+            $this->addFlash('danger', 'Le menu n\'existe pas');      
             return $this->redirectToRoute('app_commande_index', ['id' => $idcommande]);
         }
 
@@ -390,12 +390,12 @@ class CommandeController extends AbstractController
         }        
 
         if ($menu->getNombrePersonneMinimum() > $commande->getNombrepersonne()) {
-            $this->addFlash('error', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
+            $this->addFlash('danger', 'Le nombre de personne doit être supérieur ou égal à '.$menu->getNombrePersonneMinimum());
             return $this->redirectToRoute('app_commande_edit', ['id' => $idcommande]);
         }
         
         if ($menu->getQuantiteRestante() < $commande->getNombrepersonne()) {
-            $this->addFlash('error', 'Le nombre de personne doit être inférieur ou égal à '.$menu->getQuantiteRestante());
+            $this->addFlash('danger', 'Le nombre de personne doit être inférieur ou égal à '.$menu->getQuantiteRestante());
             return $this->redirectToRoute('app_commande_edit', ['id' => $idcommande]);
         }        
 
@@ -422,13 +422,13 @@ class CommandeController extends AbstractController
         $user=  $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $idutilisateur]);
 
         if (!$commande) {
-            $this->addFlash('error', 'Le commande n\'existe pas');
+            $this->addFlash('danger', 'Le commande n\'existe pas');
 
             return $this->redirectToRoute('app_commande_liste');
         }
 
         if (!$user) {
-            $this->addFlash('error', "L'Utilisateur n'existe pas");
+            $this->addFlash('danger', "L'Utilisateur n'existe pas");
             return $this->redirectToRoute('app_commande_index', ['id' => $idcommande]);
         }       
 

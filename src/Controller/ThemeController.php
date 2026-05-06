@@ -39,7 +39,7 @@ class ThemeController extends AbstractController
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $id]);
 
         if (!$theme) {
-            $this->addFlash('error', 'Le theme n"existe pas');
+            $this->addFlash('danger', 'Le theme n"existe pas');
             return $this->redirectToRoute('app_theme_liste');
         }
 
@@ -111,7 +111,7 @@ class ThemeController extends AbstractController
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $id]);
 
         if (!$theme) {
-            $this->addFlash('error', 'Le theme n"existe pas');
+            $this->addFlash('danger', 'Le theme n"existe pas');
             return $this->redirectToRoute('app_theme_liste');
         }
 
@@ -141,7 +141,7 @@ class ThemeController extends AbstractController
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $id]);
 
         if (!$theme) {
-            $this->addFlash('error', 'L"Theme n"existe pas');
+            $this->addFlash('danger', 'L"Theme n"existe pas');
             return $this->redirectToRoute('app_theme_liste');
         }
 
@@ -160,14 +160,14 @@ class ThemeController extends AbstractController
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $idtheme]);
 
         if (!$theme) {
-            $this->addFlash('error', 'Le theme n"existe pas');
+            $this->addFlash('danger', 'Le theme n"existe pas');
             return $this->redirectToRoute('app_theme_liste');
         }
 
         $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n"existe pas');
+            $this->addFlash('danger', 'Le menu n"existe pas');
             return $this->redirectToRoute('app_theme_index', ['id' => $idtheme]);
         }
 
@@ -200,7 +200,7 @@ class ThemeController extends AbstractController
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $idtheme]);
 
         if (!$theme) {
-            $this->addFlash('error', 'Le theme n"existe pas');
+            $this->addFlash('danger', 'Le theme n"existe pas');
             return $this->redirectToRoute('app_theme_liste');
         }
 

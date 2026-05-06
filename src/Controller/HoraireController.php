@@ -37,7 +37,7 @@ class HoraireController extends AbstractController
         $horaire = $em->getRepository(Horaire::class)->findOneBy(['horaire_id' => $id]);
 
         if (!$horaire) {
-            $this->addFlash('error', 'L"Horaire n"existe pas');
+            $this->addFlash('danger', 'L"Horaire n"existe pas');
             return $this->redirectToRoute('app_horaire_liste');
         }
 
@@ -79,7 +79,7 @@ class HoraireController extends AbstractController
         $horaire = $em->getRepository(Horaire::class)->findOneBy(['horaire_id' => $id]);
 
         if (!$horaire) {
-            $this->addFlash('error', 'L"Horaire n"existe pas');
+            $this->addFlash('danger', 'L"Horaire n"existe pas');
             return $this->redirectToRoute('app_horaire_liste');
         }
 
@@ -109,7 +109,7 @@ class HoraireController extends AbstractController
         $horaire = $em->getRepository(Horaire::class)->findOneBy(['horaire_id' => $id]);
 
         if (!$horaire) {
-            $this->addFlash('error', 'L"Horaire n"existe pas');
+            $this->addFlash('danger', 'L"Horaire n"existe pas');
             return $this->redirectToRoute('app_horaire_liste');
         }
 

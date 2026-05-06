@@ -90,7 +90,7 @@ class HomeController extends AbstractController
                 } catch (TransportExceptionInterface $e) {
                     // some error prevented the email sending; display an
                     // error message or try to resend the message
-                    $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
+                    $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
                     
                     return $this->redirectToRoute('homepage_contact');
                 }

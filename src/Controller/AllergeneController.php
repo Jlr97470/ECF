@@ -39,7 +39,7 @@ class AllergeneController extends AbstractController
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
 
         if (!$allergene) {
-            $this->addFlash('error', 'L"Allergene n"existe pas');
+            $this->addFlash('danger', 'L"Allergene n"existe pas');
             return $this->redirectToRoute('app_allergene_liste');
         }
 
@@ -111,7 +111,7 @@ class AllergeneController extends AbstractController
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
 
         if (!$allergene) {
-            $this->addFlash('error', 'L"Allergene n"existe pas');
+            $this->addFlash('danger', 'L"Allergene n"existe pas');
             return $this->redirectToRoute('app_allergene_liste');
         }
 
@@ -141,7 +141,7 @@ class AllergeneController extends AbstractController
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
 
         if (!$allergene) {
-            $this->addFlash('error', 'L"Allergene n"existe pas');
+            $this->addFlash('danger', 'L"Allergene n"existe pas');
             return $this->redirectToRoute('app_allergene_liste');
         }
 
@@ -161,14 +161,14 @@ class AllergeneController extends AbstractController
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $idallergene]);
 
         if (!$allergene) {
-            $this->addFlash('error', 'L"Allergene n"existe pas');
+            $this->addFlash('danger', 'L"Allergene n"existe pas');
             return $this->redirectToRoute('app_allergene_liste');
         }
 
         $plat=  $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
 
         if (!$plat) {
-            $this->addFlash('error', 'Le plat n"existe pas');
+            $this->addFlash('danger', 'Le plat n"existe pas');
             return $this->redirectToRoute('app_allergene_index', ['id' => $idallergene]);
         }
 
@@ -190,7 +190,7 @@ class AllergeneController extends AbstractController
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $idallergene]);
 
         if (!$allergene) {
-            $this->addFlash('error', 'L"Allergene n"existe pas');
+            $this->addFlash('danger', 'L"Allergene n"existe pas');
             return $this->redirectToRoute('app_allergene_liste');
         }
 

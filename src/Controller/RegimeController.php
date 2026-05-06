@@ -39,7 +39,7 @@ class RegimeController extends AbstractController
         $regime = $em->getRepository(Regime::class)->findOneBy(['regime_id' => $id]);
 
         if (!$regime) {
-            $this->addFlash('error', 'Le regime n"existe pas');
+            $this->addFlash('danger', 'Le regime n"existe pas');
             return $this->redirectToRoute('app_regime_liste');
         }
 
@@ -111,7 +111,7 @@ class RegimeController extends AbstractController
         $regime = $em->getRepository(regime::class)->findOneBy(['regime_id' => $id]);
 
         if (!$regime) {
-            $this->addFlash('error', 'Le regime n"existe pas');
+            $this->addFlash('danger', 'Le regime n"existe pas');
             return $this->redirectToRoute('app_regime_liste');
         }
 
@@ -141,7 +141,7 @@ class RegimeController extends AbstractController
         $regime = $em->getRepository(regime::class)->findOneBy(['regime_id' => $id]);
 
         if (!$regime) {
-            $this->addFlash('error', 'L"regime n"existe pas');
+            $this->addFlash('danger', 'L"regime n"existe pas');
             return $this->redirectToRoute('app_regime_liste');
         }
         // L'regime est supprimé
@@ -159,14 +159,14 @@ class RegimeController extends AbstractController
         $regime = $em->getRepository(regime::class)->findOneBy(['regime_id' => $idregime]);
 
         if (!$regime) {
-            $this->addFlash('error', 'Le regime n"existe pas');
+            $this->addFlash('danger', 'Le regime n"existe pas');
             return $this->redirectToRoute('app_regime_liste');
         }
 
         $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n"existe pas');
+            $this->addFlash('danger', 'Le menu n"existe pas');
             return $this->redirectToRoute('app_regime_index', ['id' => $idregime]);
         }
 
@@ -199,14 +199,14 @@ class RegimeController extends AbstractController
         $regime = $em->getRepository(Regime::class)->findOneBy(['regime_id' => $idregime]);
 
         if (!$regime) {
-            $this->addFlash('error', 'Le regime n"existe pas');
+            $this->addFlash('danger', 'Le regime n"existe pas');
             return $this->redirectToRoute('app_regime_liste');
         }
 
         $menu=  $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n"existe pas');
+            $this->addFlash('danger', 'Le menu n"existe pas');
             return $this->redirectToRoute('app_regime_index', ['id' => $idregime]);
         }
 

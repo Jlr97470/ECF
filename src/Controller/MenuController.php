@@ -39,7 +39,7 @@ class MenuController extends AbstractController
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n\'existe pas');
+            $this->addFlash('danger', 'Le menu n\'existe pas');
             return $this->redirectToRoute('app_menu_liste');
         }
 
@@ -126,7 +126,7 @@ class MenuController extends AbstractController
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n\'existe pas');
+            $this->addFlash('danger', 'Le menu n\'existe pas');
             return $this->redirectToRoute('app_menu_liste');
         }
 
@@ -155,7 +155,7 @@ class MenuController extends AbstractController
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n\'existe pas');
+            $this->addFlash('danger', 'Le menu n\'existe pas');
             return $this->redirectToRoute('app_menu_liste');
         }
 
@@ -175,14 +175,14 @@ class MenuController extends AbstractController
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n\'existe pas');
+            $this->addFlash('danger', 'Le menu n\'existe pas');
             return $this->redirectToRoute('app_menu_liste');
         }
 
         $plat=  $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
         
         if (!$plat) {
-            $this->addFlash('error', 'Le plat n\'existe pas');
+            $this->addFlash('danger', 'Le plat n\'existe pas');
             return $this->redirectToRoute('app_menu_index', ['id' => $idmenu]);
         }
 
@@ -204,7 +204,7 @@ class MenuController extends AbstractController
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
 
         if (!$menu) {
-            $this->addFlash('error', 'Le menu n\'existe pas');
+            $this->addFlash('danger', 'Le menu n\'existe pas');
             return $this->redirectToRoute('app_menu_liste');
         }
 

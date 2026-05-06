@@ -49,7 +49,7 @@ class PlatController extends AbstractController
         $plat = $em->getRepository(Plat::class)->findOneBy(['plat_id' => $id]);
 
         if (!$plat) {
-            $this->addFlash('error', 'Le plat n"existe pas');
+            $this->addFlash('danger', 'Le plat n"existe pas');
             return $this->redirectToRoute('app_plat_liste');
         }
 
@@ -135,7 +135,7 @@ class PlatController extends AbstractController
         $plat = $em->getRepository(plat::class)->findOneBy(['plat_id' => $id]);
 
         if (!$plat) {
-            $this->addFlash('error', 'Le plat n"existe pas');
+            $this->addFlash('danger', 'Le plat n"existe pas');
             return $this->redirectToRoute('app_plat_liste');
         }
 
@@ -182,7 +182,7 @@ class PlatController extends AbstractController
         $plat = $em->getRepository(Plat::class)->findOneBy(['plat_id' => $id]);
 
         if (!$plat) {
-            $this->addFlash('error', 'Le plat n"existe pas');
+            $this->addFlash('danger', 'Le plat n"existe pas');
             return $this->redirectToRoute('app_plat_liste');
         }
 
@@ -202,14 +202,14 @@ class PlatController extends AbstractController
         $plat=  $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
 
         if (!$plat) {
-            $this->addFlash('error', 'Le plat n"existe pas');
+            $this->addFlash('danger', 'Le plat n"existe pas');
             return $this->redirectToRoute('app_plat_index', ['id' => $idplat]);
         }
 
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $idallergene]);
 
         if (!$allergene) {
-            $this->addFlash('error', 'L"Allergene n"existe pas');
+            $this->addFlash('danger', 'L"Allergene n"existe pas');
             return $this->redirectToRoute('app_plat_index', ['id' => $idplat]);
         }
 
@@ -231,7 +231,7 @@ class PlatController extends AbstractController
         $plat = $em->getRepository(Plat::class)->findOneBy(['plat_id' => $idplat]);
 
         if (!$plat) {
-            $this->addFlash('error', 'Le plat n"existe pas');
+            $this->addFlash('danger', 'Le plat n"existe pas');
             return $this->redirectToRoute('app_plat_index', ['id' => $idplat]);
         }   
 

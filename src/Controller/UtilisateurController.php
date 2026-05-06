@@ -173,7 +173,7 @@ class UtilisateurController extends AbstractController
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
 
         if (!$this->verifiercommandeencours($em, $id)) {
-            $this->addFlash('error', 'L\'utilisateur ne peut pas être supprimé car il a des commandes en cours');
+            $this->addFlash('danger', 'L\'utilisateur ne peut pas être supprimé car il a des commandes en cours');
             return $this->redirectToRoute('app_utilisateur_liste');
         }
 

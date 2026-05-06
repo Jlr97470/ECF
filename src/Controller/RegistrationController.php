@@ -91,7 +91,7 @@ class RegistrationController extends AbstractController
                     } catch (TransportExceptionInterface $e) {
                         // some error prevented the email sending; display an
                         // error message or try to resend the message
-                        $this->addFlash('error', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
+                        $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
                     }
 
                     $this->addFlash('success', 'Votre compte a été créé avec succès !');
@@ -100,7 +100,7 @@ class RegistrationController extends AbstractController
                 }
                 else {
                     foreach ($errors as $error) {
-                        $this->addFlash('error', $error->getMessage());
+                        $this->addFlash('danger', $error->getMessage());
                     }
                     return $this->redirectToRoute('app_registration_register');
                 }   
