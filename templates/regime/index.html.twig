@@ -35,6 +35,8 @@
                     <tr>
                         <th scope="col" colspan="2">
                             <h2>Menus associés : </h2>
+                            <p class="text-muted">Nombre de menus associés : {{ menus|length }}</p>
+                            <p class="text-muted">Liste des menus associés à ce régime. Cliquez sur le titre d'un menu pour voir les détails ou utilisez les boutons pour supprimer des menus de ce régime.</p>
                         </th>
                     </tr>
                 </thead>                
@@ -70,6 +72,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h2>Listing Menus</h2>
+                    <p class="text-muted">Nombre total de menus : {{ pagination.getTotalItemCount }}</p>
+                    <p class="text-muted">Liste de tous les menus disponibles. Cliquez sur le titre d'un menu pour voir les détails ou utilisez les boutons pour ajouter des menus à ce régime.</p>
                 </div>
             </div>        
         </div>

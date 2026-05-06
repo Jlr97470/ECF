@@ -25,7 +25,10 @@
                 <div class="col-xs-9 col-sm-10">                 
                     <a href="{{ path('app_utilisateur_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
                 </div>
-                <div class="col-xs-3 col-sm-2">            
+                <div class="col-xs-3 col-sm-2">  
+                    {% if (utilisateur and 'ROLE_ADMIN' not in utilisateur.roles and app.user.utilisateurid != utilisateur.utilisateurid)  %}
+                    <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_utilisateur_remove', {'id': utilisateur.utilisateurid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                    {% endif %}
                     <a href="{{ path('app_utilisateur_edit', {'id': utilisateur.utilisateurid}) }}" role="button" class="btn btn-info">Modifier</a>
                 </div>
             </div>        
