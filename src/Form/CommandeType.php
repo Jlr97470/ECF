@@ -2,7 +2,7 @@
  
 namespace App\Form;
 
-use App\Entity\Commande;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\GreaterThan;
@@ -19,6 +21,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Regex;
 
+use App\Entity\Commande;
 
 
 class CommandeType extends AbstractType
@@ -60,40 +63,11 @@ class CommandeType extends AbstractType
     public function addPrixMenuField(FormBuilderInterface $builder)
     {
         // Prix menu      
-        $builder->add('prixmenu', MoneyType::class, [
-            'label' => 'Prix du Menu',
-            'attr' => ['placeholder' => 'Prix du Menu'],
-            'required' => true,
-            'currency' => 'EUR',
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Ce champ ne peut être vide'
-                ]),
-                new GreaterThan([
-                    'value' => 0,
-                    'message' => 'Le prix du Menu doit être supérieur à 0'
-                ])
-            ]
-        ]);
     }   
     
     public function addPrixLivraisonField(FormBuilderInterface $builder)
     {
         // Prix de livraison
-        $builder->add('prixlivraison', MoneyType::class, [
-            'label' => 'Prix de livraison',
-            'attr' => ['placeholder' => 'Prix de livraison'],       
-            'required' => true,
-            'currency' => 'EUR',            
-            'constraints' => [
-                new NotBlank([
-                    'message' => 'Ce champ ne peut être vide'
-                ]), new GreaterThan([   
-                    'value' => 0,
-                    'message' => 'Le prix de livraison doit être supérieur à 0'
-                ])
-            ]
-        ]);
     }   
     
     public function addStatutField(FormBuilderInterface $builder)
@@ -130,7 +104,7 @@ class CommandeType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $user = $options['user'] ?? null;
-
+        
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles()))) {
             $this->addNumeroCommandeField($builder);
             $this->addDateCommandeField($builder);
@@ -166,7 +140,50 @@ class CommandeType extends AbstractType
                     'message' => 'Le nombre de personnes doit être supérieur à 0'
                 ])
             ]
-        ]);      
+        ]);
+
+        $prixMenuOptions = [
+            'label' => 'Prix du Menu',
+            'attr' => ['placeholder' => 'Prix du Menu'],
+            'required' => true,
+            'currency' => 'EUR',
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Ce champ ne peut être vide'
+                ]),
+                new GreaterThan([
+                    'value' => 0,
+                    'message' => 'Le prix du Menu doit être supérieur à 0'
+                ])
+            ],
+        ];
+
+        if ($user && \in_array('ROLE_USER', $user->getRoles())) {
+            $prixMenuOptions['attr']['disabled'] = true; // Désactiver le champ pour les rôles ROLE_USER
+        }
+
+        $builder->add('prixmenu', MoneyType::class, $prixMenuOptions);
+
+        $prixLivraisonOptions =[
+            'label' => 'Prix de livraison',
+            'attr' => ['placeholder' => 'Prix de livraison'],       
+            'required' => true,
+            'currency' => 'EUR',            
+            'constraints' => [
+                new NotBlank([
+                    'message' => 'Ce champ ne peut être vide'
+                ]), new GreaterThan([   
+                    'value' => 0,
+                    'message' => 'Le prix de livraison doit être supérieur à 0'
+                ])
+            ],
+        ];
+
+        if ($user && \in_array('ROLE_USER', $user->getRoles())) {
+            $prixLivraisonOptions['attr']['disabled'] = true; // Désactiver le champ pour les rôles ROLE_USER
+        }
+
+        $builder->add('prixlivraison', MoneyType::class, $prixLivraisonOptions);        
 
         $builder->add('heurelivraison', TextType::class, [
             'label' => 'Heure de livraison',
@@ -194,8 +211,7 @@ class CommandeType extends AbstractType
         // Bouton Envoyer
         $builder->add('submit', SubmitType::class, array(
             'label' => 'Enregistrer'
-        ));
-
+        ));    
     }
 
     public function configureOptions(OptionsResolver $resolver)

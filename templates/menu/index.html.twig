@@ -105,7 +105,7 @@
                         <th scope="col" colspan="2">
                             <h2>Plats associés : </h2>
                             <p class="text-muted">Nombre de plats associés : {{ plats|length }}</p>
-                            <p class="text-muted">Liste des plats associés à ce menu. Cliquez sur le titre d'un plat pour voir les détailsou utilisez les boutons pour supprimer des plats à ce menu..</p>
+                            <p class="text-muted">Liste des plats associés à ce menu. {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}Cliquez sur le titre d'un plat pour voir les détails ou utilisez les boutons pour supprimer des plats à ce menu..{% endif %}</p>
                         </th>
                     </tr>
                 </thead>

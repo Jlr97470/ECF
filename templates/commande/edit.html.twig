@@ -70,7 +70,6 @@
                 </div>
             </div>        
         </div>
-
         <div class="container px-4 px-lg-5 my-5">
             <div id="info" class="panel-collapse">
                 {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
@@ -95,24 +94,22 @@
                             'field': form['heurelivraison'], 'attr': {'attr':{'size': '30'}}
                         }) }}
                 </div>
-                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
-                {{ include('helpers/form/group.html.twig', {
-                            'field': form['prixmenu'], 'attr': {'attr':{'size': '30'}}
-                        }) }}   
-                </div>
-                {% endif %}
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['nombrepersonne'], 'attr': {'attr':{'size': '30'}}
                         }) }}
                 </div>  
-                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}      
+                <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
+                {{ include('helpers/form/group.html.twig', {
+                            'field': form['prixmenu'], 'attr': {'attr':{'size': '30'}}
+                        }) }}   
+                </div>
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['prixlivraison'], 'attr': {'attr':{'size': '30'}}
                         }) }}   
                 </div>
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}      
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
                             'field': form['statut'], 'attr': {'attr':{'rows': '8', 'cols': '30'}}
@@ -149,8 +146,21 @@
             {{ form_end(form) }}
         </div>
     </section>    
-
 {% endblock %}
-
 {% block stylesheets %}
+{% endblock %}
+{% block formscripts %}
+<script>
+    document.getElementById('commande_nombrepersonne').addEventListener('change', function() {
+
+        if ({{ commande.menuId.nombrepersonneminimum }} + 5 <= {{ commande.menuId.prixparpersonne }}) {
+            document.getElementById('commande_prixmenu').value = {{ commande.menuId.prixparpersonne }} * document.getElementById('commande_nombrepersonne').value*0.9;
+            document.getElementById('commande_prixlivraison').value=5;  
+        }
+        else {  
+            document.getElementById('commande_prixmenu').value = {{ commande.menuId.prixparpersonne }} * document.getElementById('commande_nombrepersonne').value;
+            document.getElementById('commande_prixlivraison').value=5;  
+        };         
+    });
+</script> 
 {% endblock %}

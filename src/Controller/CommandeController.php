@@ -154,7 +154,7 @@ class CommandeController extends AbstractController
         $commande->setRestitutionmateriel(false);
 
         $form = $this->createForm(CommandeType::class, $commande, [
-            'user' => $this->getUser(),
+            'user' => $this->getUser()
         ]);
 
         $form->handleRequest($request);
@@ -207,8 +207,14 @@ class CommandeController extends AbstractController
                     return $this->render('commande/edit.html.twig', $parameters);
                 }
 
-                $commande->setPrixMenu($menu->getPrixParPersonne()*$commande->getNombrePersonne());
-                $commande->setPrixlivraison($menu->getPrixParPersonne() *$commande->getNombrePersonne() * 0.1);  
+                if ($commande->getMenuId()->getNombrePersonneMinimum() + 5 <= $commande->getNombrepersonne()) {
+                    $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne()*0.9);
+                    $commande->setPrixlivraison(5);  
+                }
+                else {  
+                    $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());
+                    $commande->setPrixlivraison(5);  
+                } 
 
                 $menu = $commande->getMenuId();
                 $menu->setQuantiteRestante($menu->getQuantiteRestante() - $commande->getNombrepersonne());
@@ -261,7 +267,7 @@ class CommandeController extends AbstractController
         }
 
         $form = $this->createForm(CommandeType::class, $commande, [
-            'user' => $this->getUser(),
+            'user' => $this->getUser()
         ]);
         $form->handleRequest($request);
 
@@ -315,8 +321,14 @@ class CommandeController extends AbstractController
                 return $this->render('commande/edit.html.twig', $parameters);
             }
 
-            $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());
-            $commande->setPrixlivraison($commande->getMenuId()->getPrixParPersonne() *$commande->getNombrePersonne() * 0.1);  
+            if ($commande->getMenuId()->getNombrePersonneMinimum() + 5 <= $commande->getNombrepersonne()) {
+                $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne()*0.9);
+                $commande->setPrixlivraison(5);  
+            }
+            else {  
+                $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());
+                $commande->setPrixlivraison(5);  
+            }
 
             $this->savecommande($commande, $mode, $em);
 
@@ -399,8 +411,15 @@ class CommandeController extends AbstractController
             return $this->redirectToRoute('app_commande_edit', ['id' => $idcommande]);
         }        
 
-        $commande->setPrixMenu($menu->getPrixParPersonne()*$commande->getNombrepersonne());
-        $commande->setPrixlivraison($menu->getPrixParPersonne() *$commande->getNombrepersonne() * 0.1);  
+        if ($commande->getMenuId()->getNombrePersonneMinimum() + 5 <= $commande->getNombrepersonne()) {
+            $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne()*0.9);
+            $commande->setPrixlivraison(5);  
+        }
+        else {  
+            $commande->setPrixMenu($commande->getMenuId()->getPrixParPersonne()*$commande->getNombrePersonne());
+            $commande->setPrixlivraison(5);  
+        } 
+
         $menu->setQuantiteRestante($menu->getQuantiteRestante() - $commande->getNombrepersonne());
 
         $commande->setMenuId($menu);
