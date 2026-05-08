@@ -22,7 +22,8 @@
                     <a href="{{ path('app_plat_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
                 </div>
                 {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                <div class="col-xs-3 col-sm-2">            
+                <div class="col-xs-3 col-sm-2">      
+                    <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_plat_remove', {'id': plat.platid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
                     <a href="{{ path('app_plat_edit', {'id': plat.platid}) }}" role="button" class="btn btn-info">Modifier</a>
                 </div>
                 {% endif %}

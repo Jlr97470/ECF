@@ -84,6 +84,7 @@ class CommandeType extends AbstractType
                 'Livré' => 'Livré',
                 'En attente du retour de matériel' => 'En attente du retour de matériel',
                 'Terminé' => 'Terminé',
+                'Annulé' => 'Annulé',
             ],
             'constraints' => [
                 new NotBlank([

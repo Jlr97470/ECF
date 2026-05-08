@@ -26,7 +26,7 @@ class UtilisateurController extends AbstractController
         $commandes = $em->getRepository(Commande::class)->findBy(['utilisateur_id' => $utilisateur]);
 
         foreach ($commandes as $commande) {
-            if ($commande->getStatut() <> 'Terminé') {
+            if ($commande->getStatut() <> 'Terminé' and $commande->getStatut() <> 'Annulé') {
                 return false;
             }
         }

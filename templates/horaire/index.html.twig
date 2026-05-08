@@ -24,7 +24,8 @@
                     <a href="{{ path('app_horaire_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
                 </div>
                 {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                <div class="col-xs-3 col-sm-2">            
+                <div class="col-xs-3 col-sm-2">    
+                    <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_horaire_remove', {'id': horaire.horaireid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
                     <a href="{{ path('app_horaire_edit', {'id': horaire.horaireid}) }}" role="button" class="btn btn-info">Modifier</a>
                 </div>
                 {% endif %}

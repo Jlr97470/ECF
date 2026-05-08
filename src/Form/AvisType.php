@@ -22,7 +22,8 @@ class AvisType extends AbstractType
             'required' => true,
             'choices' => [
                 'En Attente' => 'En attente de validation',
-                'Validé' => 'Validé'
+                'Validé' => 'Validé',
+                'Rejeté' => 'Rejeté',
             ]
         ]);
     }
