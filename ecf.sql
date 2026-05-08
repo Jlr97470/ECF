@@ -3,8 +3,8 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : ven. 01 mai 2026 à 14:41
--- Version du serveur : 9.6.0
+-- Généré le : ven. 08 mai 2026 à 06:56
+-- Version du serveur : 9.7.0
 -- Version de PHP : 8.3.23
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
@@ -93,12 +93,11 @@ CREATE TABLE `avis` (
 --
 
 INSERT INTO `avis` (`avis_id`, `note`, `description`, `statut`) VALUES
-(1, '15', 'Trés satisfait du service !!', 'Validé'),
-(2, '17', 'Trés bon plat !!', 'Validé'),
-(3, '18', 'Trés professionel !!', 'Validé'),
-(4, '14', 'test', 'Validé'),
-(5, '14', 'test', 'Validé'),
-(6, '14', 'test', 'Validé');
+(2, '5', 'Trés bon plat !!', 'Validé'),
+(3, '4', 'Trés professionel !!', 'Validé'),
+(4, '4', 'test', 'Validé'),
+(5, '4', 'test', 'Validé'),
+(6, '4', 'Trés bon plat !!', 'Validé');
 
 -- --------------------------------------------------------
 
@@ -110,7 +109,7 @@ CREATE TABLE `commande` (
   `numero_commande` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `date_commande` date NOT NULL,
   `date_prestation` date DEFAULT NULL,
-  `heure_livraison` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `heure_livraison` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `prix_menu` double NOT NULL,
   `nombre_personne` int NOT NULL,
   `prix_livraison` double NOT NULL,
@@ -126,9 +125,11 @@ CREATE TABLE `commande` (
 --
 
 INSERT INTO `commande` (`numero_commande`, `date_commande`, `date_prestation`, `heure_livraison`, `prix_menu`, `nombre_personne`, `prix_livraison`, `statut`, `pret_materiel`, `restitution_materiel`, `utilisateur_id`, `menu_id`) VALUES
-('CMD-69e63673b7c33', '2026-04-20', '2026-05-18', '18:00', 62.5, 5, 6.25, 'Accepté', 0, 0, 18, 1),
-('CMD-69ea1a6fd0395', '2026-04-23', '2025-05-20', '18:00', 87.5, 7, 8.75, 'Accepté', 0, 0, 29, 1),
-('CMD-69f33f83834da', '2026-04-30', '2026-05-28', '10:00', 62.5, 5, 6.25, 'En cours', 1, 0, 30, 1);
+('CMD-69e63673b7c33', '2026-04-20', '2026-05-18', '18:00', 62.5, 5, 5, 'Accepté', 0, 0, 18, 1),
+('CMD-69ea1a6fd0395', '2026-04-23', '2026-05-20', '18:00', 78.75, 7, 5, 'Accepté', 0, 0, 29, 1),
+('CMD-69f33f83834da', '2026-04-30', '2026-05-28', '11:00', 62.5, 5, 5, 'En cours', 1, 0, 30, 1),
+('CMD-69fc9625b75b5', '2026-05-07', '2026-05-08', '11:00', 112.5, 10, 5, 'En cours', 0, 0, 29, 1),
+('CMD-69fd572aa1ae0', '2026-05-08', '2026-05-20', '11:00', 126, 10, 5, 'En cours', 1, 0, 30, 6);
 
 -- --------------------------------------------------------
 
@@ -242,10 +243,10 @@ CREATE TABLE `menu` (
 --
 
 INSERT INTO `menu` (`menu_id`, `titre`, `nombre_personne_minimum`, `prix_par_personne`, `regime`, `description`, `quantite_restante`) VALUES
-(1, 'Menu Enfant Cheese Burger', 1, 12.5, 'Sel', 'Cheesse Burger + Frites + Coca + Glace', 28),
+(1, 'Menu Enfant Cheese Burger', 1, 12.5, 'Sel', 'Cheesse Burger + Frites + Coca + Glace', 18),
 (4, 'Menu Enfant Double Cheese Burger', 1, 14, 'Sel', 'Double Cheese Burger + Frites + Coca + Glaces', 25),
 (5, 'Menu Couscous Royal', 5, 17, 'Sel', 'Plat + Dessert +Verre de vin', 30),
-(6, 'Menu Tartiflette', 5, 14, 'sel', 'Plat + Dessert', 30),
+(6, 'Menu Tartiflette', 5, 14, 'sel', 'Plat + Dessert', 20),
 (7, 'Menu Spaghetti Bolognaise', 5, 13, 'Sel', 'Plat + Dessert + Verre de vin rouge', 30),
 (8, 'Menu Spaghetti Carbonara', 5, 14, 'Sel', 'Plat + Dessert + Verre de vin rouge', 30);
 
@@ -403,7 +404,6 @@ CREATE TABLE `publie` (
 --
 
 INSERT INTO `publie` (`utilisateur_id`, `avis_id`) VALUES
-(17, 1),
 (18, 3),
 (29, 6);
 
@@ -499,7 +499,7 @@ INSERT INTO `utilisateur` (`utilisateur_id`, `email`, `password`, `prenom`, `nom
 (17, 'royerjeanlaurent@gmail.com', '$2y$13$yMHhX7.g.uBk38pMUdW2JexkkzqeUY00EbnAog0VEsA/GsKUrJVoG', 'Jean Laurent', 'Royer', NULL, NULL, NULL, NULL),
 (18, 'royerjeanlaurent@outlook.fr', '$2y$13$ExHsNiC2YGN61N9Am7PYLu6DQA6eEOVMC.Pt7oWMXPC/lhO8bUt7q', 'Jean Laurent', 'Royer', NULL, NULL, NULL, NULL),
 (29, 'mayasaban60@gmail.com', '$2y$13$m2bhiDuMh7RPTnnSJUSBlu2fCP1exffGYwQB8JJQjCuJcXyaa1LM.', 'Laurent', 'Royer', '0693457577', 'Basse Vallée', 'Réunion', '4 Rue Commerson'),
-(30, 'mayasaban60@mailo.com', '$2y$13$x046UzBQel6svu1BHBqaJeFeXM1bslIiOVmYj1QrSFpPYdlc3QrYa', 'Jean', 'Royer', '0134682601', 'Survilliers', 'France', '4 Square des chevrefeuilles');
+(30, 'mayasaban60@mailo.com', '$2y$13$xUI19j.5QvT9lXBLdoNYcOZtYQkVtkj6DdQNRBH68ux7nU00Ham9m', 'Jean', 'Royer', '0134682601', 'Survilliers', 'France', '4 Square des chevrefeuilles');
 
 --
 -- Index pour les tables déchargées
@@ -655,7 +655,7 @@ ALTER TABLE `menu`
 -- AUTO_INCREMENT pour la table `messenger_messages`
 --
 ALTER TABLE `messenger_messages`
-  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` bigint NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT pour la table `plat`
