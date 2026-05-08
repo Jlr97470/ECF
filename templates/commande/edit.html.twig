@@ -153,13 +153,13 @@
 <script>
     document.getElementById('commande_nombrepersonne').addEventListener('change', function() {
 
-        if ({{ commande.menuId.nombrepersonneminimum }} + 5 <= document.getElementById('commande_nombrepersonne').value) {
-            document.getElementById('commande_prixmenu').value = {{ commande.menuId.prixparpersonne }} * document.getElementById('commande_nombrepersonne').value*0.9;
-            document.getElementById('commande_prixlivraison').value=5;  
+        if ({{ commande.menuId.nombrepersonneminimum }} + 5 <= document.getElementById('{{ form['nombrepersonne'].vars.id }}').value) {
+            document.getElementById('{{ form['prixmenu'].vars.id }}').value = {{ commande.menuId.prixparpersonne }} * document.getElementById('{{ form['nombrepersonne'].vars.id }}').value*0.9;
+            document.getElementById('{{ form['prixlivraison'].vars.id }}').value=5;  
         }
         else {  
-            document.getElementById('commande_prixmenu').value = {{ commande.menuId.prixparpersonne }} * document.getElementById('commande_nombrepersonne').value;
-            document.getElementById('commande_prixlivraison').value=5;  
+            document.getElementById('{{ form['prixmenu'].vars.id }}').value = {{ commande.menuId.prixparpersonne }} * document.getElementById('{{ form['nombrepersonne'].vars.id }}').value;
+            document.getElementById('{{ form['prixlivraison'].vars.id }}').value=5;  
         };         
     });
 </script> 
