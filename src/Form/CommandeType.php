@@ -159,7 +159,7 @@ class CommandeType extends AbstractType
         ];
 
         if ($user && \in_array('ROLE_USER', $user->getRoles())) {
-            $prixMenuOptions['attr']['disabled'] = true; // Désactiver le champ pour les rôles ROLE_USER
+            $prixMenuOptions['attr']['readonly'] = true; // Désactiver le champ pour les rôles ROLE_USER
         }
 
         $builder->add('prixmenu', MoneyType::class, $prixMenuOptions);
@@ -180,7 +180,7 @@ class CommandeType extends AbstractType
         ];
 
         if ($user && \in_array('ROLE_USER', $user->getRoles())) {
-            $prixLivraisonOptions['attr']['disabled'] = true; // Désactiver le champ pour les rôles ROLE_USER
+            $prixLivraisonOptions['attr']['readonly'] = true; // Désactiver le champ pour les rôles ROLE_USER
         }
 
         $builder->add('prixlivraison', MoneyType::class, $prixLivraisonOptions);        

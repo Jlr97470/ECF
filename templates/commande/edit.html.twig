@@ -153,7 +153,7 @@
 <script>
     document.getElementById('commande_nombrepersonne').addEventListener('change', function() {
 
-        if ({{ commande.menuId.nombrepersonneminimum }} + 5 <= {{ commande.menuId.prixparpersonne }}) {
+        if ({{ commande.menuId.nombrepersonneminimum }} + 5 <= document.getElementById('commande_nombrepersonne').value) {
             document.getElementById('commande_prixmenu').value = {{ commande.menuId.prixparpersonne }} * document.getElementById('commande_nombrepersonne').value*0.9;
             document.getElementById('commande_prixlivraison').value=5;  
         }
