@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ utilisateur.nom }} {{ utilisateur.prenom }}{% endblock %}
+{% block title %} {{ utilisateur.prenom }} {{ utilisateur.nom }}{% endblock %}
 
 {% block content %}
     <section class="py-5">                
@@ -8,7 +8,7 @@
             {# Titre de la page #}
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">{{ utilisateur.nom }} {{ utilisateur.prenom }}</h1>
+                    <h1 class="page-header">{{ utilisateur.prenom }} {{ utilisateur.nom }}</h1>
                 </div>
             </div>
         </div>
