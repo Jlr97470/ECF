@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="container px-4 px-lg-5 my-5">
-            <p><strong>Rôles : </strong><br>{% if 'ROLE_ADMIN' in utilisateur.roles %}Administrateur{% elseif 'ROLE_USE' in utilisateur.roles %}Employé{% else %}Client{% endif %}</p>
+            <p><strong>Rôles : </strong><br>{% if 'ROLE_ADMIN' in utilisateur.roles %}Administrateur{% elseif 'ROLE_USE' in utilisateur.roles %}Employé{% else %}Utilisateur{% endif %}</p>
             <p><strong>Email : </strong><br>{{ utilisateur.email }}</p>
             <p><strong>Téléphone : </strong><br>{{ utilisateur.telephone }}</p>
             <p><strong>Ville : </strong><br>{{ utilisateur.ville }}</p>

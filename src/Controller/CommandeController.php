@@ -8,6 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 use App\Entity\Commande;
 use App\Entity\Menu;
@@ -126,7 +129,7 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/commande/add/{idmenu}', name: 'app_commande_add')]
-    public function add(EntityManagerInterface $em, Request $request, ?int $idmenu): Response
+    public function add(EntityManagerInterface $em, Request $request, MailerInterface $mailer, int $idmenu): Response
     {
         $mode       = 'new';
         $commande    = new Commande();
@@ -135,6 +138,11 @@ class CommandeController extends AbstractController
 
         if ($menu){
             $commande->setMenuId($menu);
+        }
+        else
+        {
+            $this->addFlash('danger', 'Le menu n\'existe pas');      
+            return $this->redirectToRoute('app_commande_liste');
         }
 
         $user = $this->getUser();
@@ -218,10 +226,33 @@ class CommandeController extends AbstractController
 
                 $menu = $commande->getMenuId();
                 $menu->setQuantiteRestante($menu->getQuantiteRestante() - $commande->getNombrepersonne());
-                $em->persist($menu);
+                $em->persist($menu);                
             }
 
             $this->savecommande($commande, $mode, $em);
+
+            $email='contact@viteetgourmand.fr';
+
+            $utilisateur = $commande->getUtilisateurId();
+
+            $message = (new TemplatedEmail())
+                ->from($email)
+                ->to($utilisateur->getEmail())
+                ->subject('Votre commande sur notre site Vite & Gourmand')
+                ->htmlTemplate('emails/commande.html.twig')
+                ->context([
+                    'prenom' => $utilisateur->getPrenom(),
+                    'nom' => $utilisateur->getNom(),
+                    'commande' => $commande
+                ]);
+
+            try {
+                $mailer->send($message);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
+            }
 
             return $this->redirectToRoute('app_commande_index', ['id' => $commande->getNumeroCommande()]);
         }
@@ -236,7 +267,7 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/commande/edit/{id}', name: 'app_commande_edit')]
-    public function edit(EntityManagerInterface $em, Request $request, string $id): Response
+    public function edit(EntityManagerInterface $em, Request $request, MailerInterface $mailer, string $id): Response
     {
         $mode = 'update';
         // On récupère l'commande qui correspond à l'id passé dans l'url
@@ -331,6 +362,31 @@ class CommandeController extends AbstractController
             }
 
             $this->savecommande($commande, $mode, $em);
+
+            if ($commande->getStatut() == 'Terminé') {
+                $email='contact@viteetgourmand.fr';
+
+                $utilisateur = $commande->getUtilisateurId();
+
+                $message = (new TemplatedEmail())
+                    ->from($email)
+                    ->to($utilisateur->getEmail())
+                    ->subject('Votre commande sur notre site Vite & Gourmand')
+                    ->htmlTemplate('emails/commandeterminer.html.twig')
+                    ->context([
+                        'prenom' => $utilisateur->getPrenom(),
+                        'nom' => $utilisateur->getNom(),
+                        'commande' => $commande
+                    ]);
+
+                try {
+                    $mailer->send($message);
+                } catch (TransportExceptionInterface $e) {
+                    // some error prevented the email sending; display an
+                    // error message or try to resend the message
+                    $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
+                }
+            }
 
             return $this->redirectToRoute('app_commande_index', ['id' => $id]);
         }
