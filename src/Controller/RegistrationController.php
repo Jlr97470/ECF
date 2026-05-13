@@ -14,13 +14,58 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 
 use App\Entity\Utilisateur;
+use App\Entity\Retrieve;
 use App\Entity\Possede;
 use App\Entity\Role;
 use App\Form\RegistrationType;
-
+use App\Form\RetrieveType;
 
 class RegistrationController extends AbstractController
 {
+    #[Route("/retrieve", " app_registration_retrieve")]  
+    public function retrieve(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, MailerInterface $mailer): Response
+    {
+        $form = $this->createForm(RetrieveType::class, new Retrieve());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $utilisateur=$em->getRepository(Utilisateur::class)->findOneBy(['email' => $form->get('email')->getData()]);
+
+            if (!$utilisateur) {
+                $this->addFlash('danger', 'Aucun compte trouvé avec cette adresse email.');
+                return $this->redirectToRoute('app_registration_retrieve');
+            }
+
+            $newPassword = bin2hex(random_bytes(8)); // Génère un mot de passe aléatoire de 16 caractères
+            $utilisateur->setPassword($passwordHasher->hashPassword($utilisateur, $newPassword));
+            $em->flush();  
+            
+            $email='contact@viteetgourmand.fr';
+
+            $message = (new TemplatedEmail())
+                ->from($email)
+                ->to($utilisateur->getEmail())
+                ->subject('Réinitialisation de votre mot de passe')
+                ->htmlTemplate('emails/retrieve_password.html.twig')
+                ->context([
+                    'prenom' => $utilisateur->getPrenom(),
+                    'nom' => $utilisateur->getNom(),
+                    'newPassword' => $newPassword
+                ]);
+            try {
+                $mailer->send($message);
+            } catch (TransportExceptionInterface $e) {
+                $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de l\'email.');
+                return $this->redirectToRoute('app_registration_retrieve');
+            }
+            $this->addFlash('success', 'Un email avec votre nouveau mot de passe vous a été envoyé.');
+            return $this->redirectToRoute('app_security_login');
+        }
+
+        return $this->render('registration/retrieve.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
     #[Route("/register", "app_registration_register")]  
     public function register(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, ValidatorInterface $validator, MailerInterface $mailer): Response
@@ -62,19 +107,7 @@ class RegistrationController extends AbstractController
                     $em->persist($utilisateur);
                     $em->flush();
                 // do anything else you need here, like send an email
-                    $role = $em->getRepository(Role::class)->findOneBy(['libelle' => 'ROLE_ADMIN']);
-
-                    $possedes= $role->getPossedes();
-
-                    $email='';
-
-                    foreach ($possedes as $possede) {    
-
-                        $email.= $possede->getUtilisateurId()->getEmail().',';
-
-                    }   
-
-                    $email = rtrim($email, ',');
+                    $email='contact@viteetgourmand.fr';
 
                     $message = (new TemplatedEmail())
                         ->from($email)

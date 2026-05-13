@@ -70,6 +70,6 @@ class ProfileController extends AbstractController
         $em->persist($profile);
         $em->flush();
 
-        $this->addFlash('success', 'profile mis à jour avec succès');
+        $this->addFlash('success', 'Profile mis à jour avec succès');
     }    
 }
