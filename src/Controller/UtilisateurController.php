@@ -51,13 +51,30 @@ class UtilisateurController extends AbstractController
     }    
 
     #[Route('/utilisateur/index/{id}', name: 'app_utilisateur_index')]
-    public function index(EntityManagerInterface $em,int $id): Response
+    public function index(EntityManagerInterface $em,PaginatorInterface $paginator,Request $request,int $id): Response
     {
         // On récupère l'utilisateur qui correspond à l'id passé dans l'url
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
 
+        // On récupère tous les articles disponibles en base de données
+        $queryBuilder = $em->createQueryBuilder()
+            ->select('commande')
+            ->from(Commande::class, 'commande')
+            ->where('commande.utilisateur_id = :utilisateur')
+            ->setParameter('utilisateur', $utilisateur);
+
+
+        $query = $queryBuilder->getQuery();
+
+        $pagination = $paginator->paginate(
+        $query, /* query NOT result */
+        $request->query->getInt('page', 1), /* page number */
+        10 /* limit per page */
+        );         
+
         return $this->render('utilisateur/index.html.twig', [
             'utilisateur' => $utilisateur,
+            'pagination' => $pagination
         ]);
     }
 
@@ -67,7 +84,9 @@ class UtilisateurController extends AbstractController
         $mode       = 'new';
         $utilisateur    = new Utilisateur();
 
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurType::class, $utilisateur, [
+            'user' => $this->getUser()
+        ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) {
@@ -118,7 +137,9 @@ class UtilisateurController extends AbstractController
         // On récupère l'utilisateur qui correspond à l'id passé dans l'url
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
 
-        $form = $this->createForm(UtilisateurType::class, $utilisateur);
+        $form = $this->createForm(UtilisateurType::class, $utilisateur, [
+            'user' => $this->getUser()
+        ]);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()) { 

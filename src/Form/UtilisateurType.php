@@ -20,11 +20,9 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UtilisateurType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function addRoles(FormBuilderInterface $builder)
     {
-        // Titre
-       $builder
-            ->add('roles', ChoiceType::class, [
+        $builder->add('roles', ChoiceType::class, [
                 'label' => 'Rôles',
                 'attr' => ['placeholder' => 'Rôles'],
                 'required' => true,
@@ -39,7 +37,13 @@ class UtilisateurType extends AbstractType
                         'message' => 'Ce champ ne peut être vide'
                     ]),
                 ],
-            ])
+            ]);
+    }
+
+    public function buildForm(FormBuilderInterface $builder, array $options)
+    {
+        // Titre
+       $builder
             ->add('email', EmailType::class, [
                 'label' => 'Email',
                 'attr' => ['placeholder' => 'Email'],
@@ -149,6 +153,9 @@ class UtilisateurType extends AbstractType
                 ],
             ])
         ;
+        if ($options['user'] && in_array('ROLE_ADMIN', $options['user']->getRoles())) {
+            $this->addRoles($builder);
+        }
         // Bouton Envoyer
         $builder->add('submit', SubmitType::class, array(
             'label' => 'Enregistrer'
@@ -160,6 +167,7 @@ class UtilisateurType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Utilisateur::class,
+            'user' => null, // Ajout de l'option 'user' pour passer l'utilisateur connecté
         ]);
     }
 

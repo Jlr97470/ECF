@@ -44,7 +44,7 @@ security:
         - { path: ^/(/|menu|plat|allergene|theme|regime), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/(/|avis|commande), roles: IS_AUTHENTICATED_FULLY }
         - { path: ^/horaire, roles: [ROLE_USE,ROLE_ADMIN] }
-        - { path: ^/profile, roles: [ROLE_USE,ROLE_USER] }
-        - { path: ^/utilisateur, roles: ROLE_ADMIN }
+        - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/utilisateur, roles: [ROLE_USE,ROLE_ADMIN] }
         # - { path: ^/profile, roles: ROLE_USER }
 

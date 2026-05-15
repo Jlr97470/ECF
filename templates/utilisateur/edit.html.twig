@@ -34,11 +34,13 @@
             </div>        
         </div>
         <div class="container px-4 px-lg-5 my-5">
+            {% if app.user and app.user.roles[0] == 'ROLE_ADMIN' %}
             <div class="select-field col s12 m6 l6 offset-m3 offset-l3">
                 {{ include('helpers/form/group.html.twig', {
                         'field': form['roles'], 'attr': {'attr':{}}
                     }) }}
             </div>
+            {% endif %}
             <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
             {{ include('helpers/form/group.html.twig', {
                         'field': form['email'], 'attr': {'attr':{'size': '30'}}

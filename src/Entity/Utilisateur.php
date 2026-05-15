@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -51,7 +52,10 @@ class Utilisateur implements UserInterface,PasswordAuthenticatedUserInterface
     private ?Possede $possede= null;
 
     #[ORM\OneToOne(targetEntity: Publie::class, mappedBy: 'utilisateur_id', orphanRemoval: true, cascade: ['persist'])]
-    private ?Publie $publie= null;    
+    private ?Publie $publie= null;  
+    
+    #[ORM\OneToMany(targetEntity: Commande::class, mappedBy: 'utilisateur_id', orphanRemoval: true, cascade: ['persist'])]
+    private Collection $commande; 
     private ?array $roles = null;
     public function getUtilisateurId(): ?int
     {
@@ -254,6 +258,33 @@ class Utilisateur implements UserInterface,PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+   public function getCommandes(): Collection
+    {
+        return $this->commande;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commande->contains($commande)) {
+            $this->commande->add($commande);
+            $commande->setUtilisateurId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commande->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getUtilisateurId() === $this) {
+                $commande->setUtilisateurId(null);
+            }
+        }
+
+        return $this;
+    }  
     /**
      * Returning a salt is only needed, if you are not using a modern
      * hashing algorithm (e.g. bcrypt or sodium) in your security.yaml.
