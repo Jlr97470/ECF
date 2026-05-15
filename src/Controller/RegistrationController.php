@@ -25,11 +25,13 @@ class RegistrationController extends AbstractController
     #[Route("/retrieve", " app_registration_retrieve")]  
     public function retrieve(Request $request, UserPasswordHasherInterface $passwordHasher, EntityManagerInterface $em, MailerInterface $mailer): Response
     {
-        $form = $this->createForm(RetrieveType::class, new Retrieve());
+        $retrieve = new Retrieve();
+
+        $form = $this->createForm(RetrieveType::class, $retrieve);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $utilisateur=$em->getRepository(Utilisateur::class)->findOneBy(['email' => $form->get('email')->getData()]);
+            $utilisateur=$em->getRepository(Utilisateur::class)->findOneBy(['email' => $retrieve->getEmail()]);
 
             if (!$utilisateur) {
                 $this->addFlash('danger', 'Aucun compte trouvé avec cette adresse email.');

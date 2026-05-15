@@ -14,6 +14,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use App\Entity\Avis;
 use App\Entity\Horaire;
 use App\Entity\Role;
+use App\Entity\Contact;
 use App\Form\ContactType;
 
 class HomeController extends AbstractController
@@ -53,7 +54,8 @@ class HomeController extends AbstractController
     #[Route('/homepage/contact', name: 'homepage_contact')]
     public function contact(Request $request, MailerInterface $mailer,EntityManagerInterface $em): Response
     {
-        $form = $this->createForm(ContactType::class,);
+        $contact= new Contact();
+        $form = $this->createForm(ContactType::class, $contact);
         $form->handleRequest($request);
  
         $role = $em->getRepository(Role::class)->findOneBy(['libelle' => 'ROLE_ADMIN']);
@@ -62,12 +64,11 @@ class HomeController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
  
-            $contactFormDate = $form->getData();
-            $prenom = $contactFormDate->getPrenom();
-            $nom = $contactFormDate->getNom();
-            $getmail = $contactFormDate->getEmail();
-            $gettitre = $contactFormDate->getTitre();
-            $getmessage = $contactFormDate->getMessage();
+            $prenom = $contact->getPrenom();
+            $nom = $contact->getNom();
+            $getmail = $contact->getEmail();
+            $gettitre = $contact->getTitre();
+            $getmessage = $contact->getMessage();
 
             foreach ($possedes as $possede) {
 

@@ -38,7 +38,7 @@ class RetrieveType extends AbstractType
 
         // Bouton Envoyer
         $builder->add('submit', SubmitType::class, array(
-            'label' => 'Enregistrer'
+            'label' => 'Envoyer'
         ));            
     }
 
