@@ -15,7 +15,7 @@ function InitDialog(style,titre,message,func)
 {
 	const divdialog = document.getElementById('divdialog');				
 	let dialoghtml;
-	dialoghtml='<dialog id="diadialog" popover>';
+	dialoghtml='<dialog id="diadialog" closedby="any">';
 	dialoghtml=dialoghtml+'<h2>'+titre+'</h2>';
 	dialoghtml=dialoghtml+'<p>'+message+'</p>';
 	dialoghtml=dialoghtml+'<div class="boutons-actions">';
