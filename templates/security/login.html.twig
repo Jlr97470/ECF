@@ -28,19 +28,20 @@
                     <label for="inputRememberMe"><br/>Se souvenir de moi</label>
                 </div>
                 <br/><br/> 
-                <button class="btn btn-lg btn-primary" type="submit">
-                    Connexion
-                </button>
-                <div class="container px-4 px-lg-5 my-5">
-                    <div class="row" role="alert">
-                        <div class="col-xs-9 col-sm-10">
-                            <a href="{{ path('app_registration_retrieve') }}" role="button" class="btn btn-secondary">Mot de passe oublié ?</a>
-                        </div>
-                        <div class="col-xs-3 col-sm-2 text-right">
-                            <a href="{{ path('app_registration_register') }}" role="button" class="btn btn-secondary">S'inscrire</a> 
-                        </div>
-                    </div>        
-                </div> 
+
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <button class="btn btn-lg btn-primary" type="submit">
+                            Connexion
+                        </button>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <a href="{{ path('app_registration_retrieve') }}" role="button" class="btn btn-lg btn-secondary">Mot de passe oublié ?</a>
+                    </div>
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                        <a href="{{ path('app_registration_register') }}" role="button" class="btn btn-lg btn-primary">S'inscrire</a> 
+                    </div>
+                </div>        
             </form>
         </div>
     </section>

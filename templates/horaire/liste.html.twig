@@ -9,6 +9,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1 class="page-header">Listing Horaires</h1>
+                    <p class="lead">Voici la liste de tous les horaires.</p>
                 </div>
             </div>
 
@@ -23,7 +24,10 @@
                     {% endif %}
                 </div>
             </div>
-        </div>            
+        </div>
+        <div class="container px-4 px-lg-5 my-5">
+            {{ knp_pagination_filter(pagination, {'horaire.jour': 'Jour','horaire.heure_ouverture': 'Heure ouv.','horaire.heure_fermeture': 'Heure fermeture'}) }}
+        </div>                    
          <div class="container px-4 px-lg-5 my-5">
             <table class="table">
                 <thead>
@@ -35,10 +39,10 @@
                             {{ knp_pagination_sortable(pagination, 'Jour', 'horaire.jour') }}
                         </th>
                         <th scope="col" {% if pagination.isSorted('horaire.heure_ouverture') %} class="sorted"{% endif %}>
-                            {{ knp_pagination_sortable(pagination, 'Horaire', 'horaire.heure_ouverture') }}
+                            {{ knp_pagination_sortable(pagination, 'Heure d\'ouverture', 'horaire.heure_ouverture') }}
                         </th>
                         <th colspan="2" scope="col" {% if pagination.isSorted('horaire.heure_fermeture') %} class="sorted"{% endif %}>
-                            {{ knp_pagination_sortable(pagination, 'Horaire', 'horaire.heure_fermeture') }}
+                            {{ knp_pagination_sortable(pagination, 'Heure de fermeture', 'horaire.heure_fermeture') }}
                         </th>
                     </tr>
                 </thead>

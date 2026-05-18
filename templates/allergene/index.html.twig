@@ -68,6 +68,9 @@
             </div>        
         </div>
         <div class="container px-4 px-lg-5 my-5">
+            {{ knp_pagination_filter(pagination, {'plat.titre_plat': 'Titre','plat.nombre_personne_minimum': 'Nb. pers. min','plat.prix_par_personne': 'Prix pers.','plat.regime': 'Régime','plat.quantite_restante': 'Qt. rest.'}) }}
+        </div>         
+        <div class="container px-4 px-lg-5 my-5">
             <table class="table">
                 <thead>
                     <tr>

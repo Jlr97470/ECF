@@ -63,6 +63,9 @@
             </div>        
         </div>
         <div class="container px-4 px-lg-5 my-5">
+            {{ knp_pagination_filter(pagination, {'menu.titre': 'Titre','menu.nombre_personne_minimum': 'Nb. pers. min','menu.prix_par_personne': 'Prix pers.','menu.regime': 'Régime','menu.quantite_restante': 'Qt. rest.'}) }}
+        </div>         
+        <div class="container px-4 px-lg-5 my-5">
             <table class="table">
                 <thead>
                     <tr>
@@ -76,7 +79,7 @@
                         <th scope="col" {% if pagination.isSorted('menu.prix_par_personne') %} class="sorted"{% endif %}>
                             {{ knp_pagination_sortable(pagination, 'Prix pers.', 'menu.prix_par_personne') }}
                         </th>
-                        <th scope="col" {% if pagination.isSorted('menu.regime') %}} class="sorted"{% endif %}>
+                        <th scope="col" {% if pagination.isSorted('menu.regime') %} class="sorted"{% endif %}>
                             {{ knp_pagination_sortable(pagination, 'Régime', 'menu.regime') }}
                         </th>
                         <th scope="col" {% if pagination.isSorted('menu.quantite_restante') %} class="sorted"{% endif %}>
