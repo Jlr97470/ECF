@@ -150,7 +150,7 @@
 {% block stylesheets %}
 {% endblock %}
 {% block formscripts %}
-<script>
+<script type="text/javascript">
     document.getElementById('commande_nombrepersonne').addEventListener('change', function() {
 
         if ({{ commande.menuId.nombrepersonneminimum }} + 5 <= document.getElementById('{{ form['nombrepersonne'].vars.id }}').value) {
