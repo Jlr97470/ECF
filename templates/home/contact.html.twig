@@ -3,15 +3,15 @@
 {% block title %}Menu{% endblock %}
 
 {% block content %}
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 my-5">
+    <section>
+        <div class="container px-4 px-lg-5 py-3">
             <h1>Besoin d'aide ? Contactez-nous !</h1>
             <p>Nous vous conseillons personnellement et répondons à toutes vos questions.</p>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             {{ form_start(form, {'method': 'POST', 'attr': {'novalidate': 'novalidate' }} ) }}
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <div id="info" class="panel-collapse">
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
                 {{ include('helpers/form/group.html.twig', {

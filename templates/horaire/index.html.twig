@@ -3,8 +3,8 @@
 {% block title %}{{ horaire.jour }} {% endblock %}
 
 {% block content %}
-    <section class="py-5">               
-         <div class="container px-4 px-lg-5 my-5">
+    <section>               
+         <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
             <div class="row">
                 <div class="col-lg-12">
@@ -12,13 +12,12 @@
                 </div>
             </div>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
-            <p><strong>ID: </strong><br>{{ horaire.horaireid }}</p>
+        <div class="container px-4 px-lg-5 py-3">
             <p><strong>Jour: </strong><br>{{ horaire.jour }}</p>
             <p><strong>Heure d'ouverture: </strong><br>{{ horaire.heureouverture|date('H:i') }}</p>
             <p><strong>Heure de fermeture: </strong><br>{{ horaire.heurefermeture|date('H:i') }}</p>
         </div>        
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <div class="row" role="alert">
                 <div class="col-xs-9 col-sm-10">
                     <a href="{{ path('app_horaire_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>

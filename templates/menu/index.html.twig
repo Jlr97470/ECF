@@ -3,8 +3,8 @@
 {% block title %}{{ menu.titre }} {% endblock %}
 
 {% block content %}
-    <section class="py-5">               
-         <div class="container px-4 px-lg-5 my-5">
+    <section>               
+         <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
             <div class="row">
                 <div class="col-lg-12">
@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>
@@ -38,7 +38,7 @@
                 </tbody>
             </table>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>
@@ -65,7 +65,7 @@
             </table>
         </div>
 
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <p><strong>Nombre de personnes minimum : </strong><br>{{ menu.nombrepersonneminimum }}</p>
             <p><strong>Prix par personne : </strong><br>{{ menu.prixparpersonne }} €</p>
             <p><strong>Régime : </strong><br>{{ menu.regime }}</p>
@@ -80,7 +80,7 @@
                 <strong>Description : </strong><br>{{ menu.description|nl2br }}
             </p>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <div class="row" role="alert">
                 <div class="col-xs-9 col-sm-10">
                     <a href="{{ path('app_menu_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
@@ -93,12 +93,12 @@
                 {% endif %}
                 {% if (not app.user or 'ROLE_USER' in app.user.roles) %}
                 <div class="col-xs-3 col-sm-2">            
-                    <a href="{{ path('app_commande_add', {'idmenu': menu.menuid}) }}" role="button" class="btn btn-danger">Ajouter à une commande</a>
+                    <a href="{{ path('app_commande_add', {'idmenu': menu.menuid}) }}" role="button" class="btn btn-danger">Ajouter commande</a>
                 </div>
                 {% endif %}                
             </div>        
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>
@@ -127,7 +127,7 @@
             </table>
         </div>
         {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <div class="row">
                 <div class="col-lg-12">
                     <h2>Listing Plats</h2>
@@ -136,10 +136,10 @@
                 </div>
             </div>        
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             {{ knp_pagination_filter(pagination, {'plat.titre_plat': 'Titre'}) }}
         </div>         
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>

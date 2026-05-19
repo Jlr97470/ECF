@@ -3,8 +3,8 @@
 {% block title %}Listing thèmes{% endblock %}
 
 {% block content %}
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 my-5">
+    <section>
+        <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
             <div class="row">
                 <div class="col-lg-12">
@@ -24,16 +24,13 @@
                 </div>
             </div>
         </div>  
-        <div class="container px-4 px-lg-5 my-5">
-            {{ knp_pagination_filter(pagination, {'theme.theme_id': 'ID', 'theme.libelle': 'Libellé'}) }}
+        <div class="container px-4 px-lg-5 py-3">
+            {{ knp_pagination_filter(pagination, {'theme.libelle': 'Libellé'}) }}
         </div>                  
-         <div class="container px-4 px-lg-5 my-5">
+         <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" {% if pagination.isSorted('theme.theme_id') %} class="sorted"{% endif %}>
-                            {{ knp_pagination_sortable(pagination, 'ID', 'theme.theme_id') }}
-                        </th>
                         <th scope="col" colspan="2" {% if pagination.isSorted('theme.libelle') %} class="sorted"{% endif %}>
                             {{ knp_pagination_sortable(pagination, 'Libellé', 'theme.libelle') }}
                         </th>
@@ -43,11 +40,8 @@
                     {% for theme in pagination %}
                     <tr>
                         <th scope="row">
-                            <a href="{{ path('app_theme_index', {'id': theme.themeid}) }}" class="fw-bolder">{{ theme.themeid }}</a>
+                            <a href="{{ path('app_theme_index', {'id': theme.themeid}) }}" class="fw-bolder">{{ theme.libelle|nl2br }}</a>
                         </th>
-                        <td>
-                            {{ theme.libelle|nl2br }}
-                        </td>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) %}
                             <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_theme_remove', {'id': theme.themeid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>

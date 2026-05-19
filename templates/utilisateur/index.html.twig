@@ -3,8 +3,8 @@
 {% block title %} {{ utilisateur.prenom }} {{ utilisateur.nom }}{% endblock %}
 
 {% block content %}
-    <section class="py-5">                
-        <div class="container px-4 px-lg-5 my-5">
+    <section>                
+        <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
             <div class="row">
                 <div class="col-lg-12">
@@ -12,7 +12,7 @@
                 </div>
             </div>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <p><strong>Rôles : </strong><br>{% if 'ROLE_ADMIN' in utilisateur.roles %}Administrateur{% elseif 'ROLE_USE' in utilisateur.roles %}Employé{% else %}Utilisateur{% endif %}</p>
             <p><strong>Email : </strong><br>{{ utilisateur.email }}</p>
             <p><strong>Téléphone : </strong><br>{{ utilisateur.telephone }}</p>
@@ -20,7 +20,7 @@
             <p><strong>Pays : </strong><br>{{ utilisateur.pays }}</p>
             <p><strong>Adresse Postale : </strong><br>{{ utilisateur.adressepostal|nl2br }}</p>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <div class="row" role="alert">
                 <div class="col-xs-9 col-sm-10">                 
                     <a href="{{ path('app_utilisateur_liste') }}" role="button" class="btn btn-secondary">Retour à la liste</a>
@@ -33,7 +33,7 @@
                 </div>
             </div>        
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
             <div class="row">
                 <div class="col-lg-12">
@@ -43,10 +43,10 @@
                 </div>
             </div>
         </div>
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             {{ knp_pagination_filter(pagination, {'commande.numero_commande': 'Num. comm.', 'commande.date_commande': 'Date com.', 'commande.date_prestation': 'Date prest.', 'commande.heure_livraison': 'Heure livr.', 'commande.prix_menu': 'Prix menu', 'commande.nombre_personne': 'Nb. pers.', 'commande.prix_livraison': 'Prix livr.', 'commande.statut': 'Statut', 'commande.pret_materiel': 'Pret mat.', 'commande.restitution_materiel': 'Rest. mat.'}) }}
         </div>         
-        <div class="container px-4 px-lg-5 my-5">
+        <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>

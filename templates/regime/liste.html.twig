@@ -3,8 +3,8 @@
 {% block title %}Listing régimes{% endblock %}
 
 {% block content %}
-    <section class="py-5">
-        <div class="container px-4 px-lg-5 my-5">
+    <section>
+        <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
             <div class="row">
                 <div class="col-lg-12">
@@ -24,16 +24,13 @@
                 </div>
             </div>
         </div>   
-        <div class="container px-4 px-lg-5 my-5">
-            {{ knp_pagination_filter(pagination, {'regime.regime_id': 'ID', 'regime.libelle': 'Libellé'}) }}
+        <div class="container px-4 px-lg-5 py-3">
+            {{ knp_pagination_filter(pagination, { 'regime.libelle': 'Libellé'}) }}
         </div>                  
-         <div class="container px-4 px-lg-5 my-5">
+         <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" {% if pagination.isSorted('regime.regime_id') %} class="sorted"{% endif %}>
-                            {{ knp_pagination_sortable(pagination, 'ID', 'regime.regime_id') }}
-                        </th>
                         <th scope="col" colspan="2" {% if pagination.isSorted('regime.libelle') %} class="sorted"{% endif %}>
                             {{ knp_pagination_sortable(pagination, 'Libellé', 'regime.libelle') }}
                         </th>
@@ -43,11 +40,8 @@
                     {% for regime in pagination %}
                     <tr>
                         <th scope="row">
-                            <a href="{{ path('app_regime_index', {'id': regime.regimeid}) }}" class="fw-bolder">{{ regime.regimeid }}</a>
+                            <a href="{{ path('app_regime_index', {'id': regime.regimeid}) }}" class="fw-bolder">{{ regime.libelle|nl2br }}</a>
                         </th>
-                        <td>
-                            {{ regime.libelle|nl2br }}
-                        </td>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) %}
                             <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_regime_remove', {'id': regime.regimeid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
