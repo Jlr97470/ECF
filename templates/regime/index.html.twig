@@ -43,7 +43,7 @@
                  <tbody>
                     {% for menu in menus %}
                     <tr>
-                        <th colspan="4" scope="row">
+                        <th scope="row">
                             <a href="{{ path('app_menu_index', {'id': menu.menuid}) }}" class="fw-bolder">{{ menu.titre|nl2br}}</a>
                             <p>Nb. pers. min : {{ menu.nombrepersonneminimum }}</p>
                             <p>Prix pers. : {{ menu.prixparpersonne }} €</p>
@@ -108,7 +108,7 @@
                 <tbody>
                     {% for menu in pagination %}
                     <tr>
-                        <th colspan="4" scope="row">
+                        <th colspan="3" scope="row">
                             <a href="{{ path('app_menu_index', {'id': menu.menuid}) }}" class="fw-bolder">{{ menu.titre|nl2br}}</a>
                             <p>Nb. pers. min : {{ menu.nombrepersonneminimum }}</p>
                             <p>Prix pers. : {{ menu.prixparpersonne }} €</p>
@@ -121,7 +121,7 @@
                                 {% endif %}
                             </p>
                         </th>
-                        <td>
+                        <td colspan="2">
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                             <a href="{{ path('app_regime_menuadd', {'idregime': regime.regimeid, 'idmenu': menu.menuid}) }}" class="btn btn-info">Ajouter menu</a>
                            {% endif %}
