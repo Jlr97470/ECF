@@ -13,31 +13,37 @@
             </div>
         </div>
         <div class="container px-4 px-lg-5 py-3">
-            <p><strong>Date de la commande : </strong><br>{{ commande.datecommande|date('d/m/Y') }}</p>
-            <p><strong>Date de la prestation : </strong><br>{{ commande.dateprestation|date('d/m/Y') }}</p>
-            <p><strong>Menu : </strong><br>
-        {% if commande.menuId %}
-            <a href="{{ path('app_menu_index', {'id': commande.menuId.menuid}) }}" class="fw-bolder">{{ commande.menuId.titre }}</a>
-        {% else %}
-                    Aucun menu associé
-        {% endif %}
-            </p>
-        {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-            <p><strong>Client : </strong><br><a href="{{path('app_utilisateur_index',{'id':commande.utilisateurId.utilisateurid}) }}"  class="fw-bolder"> {{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</a></p>
-        {% else %}
-            <p><strong>Client : </strong><br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
-        {% endif %}
-            <p><strong>Adresse : </strong><br>{{ commande.utilisateurId.adressepostal }}</p>
-            <p><strong>Ville : </strong><br>{{ commande.utilisateurId.ville }}</p>
-            <p><strong>Pays : </strong><br>{{ commande.utilisateurId.pays }}</p>
-            <p><strong>Telephone : </strong><br>{{ commande.utilisateurId.telephone }}</p>
-            <p><strong>Heure de livraison : </strong><br>{{ commande.heurelivraison }}</p>
-            <p><strong>Prix du Menu : </strong><br>{{ commande.prixmenu }} €</p>
-            <p><strong>Nombre de personnes : </strong><br>{{ commande.nombrepersonne }}</p>
-            <p><strong>Prix de livraison : </strong><br>{{ commande.prixlivraison }} €</p> 
-            <p><strong>Statut : </strong><br>{{ commande.statut }}</p>
-            <p><strong>Pret de matériel : </strong><br>{{ commande.pretmateriel ? 'Oui' : 'Non' }}</p>
-            <p><strong>Restitution de matériel : </strong><br>{{ commande.restitutionmateriel ? 'Oui' : 'Non' }}</p>
+            <div class="row">
+                <div class="col mb-5">            
+                    <p><strong>Date de la commande : </strong><br>{{ commande.datecommande|date('d/m/Y') }}</p>
+                    <p><strong>Date de la prestation : </strong><br>{{ commande.dateprestation|date('d/m/Y') }}</p>
+                    <p><strong>Menu : </strong><br>
+                {% if commande.menuId %}
+                    <a href="{{ path('app_menu_index', {'id': commande.menuId.menuid}) }}" class="fw-bolder">{{ commande.menuId.titre }}</a>
+                {% else %}
+                            Aucun menu associé
+                {% endif %}
+                    </p>
+                {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                    <p><strong>Client : </strong><br><a href="{{path('app_utilisateur_index',{'id':commande.utilisateurId.utilisateurid}) }}"  class="fw-bolder"> {{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</a></p>
+                {% else %}
+                    <p><strong>Client : </strong><br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
+                {% endif %}
+                    <p><strong>Adresse : </strong><br>{{ commande.utilisateurId.adressepostal }}</p>
+                    <p><strong>Ville : </strong><br>{{ commande.utilisateurId.ville }}</p>
+                    <p><strong>Pays : </strong><br>{{ commande.utilisateurId.pays }}</p>
+                    <p><strong>Telephone : </strong><br>{{ commande.utilisateurId.telephone }}</p>
+                </div>
+                <div class="col mb-5">
+                    <p><strong>Heure de livraison : </strong><br>{{ commande.heurelivraison }}</p>
+                    <p><strong>Prix du Menu : </strong><br>{{ commande.prixmenu }} €</p>
+                    <p><strong>Nombre de personnes : </strong><br>{{ commande.nombrepersonne }}</p>
+                    <p><strong>Prix de livraison : </strong><br>{{ commande.prixlivraison }} €</p> 
+                    <p><strong>Statut : </strong><br>{{ commande.statut }}</p>
+                    <p><strong>Pret de matériel : </strong><br>{{ commande.pretmateriel ? 'Oui' : 'Non' }}</p>
+                    <p><strong>Restitution de matériel : </strong><br>{{ commande.restitutionmateriel ? 'Oui' : 'Non' }}</p>
+                </div>
+            </div>
         </div>
         <div class="container px-4 px-lg-5 py-3">
             <div class="row" role="alert">

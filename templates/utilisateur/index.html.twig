@@ -89,32 +89,38 @@
                     {% for commande in pagination %}
                     <tr>
                         <th colspan="3" scope="row">
-                            <a href="{{ path('app_commande_index', {'id': commande.numerocommande}) }}" class="fw-bolder">{{ commande.numerocommande }}</a>
-                            <p>Date de la commande : <br>{{ commande.datecommande|date('d/m/Y') }}</p>
-                            <p>Date de la prestation : <br>{{ commande.dateprestation|date('d/m/Y') }}</p>
-                            <p>Menu : <br>
-                                {% if commande.menuId %}
-                                    <a href="{{ path('app_menu_index', {'id': commande.menuId.menuid}) }}" class="fw-bolder">{{ commande.menuId.titre }}</a>
-                                {% else %}
-                                    Aucun menu associé
-                                {% endif %}
-                            </p>
-                            {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <p>Client : <br><a href="{{path('app_utilisateur_index',{'id':commande.utilisateurId.utilisateurid}) }}"  class="fw-bolder"> {{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</a></p>
-                            {% else %}
-                             <p>Client : <br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
-                            {% endif %}
-                            <p>Adresse : <br>{{ commande.utilisateurId.adressepostal }}</p>
-                            <p>Ville : <br>{{ commande.utilisateurId.ville }}</p>
-                            <p>Pays : <br>{{ commande.utilisateurId.pays }}</p>
-                            <p>Telephone : <br>{{ commande.utilisateurId.telephone }}</p>                            
-                            <p>Heure de livraison : <br>{{ commande.heurelivraison }}</p>
-                            <p>Prix du Menu : <br>{{ commande.prixmenu }} €</p>
-                            <p>Nombre de personnes : <br>{{ commande.nombrepersonne }}</p>
-                            <p>Prix de livraison : <br>{{ commande.prixlivraison }} €</p> 
-                            <p>Statut : <br>{{ commande.statut }}</p>
-                            <p>Pret de matériel : <br>{{ commande.pretmateriel ? 'Oui' : 'Non' }}</p>
-                            <p>Restitution de matériel : <br>{{ commande.restitutionmateriel ? 'Oui' : 'Non' }}</p>
+                            <div class="row">
+                                <div class="col mb-5">                            
+                                    <a href="{{ path('app_commande_index', {'id': commande.numerocommande}) }}" class="fw-bolder">{{ commande.numerocommande }}</a>
+                                    <p>Date de la commande : <br>{{ commande.datecommande|date('d/m/Y') }}</p>
+                                    <p>Date de la prestation : <br>{{ commande.dateprestation|date('d/m/Y') }}</p>
+                                    <p>Menu : <br>
+                                        {% if commande.menuId %}
+                                            <a href="{{ path('app_menu_index', {'id': commande.menuId.menuid}) }}" class="fw-bolder">{{ commande.menuId.titre }}</a>
+                                        {% else %}
+                                            Aucun menu associé
+                                        {% endif %}
+                                    </p>
+                                    {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
+                                    <p>Client : <br><a href="{{path('app_utilisateur_index',{'id':commande.utilisateurId.utilisateurid}) }}"  class="fw-bolder"> {{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</a></p>
+                                    {% else %}
+                                    <p>Client : <br>{{ commande.utilisateurId.prenom }} {{ commande.utilisateurId.nom }}</p>
+                                    {% endif %}
+                                    <p>Adresse : <br>{{ commande.utilisateurId.adressepostal }}</p>
+                                    <p>Ville : <br>{{ commande.utilisateurId.ville }}</p>
+                                    <p>Pays : <br>{{ commande.utilisateurId.pays }}</p>
+                                    <p>Telephone : <br>{{ commande.utilisateurId.telephone }}</p>                            
+                                </div>
+                                <div class="col mb-5">
+                                    <p>Heure de livraison : <br>{{ commande.heurelivraison }}</p>
+                                    <p>Prix du Menu : <br>{{ commande.prixmenu }} €</p>
+                                    <p>Nombre de personnes : <br>{{ commande.nombrepersonne }}</p>
+                                    <p>Prix de livraison : <br>{{ commande.prixlivraison }} €</p> 
+                                    <p>Statut : <br>{{ commande.statut }}</p>
+                                    <p>Pret de matériel : <br>{{ commande.pretmateriel ? 'Oui' : 'Non' }}</p>
+                                    <p>Restitution de matériel : <br>{{ commande.restitutionmateriel ? 'Oui' : 'Non' }}</p>
+                                </div>
+                            </div>
                         </th>
                         <td colspan="2" >
                             {% if commande.statut == 'En cours' %}
