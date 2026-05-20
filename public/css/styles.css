@@ -11012,11 +11012,6 @@ dialog:open::backdrop {
   }
 }
 
-body,
-button {
-  font-family: system-ui;
-}
-
 .ROLE_USE {
   background-color:#eeeeff;
 }

@@ -27,6 +27,34 @@
         </div>
         <div class="container px-4 px-lg-5 py-3">
             {{ knp_pagination_filter(pagination, {'menu.titre': 'Titre','menu.nombre_personne_minimum': 'Nb. pers. min','menu.prix_par_personne': 'Prix pers.','menu.regime': 'Régime','menu.quantite_restante': 'Qt. rest.'}) }}
+        </div>
+        <div class="container px-4 px-lg-5 py-3">
+            {{ form_start(form, {'method': 'POST', 'attr': {'novalidate': 'novalidate' }} ) }}
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                {{ include('helpers/form/group.html.twig', {
+                        'field': form['prix_min'], 'attr': {'attr':{'size': '30'}}
+                    }) }}
+            </div>         
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                {{ include('helpers/form/group.html.twig', {
+                        'field': form['prix_max'], 'attr': {'attr':{'size': '30'}}
+                    }) }}
+            </div>          
+            <div class="row">
+                {% if not form.vars.valid %}
+                <div class="col-md-8 error">
+                    <i class="fa fa-exclamation-triangle fa-fw">
+                    Le formulaire contient des erreurs. Vérifiez les différentes rubriques.
+                </div>
+                {% else %}
+                    <div class="col-md-8"></div>
+                {% endif %} 
+                <div class="col-md-8 text-right">
+                    {{ form_widget(form.submit, { 'attr': {} }) }}
+                </div>
+            </div>
+            {{ form_widget(form) }}
+            {{ form_end(form) }}            
         </div>        
         <div class="container px-4 px-lg-5 py-3">
             <table class="table">

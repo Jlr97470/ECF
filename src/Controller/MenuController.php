@@ -12,23 +12,46 @@ use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Menu;
 use App\Entity\Plat;
 use App\Entity\ProposePlat;
+use App\Entity\RechercherPrix;
+
 use App\Form\MenuType;
+use App\Form\RechercherPrixType;
 class MenuController extends AbstractController
 {
     #[Route('/menu/liste', name: 'app_menu_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        $rechercherprix= new RechercherPrix();
         // On récupère tous les articles disponibles en base de données
-        $query = $em->createQuery('SELECT menu FROM App\Entity\Menu menu');
+            $queryBuilder = $em->createQueryBuilder()
+                ->select('menu')
+                ->from(Menu::class, 'menu');
+
+        $form = $this->createForm(RechercherPrixType::class, $rechercherprix);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {  
+            if ($rechercherprix->getPrixMin() !== null) {
+                $queryBuilder->andWhere('menu.prix_par_personne >= :prixMin')
+                    ->setParameter('prixMin', $rechercherprix->getPrixMin());
+            }
+
+            if ($rechercherprix->getPrixMax() !== null) {
+                $queryBuilder->andWhere('menu.prix_par_personne <= :prixMax')
+                    ->setParameter('prixMax', $rechercherprix->getPrixMax());
+            }
+        }        
 
         $pagination = $paginator->paginate(
-        $query, /* query NOT result */
+        $queryBuilder->getQuery(), /* query NOT result */
         $request->query->getInt('page', 1), /* page number */
         10 /* limit per page */
         );      
 
         return $this->render('menu/liste.html.twig', [
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'form' => $form->createView()
         ]);
     }    
 

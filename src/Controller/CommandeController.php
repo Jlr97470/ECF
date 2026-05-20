@@ -51,6 +51,7 @@ class CommandeController extends AbstractController
     #[Route('/commande/liste', name: 'app_commande_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+
         // On récupère tous les articles disponibles en base de données
         $user = $this->getUser();
         
