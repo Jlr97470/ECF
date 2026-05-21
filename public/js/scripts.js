@@ -24,26 +24,26 @@ function InitDialog(style,titre,message,func)
 		{
 			case OkOnly:
 				{
-					dialoghtml=dialoghtml+'<button id="btnOk" type="button">Ok</button>';
+					dialoghtml=dialoghtml+'<button id="btnOk" type="button" class="btn btn-lg btn-primary">Ok</button>';
 					break;
 				}
 			case OkCancel:
 				{
-					dialoghtml=dialoghtml+'<button id="btnOk" type="button">Ok</button>';
-					dialoghtml=dialoghtml+'<button id="btnCancel" type="button">Cancel</button>';
+					dialoghtml=dialoghtml+'<button id="btnOk" type="button" class="btn btn-lg btn-primary">Ok</button>';
+					dialoghtml=dialoghtml+'<button id="btnCancel" type="button" class="btn btn-lg btn-secondary">Cancel</button>';
 					break;
 				}
 			case YesNo:
 				{
-					dialoghtml=dialoghtml+'<button id="btnYes" type="button">Oui</button>';
-					dialoghtml=dialoghtml+'<button id="btnNo" type="button">Non</button>';
+					dialoghtml=dialoghtml+'<button id="btnYes" type="button" class="btn btn-lg btn-primary">Oui</button>';
+					dialoghtml=dialoghtml+'<button id="btnNo" type="button" class="btn btn-lg btn-secondary">Non</button>';
 					break;
 				}
 			case YesNoCancel:
 				{
-					dialoghtml=dialoghtml+'<button id="btnYes" type="button">Oui</button>';
-					dialoghtml=dialoghtml+'<button id="btnNo" type="button">Non</button>';
-					dialoghtml=dialoghtml+'<button id="btnCancel" type="button">Cancel</button>';								
+					dialoghtml=dialoghtml+'<button id="btnYes" type="button" class="btn btn-lg btn-primary">Oui</button>';
+					dialoghtml=dialoghtml+'<button id="btnNo" type="button" class="btn btn-lg btn-secondary">Non</button>';
+					dialoghtml=dialoghtml+'<button id="btnCancel" type="button" class="btn btn-lg btn-secondary">Cancel</button>';								
 					break;
 				}
 		}
