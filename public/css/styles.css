@@ -11029,7 +11029,7 @@ dialog:open::backdrop {
   background-image: url(../IMAGES/BoutonFlecheHaut.gif);
   background-repeat: no-repeat;
   background-position: center bottom;
-  color: #198754;
+  color: #babbbc;
 }
 
 .asc
@@ -11037,5 +11037,5 @@ dialog:open::backdrop {
   background-image: url(../IMAGES/BoutonFlecheBas.gif);
   background-repeat: no-repeat;
   background-position: center bottom;
-  color: #198754;
+  color: #babbbc;
 }

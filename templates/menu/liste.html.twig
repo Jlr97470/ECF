@@ -12,7 +12,6 @@
                     <p class="lead">Voici la liste de tous les menus.</p>
                 </div>
             </div>
-
             <div class="row" role="alert">
                 <div class="col-xs-9 col-sm-10"></div>
 
@@ -26,36 +25,42 @@
             </div>
         </div>
         <div class="container px-4 px-lg-5 py-3">
-            {{ knp_pagination_filter(pagination, {'menu.titre': 'Titre','menu.nombre_personne_minimum': 'Nb. pers. min','menu.prix_par_personne': 'Prix pers.','menu.regime': 'Régime','menu.quantite_restante': 'Qt. rest.'}) }}
-        </div>
-        <div class="container px-4 px-lg-5 py-3">
-            {{ form_start(form, {'method': 'POST', 'attr': {'novalidate': 'novalidate' }} ) }}
+            <form method="get" action="{{ path('app_menu_liste') }}">
+            <input name="page" type="hidden" value="{{page}}">
+            <input name="sort" type="hidden" value="{{sort}}">
+            <input name="direction" type="hidden" value="{{direction}}">
+            <input name="filterField" type="hidden" value="{{filterField}}">
+            <input name="filterValue" type="hidden" value="{{filterValue}}">
             <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
-                {{ include('helpers/form/group.html.twig', {
-                        'field': form['prix_min'], 'attr': {'attr':{'size': '30'}}
-                    }) }}
+                <div class="form-group">
+                    <div class="material-textfield">
+                        <input type="money" name="prix_min" id="prix_min" value="{{ prix_min }}" size="30">
+                        <label for="prix_min">Prix min</label>
+                    </div>                  
+                </div>              
             </div>         
             <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
-                {{ include('helpers/form/group.html.twig', {
-                        'field': form['prix_max'], 'attr': {'attr':{'size': '30'}}
-                    }) }}
-            </div>          
-            <div class="row">
-                {% if not form.vars.valid %}
-                <div class="col-md-8 error">
-                    <i class="fa fa-exclamation-triangle fa-fw">
-                    Le formulaire contient des erreurs. Vérifiez les différentes rubriques.
-                </div>
-                {% else %}
-                    <div class="col-md-8"></div>
-                {% endif %} 
-                <div class="col-md-8 text-right">
-                    {{ form_widget(form.submit, { 'attr': {} }) }}
+                <div class="form-group">
+                    <div class="material-textfield">
+                        <input type="money" name="prix_max" id="prix_max" value="{{ prix_max }}" size="30">
+                        <label for="prix_max">Prix max</label>
+                    </div>
                 </div>
             </div>
-            {{ form_widget(form) }}
-            {{ form_end(form) }}            
-        </div>        
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                <div class="form-group">
+                    <div class="material-textfield">
+                        <button type="submit" name="action">Rechercher
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>          
+            </form>
+        </div>   
+        <div class="container px-4 px-lg-5 py-3">
+            {{ knp_pagination_filter(pagination, {'menu.titre': 'Titre','menu.nombre_personne_minimum': 'Nb. pers. min','menu.prix_par_personne': 'Prix pers.','menu.regime': 'Régime','menu.quantite_restante': 'Qt. rest.'}) }}
+        </div>
         <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>

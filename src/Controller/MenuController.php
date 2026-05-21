@@ -21,28 +21,24 @@ class MenuController extends AbstractController
     #[Route('/menu/liste', name: 'app_menu_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
-        $rechercherprix= new RechercherPrix();
         // On récupère tous les articles disponibles en base de données
-            $queryBuilder = $em->createQueryBuilder()
-                ->select('menu')
-                ->from(Menu::class, 'menu');
+        $queryBuilder = $em->createQueryBuilder()
+            ->select('menu')
+            ->from(Menu::class, 'menu');
 
-        $form = $this->createForm(RechercherPrixType::class, $rechercherprix);
+        $prixMin = $request->query->get('prix_min');
+        $prixMax = $request->query->get('prix_max');
 
-        $form->handleRequest($request);
+        if ($prixMin !== null) {
+            $queryBuilder->andWhere('menu.prix_par_personne >= :prixMin')
+                ->setParameter('prixMin', $prixMin);
+        }
 
-        if($form->isSubmitted() && $form->isValid()) {  
-            if ($rechercherprix->getPrixMin() !== null) {
-                $queryBuilder->andWhere('menu.prix_par_personne >= :prixMin')
-                    ->setParameter('prixMin', $rechercherprix->getPrixMin());
-            }
-
-            if ($rechercherprix->getPrixMax() !== null) {
-                $queryBuilder->andWhere('menu.prix_par_personne <= :prixMax')
-                    ->setParameter('prixMax', $rechercherprix->getPrixMax());
-            }
-        }        
-
+        if ($prixMax !== null) {
+            $queryBuilder->andWhere('menu.prix_par_personne <= :prixMax')
+                ->setParameter('prixMax', $prixMax);
+        }
+      
         $pagination = $paginator->paginate(
         $queryBuilder->getQuery(), /* query NOT result */
         $request->query->getInt('page', 1), /* page number */
@@ -51,7 +47,13 @@ class MenuController extends AbstractController
 
         return $this->render('menu/liste.html.twig', [
             'pagination' => $pagination,
-            'form' => $form->createView()
+            'page' => $request->query->getInt('page', 1),
+            'sort'=> $request->query->get('sort', ''),
+            'direction'=> $request->query->get('direction', ''),
+            'filterField'=> $request->query->get('filterField', ''),
+            'filterValue'=> $request->query->get('filterValue', ''),
+            'prix_min' => $prixMin,
+            'prix_max' => $prixMax            
         ]);
     }    
 
