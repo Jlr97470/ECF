@@ -10825,6 +10825,12 @@ textarea.form-control-lg {
   }
 }
 
+/*!
+* 
+* 
+* 
+*/
+
 .error{
     color: red;
     font-weight: 600;
@@ -11024,18 +11030,6 @@ dialog:open::backdrop {
   background-color:#ffeeee;
 }
 
-.desc
-{
-  background-image: url(../IMAGES/BoutonFlecheHaut.gif);
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  color: #babbbc;
-}
-
-.asc
-{
-  background-image: url(../IMAGES/BoutonFlecheBas.gif);
-  background-repeat: no-repeat;
-  background-position: center bottom;
-  color: #babbbc;
+.sorted {
+  border: 1px solid;
 }
