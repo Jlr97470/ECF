@@ -35,7 +35,7 @@
         <div class="container px-4 px-lg-5 py-3">
             {{ form_start(form, {'method': 'POST', 'attr': {'novalidate': 'novalidate' }} ) }}
 
-            {% if app.user and app.user.roles[0] == 'ROLE_ADMIN' %}
+            {% if utilisateur.utilisateurId != app.user.utilisateurId and 'ROLE_ADMIN' in app.user.roles %}
             <div class="select-field col s12 m6 l6 offset-m3 offset-l3">
                 {{ include('helpers/form/group.html.twig', {
                         'field': form['roles'], 'attr': {'attr':{}}

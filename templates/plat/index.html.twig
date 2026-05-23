@@ -33,7 +33,7 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" colspan="3">
+                        <th scope="col" colspan="2">
                             <h2>Allergènes associés : </h2>
                             <p class="text-muted">Nombre d'allergènes associés : {{ allergenes|length }}</p>
                             <p class="text-muted">Liste des allergènes associés à ce plat. {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}Cliquez sur le titre d'un allergène pour voir les détails ou utilisez les boutons pour supprimer des allergènes à ce plat.{% endif %}</p>
@@ -44,11 +44,8 @@
                     {% for allergene in allergenes %}
                     <tr>
                         <th scope="row">
-                            <a href="{{ path('app_allergene_index', {'id': allergene.allergeneid}) }}" class="fw-bolder">{{ allergene.allergeneid }}</a>
+                            <a href="{{ path('app_allergene_index', {'id': allergene.allergeneid}) }}" class="fw-bolder">{{ allergene.libelle }}</a>
                         </th>                         
-                        <td>
-                            {{ allergene.libelle }}
-                        </td>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                             <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_plat_allergeneremove', {'idplat': plat.platid, 'idallergene': allergene.allergeneid}) }}';};});diadialog.showModal();" class="btn btn-danger">Supprimer allergène</a>
@@ -70,15 +67,12 @@
             </div>        
         </div>
         <div class="container px-4 px-lg-5 py-3">
-            {{ knp_pagination_filter(pagination, {'allergene.allergene_id': 'ID', 'allergene.libelle': 'Libellé'}) }}
+            {{ knp_pagination_filter(pagination, {'allergene.libelle': 'Libellé'}) }}
         </div>         
         <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" {% if pagination.isSorted('allergene.allergene_id') %} class="sorted"{% endif %}>
-                            {{ knp_pagination_sortable(pagination, 'ID', 'allergene.allergene_id') }}
-                        </th>
                         <th scope="col" colspan="2" {% if pagination.isSorted('allergene.libelle') %} class="sorted"{% endif %}>
                             {{ knp_pagination_sortable(pagination, 'Libellé', 'allergene.libelle') }}
                         </th>                    
@@ -88,11 +82,8 @@
                     {% for allergene in pagination %}
                     <tr>
                         <th scope="row">
-                            <a href="{{ path('app_allergene_index', {'id': allergene.allergeneid}) }}" class="fw-bolder">{{ allergene.allergeneid }}</a>
+                            <a href="{{ path('app_allergene_index', {'id': allergene.allergeneid}) }}" class="fw-bolder">{{ allergene.libelle }}</a>
                         </th>                        
-                        <td>
-                            {{ allergene.libelle }}
-                        </td>
                         <td>
                             <a href="{{path('app_plat_allergeneadd',{'idplat':plat.platid,'idallergene':allergene.allergeneid})}}" class="btn btn-success">Ajouter allergène</a>
                         </td>

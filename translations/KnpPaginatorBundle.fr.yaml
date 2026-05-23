@@ -1,3 +1,5 @@
 label_previous: "Précédent"
 label_next: "Suivant"
 filter_searchword: "Mot-clé de recherche"
+filter_searchword_placeholder: "Rechercher..."
+filter_submit: "Filtrer"

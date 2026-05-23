@@ -80,6 +80,40 @@
             </div>        
         </div>
         <div class="container px-4 px-lg-5 py-3">
+            <form method="get" action="{{ path('app_theme_index', {'id': theme.themeid}) }}">
+            <input name="page" type="hidden" value="{{page}}">
+            <input name="sort" type="hidden" value="{{sort}}">
+            <input name="direction" type="hidden" value="{{direction}}">
+            <input name="filterField" type="hidden" value="{{filterField}}">
+            <input name="filterValue" type="hidden" value="{{filterValue}}">
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                <div class="form-group">
+                    <div class="material-textfield">
+                        <input type="money" name="prix_min" id="prix_min" value="{{ prix_min }}" size="30">
+                        <label for="prix_min">Prix min</label>
+                    </div>                  
+                </div>              
+            </div>         
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                <div class="form-group">
+                    <div class="material-textfield">
+                        <input type="money" name="prix_max" id="prix_max" value="{{ prix_max }}" size="30">
+                        <label for="prix_max">Prix max</label>
+                    </div>
+                </div>
+            </div>
+            <div class="input-field col s12 m6 l6 offset-m3 offset-l3">
+                <div class="form-group">
+                    <div class="material-textfield">
+                        <button type="submit" name="action" class="btn btn-lg btn-primary">
+                            <i class="fa-solid fa-magnifying-glass"></i> Rechercher
+                        </button>
+                    </div>
+                </div>
+            </div>          
+            </form>
+        </div>   
+        <div class="container px-4 px-lg-5 py-3">
             {{ knp_pagination_filter(pagination, {'menu.titre': 'Titre','menu.nombre_personne_minimum': 'Nb. pers. min','menu.prix_par_personne': 'Prix pers.','menu.regime': 'Régime','menu.quantite_restante': 'Qt. rest.'}) }}
         </div>         
         <div class="container px-4 px-lg-5 py-3">

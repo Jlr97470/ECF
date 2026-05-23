@@ -63,6 +63,19 @@ class ThemeController extends AbstractController
                 ->from(Menu::class, 'menu');
         }
 
+        $prixMin = $request->query->get('prix_min');
+        $prixMax = $request->query->get('prix_max');
+
+        if ($prixMin !== null) {
+            $queryBuilder->andWhere('menu.prix_par_personne >= :prixMin')
+                ->setParameter('prixMin', $prixMin);
+        }
+
+        if ($prixMax !== null) {
+            $queryBuilder->andWhere('menu.prix_par_personne <= :prixMax')
+                ->setParameter('prixMax', $prixMax);
+        }        
+
         $query = $queryBuilder->getQuery();
 
         $pagination = $paginator->paginate(
@@ -74,7 +87,14 @@ class ThemeController extends AbstractController
         return $this->render('theme/index.html.twig', [
             'theme' => $theme,
             'menus' => $menus,
-            'pagination' => $pagination
+            'pagination' => $pagination,
+            'page' => $request->query->getInt('page', 1),
+            'sort'=> $request->query->get('sort', ''),
+            'direction'=> $request->query->get('direction', ''),
+            'filterField'=> $request->query->get('filterField', ''),
+            'filterValue'=> $request->query->get('filterValue', ''),
+            'prix_min' => $prixMin,
+            'prix_max' => $prixMax              
         ]);
     }
 

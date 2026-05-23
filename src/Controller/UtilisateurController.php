@@ -10,6 +10,9 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 
 use App\Entity\Utilisateur;
 use App\Entity\Possede;
@@ -79,13 +82,13 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur/add', name: 'app_utilisateur_add')]
-    public function add(EntityManagerInterface $em, Request $request, RoleRepository $roleRepository, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator): Response
+    public function add(EntityManagerInterface $em, Request $request, RoleRepository $roleRepository, UserPasswordHasherInterface $passwordHasher, ValidatorInterface $validator, MailerInterface $mailer): Response
     {
         $mode       = 'new';
         $utilisateur    = new Utilisateur();
 
         $form = $this->createForm(UtilisateurType::class, $utilisateur, [
-            'user' => $this->getUser()
+            'user' => $this->getUser(), 'mode' => $mode
         ]);
         $form->handleRequest($request);
 
@@ -117,6 +120,29 @@ class UtilisateurController extends AbstractController
                 
                 $this->saveUtilisateur($utilisateur, $mode,$em);
 
+                $email='contact@viteetgourmand.fr';
+
+                $message = (new TemplatedEmail())
+                    ->from($email)
+                    ->to($utilisateur->getEmail())
+                    ->subject('Bienvenue sur notre site Vite & Gourmand')
+                    ->htmlTemplate('emails/bienvenue.html.twig')
+                    ->context([
+                        'prenom' => $utilisateur->getPrenom(),
+                        'nom' => $utilisateur->getNom(),
+                    ]);
+
+                try {
+                    $mailer->send($message);
+                } catch (TransportExceptionInterface $e) {
+                    // some error prevented the email sending; display an
+                    // error message or try to resend the message
+                    $this->addFlash('danger', 'Une erreur est survenue lors de l\'envoi de votre message. Veuillez réessayer plus tard.');
+                }
+
+                $this->addFlash('success', 'Votre compte a été créé avec succès !');
+
+
                 return $this->redirectToRoute('app_utilisateur_liste');
             }
         }
@@ -138,7 +164,7 @@ class UtilisateurController extends AbstractController
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
 
         $form = $this->createForm(UtilisateurType::class, $utilisateur, [
-            'user' => $this->getUser()
+            'user' => $this->getUser(), 'mode' => $mode
         ]);
         $form->handleRequest($request);
 

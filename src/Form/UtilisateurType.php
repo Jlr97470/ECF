@@ -2,7 +2,6 @@
  
 namespace App\Form;
 
-use App\Entity\Utilisateur;
 use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -18,6 +17,8 @@ use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+use App\Entity\Utilisateur;
+
 class UtilisateurType extends AbstractType
 {
     public function addRoles(FormBuilderInterface $builder)
@@ -30,7 +31,6 @@ class UtilisateurType extends AbstractType
                 'choices' => [
                     'Utilisateur' => 'ROLE_USER',
                     'Employée' => 'ROLE_USE',
-                    'Administrateur' => 'ROLE_ADMIN',
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -153,7 +153,11 @@ class UtilisateurType extends AbstractType
                 ],
             ])
         ;
-        if ($options['user'] && in_array('ROLE_ADMIN', $options['user']->getRoles())) {
+        if ($options['user']
+            && $options['data'] instanceof Utilisateur
+            && $options['user']->getUtilisateurId() !== $options['data']->getUtilisateurId()
+            && in_array('ROLE_ADMIN', $options['user']->getRoles())
+        ) {
             $this->addRoles($builder);
         }
         // Bouton Envoyer
@@ -168,6 +172,7 @@ class UtilisateurType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Utilisateur::class,
             'user' => null, // Ajout de l'option 'user' pour passer l'utilisateur connecté
+            'mode' => 'new', // Ajout de l'option 'mode' pour différencier les modes d'ajout et de modification
         ]);
     }
 
