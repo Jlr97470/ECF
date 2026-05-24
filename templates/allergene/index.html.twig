@@ -73,11 +73,8 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th scope="col" {% if pagination.isSorted('plat.titre_plat') %} class="sorted"{% endif %}>
+                        <th colspan="2" scope="col" {% if pagination.isSorted('plat.titre_plat') %} class="sorted"{% endif %}>
                             {{ knp_pagination_sortable(pagination, 'Titre', 'plat.titre_plat') }}
-                        </th>
-                        <th scope="col" {% if pagination.isSorted('plat.photo') %} class="sorted"{% endif %}>
-                            {{ knp_pagination_sortable(pagination, 'Photo', 'plat.photo') }}
                         </th>
                     </tr>
                 </thead>
