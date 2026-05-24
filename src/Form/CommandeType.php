@@ -149,9 +149,6 @@ class CommandeType extends AbstractType
             'required' => true,
             'currency' => 'EUR',
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Ce champ ne peut être vide'
-                ]),
                 new GreaterThan([
                     'value' => 0,
                     'message' => 'Le prix du Menu doit être supérieur à 0'
@@ -171,9 +168,7 @@ class CommandeType extends AbstractType
             'required' => true,
             'currency' => 'EUR',            
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Ce champ ne peut être vide'
-                ]), new GreaterThan([   
+                new GreaterThan([   
                     'value' => 0,
                     'message' => 'Le prix de livraison doit être supérieur à 0'
                 ])
