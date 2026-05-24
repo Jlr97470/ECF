@@ -39,6 +39,9 @@ class UtilisateurController extends AbstractController
     #[Route('/utilisateur/liste', name: 'app_utilisateur_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère tous les articles disponibles en base de données
         $query = $em->createQuery('SELECT utilisateur FROM App\Entity\Utilisateur utilisateur');
 
@@ -56,6 +59,9 @@ class UtilisateurController extends AbstractController
     #[Route('/utilisateur/index/{id}', name: 'app_utilisateur_index')]
     public function index(EntityManagerInterface $em,PaginatorInterface $paginator,Request $request,int $id): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère l'utilisateur qui correspond à l'id passé dans l'url
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
 

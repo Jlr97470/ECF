@@ -18,8 +18,15 @@ class AllergeneController extends AbstractController
     #[Route('/allergene/liste', name: 'app_allergene_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère tous les articles disponibles en base de données
         $query = $em->createQuery('SELECT allergene FROM App\Entity\Allergene allergene');
+
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
             
         $pagination = $paginator->paginate(
         $query, /* query NOT result */
@@ -35,6 +42,9 @@ class AllergeneController extends AbstractController
     #[Route('/allergene/index/{id}', name: 'app_allergene_index')]
     public function index(EntityManagerInterface $em,PaginatorInterface $paginator, Request $request,int $id): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère l'Allergene qui correspond à l'id passé dans l'url
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
 

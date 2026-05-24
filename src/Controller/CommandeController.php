@@ -51,7 +51,9 @@ class CommandeController extends AbstractController
     #[Route('/commande/liste', name: 'app_commande_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
-
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        } 
         // On récupère tous les articles disponibles en base de données
         $user = $this->getUser();
         
@@ -88,6 +90,9 @@ class CommandeController extends AbstractController
     #[Route('/commande/index/{id}', name: 'app_commande_index')]
     public function index(EntityManagerInterface $em, Request $request, string $id, PaginatorInterface $paginator): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère l'commande qui correspond à l'id passé dans l'url
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
 
@@ -114,6 +119,10 @@ class CommandeController extends AbstractController
                 ->select('menu')
                 ->from(Menu::class, 'menu');
         }
+
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
 
         $query = $queryBuilder->getQuery();
 

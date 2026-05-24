@@ -21,6 +21,9 @@ class MenuController extends AbstractController
     #[Route('/menu/liste', name: 'app_menu_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }          
         // On récupère tous les articles disponibles en base de données
         $queryBuilder = $em->createQueryBuilder()
             ->select('menu')
@@ -60,6 +63,9 @@ class MenuController extends AbstractController
     #[Route('/menu/index/{id}', name: 'app_menu_index')]
     public function index(EntityManagerInterface $em, PaginatorInterface $paginator, Request $request, int $id): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère l'Menu qui correspond à l'id passé dans l'url
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
 

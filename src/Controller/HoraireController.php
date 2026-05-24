@@ -16,6 +16,10 @@ class HoraireController extends AbstractController
     #[Route('/horaire/liste', name: 'app_horaire_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue')) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }
+
         // On récupère tous les articles disponibles en base de données
         $query = $em->createQuery('SELECT horaire FROM App\Entity\Horaire horaire');
             

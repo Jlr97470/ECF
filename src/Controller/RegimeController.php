@@ -18,6 +18,9 @@ class RegimeController extends AbstractController
     #[Route('/regime/liste', name: 'app_regime_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère tous les articles disponibles en base de données
         $query = $em->createQuery('SELECT regime FROM App\Entity\Regime regime');
             
@@ -35,6 +38,9 @@ class RegimeController extends AbstractController
     #[Route('/regime/index/{id}', name: 'app_regime_index')]
     public function index(EntityManagerInterface $em,PaginatorInterface $paginator, Request $request,int $id): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère l'regime qui correspond à l'id passé dans l'url
         $regime = $em->getRepository(Regime::class)->findOneBy(['regime_id' => $id]);
 

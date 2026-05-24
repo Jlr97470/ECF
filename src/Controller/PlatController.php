@@ -28,6 +28,9 @@ class PlatController extends AbstractController
     #[Route('/plat/liste', name: 'app_plat_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère tous les articles disponibles en base de données
         $query = $em->createQuery('SELECT plat FROM App\Entity\Plat plat');
             
@@ -45,6 +48,9 @@ class PlatController extends AbstractController
     #[Route('/plat/index/{id}', name: 'app_plat_index')]
     public function index(EntityManagerInterface $em,PaginatorInterface $paginator, Request $request,int $id): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue') && !is_numeric($request->query->get('filterValue'))) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère l'plat qui correspond à l'id passé dans l'url
         $plat = $em->getRepository(Plat::class)->findOneBy(['plat_id' => $id]);
 

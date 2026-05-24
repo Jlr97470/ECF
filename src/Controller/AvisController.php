@@ -18,6 +18,9 @@ class AvisController extends AbstractController
     #[Route('/avis/liste', name: 'app_avis_liste')]
     public function liste(EntityManagerInterface $em, PaginatorInterface $paginator,Request $request): Response
     {
+        if ($request->query->get('filterField') && $request->query->get('filterValue')) {
+            $request->query->set('filterValue', "*".$request->query->get('filterValue')."*");
+        }        
         // On récupère tous les articles disponibles en base de données
         $user = $this->getUser();
         
@@ -35,7 +38,7 @@ class AvisController extends AbstractController
                     $query = $em->createQuery('SELECT avis FROM App\Entity\Avis avis WHERE 1=0');
                 }
             }
-
+            
         $pagination = $paginator->paginate(
         $query, /* query NOT result */
         $request->query->getInt('page', 1), /* page number */
