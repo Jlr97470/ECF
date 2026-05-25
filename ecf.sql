@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost
--- Généré le : dim. 24 mai 2026 à 13:43
+-- Généré le : lun. 25 mai 2026 à 06:58
 -- Version du serveur : 9.7.0
 -- Version de PHP : 8.3.23
 
@@ -38,6 +38,7 @@ CREATE TABLE `adapte` (
 
 INSERT INTO `adapte` (`menu_id`, `regime_id`) VALUES
 (10, 1),
+(13, 1),
 (1, 2),
 (4, 2),
 (5, 2),
@@ -269,7 +270,8 @@ INSERT INTO `menu` (`menu_id`, `titre`, `nombre_personne_minimum`, `prix_par_per
 (9, 'Menu Salade Cesar', 1, 12, 'Sel', 'Plat+Dessert+Boisson', 30),
 (10, 'Menu Salade Grecque', 1, 11, 'Sel', 'Plat+Boisson+Dessert', 30),
 (11, 'Menu Entrecôte Frites', 5, 14, 'Sel', 'Plat+Boisson+Dessert', 30),
-(12, 'Menu Saucisse Frites', 1, 14, 'Sel', 'Plat+Boisson+Dessert', 30);
+(12, 'Menu Saucisse Frites', 1, 14, 'Sel', 'Plat+Boisson+Dessert', 30),
+(13, 'Menu Salade Piémontaise', 1, 13, 'Sel', 'Plat + Boisson + Dessert', 30);
 
 -- --------------------------------------------------------
 
@@ -410,7 +412,10 @@ INSERT INTO `proposeplat` (`menu_id`, `plat_id`) VALUES
 (11, 18),
 (12, 4),
 (12, 13),
-(12, 19);
+(12, 19),
+(13, 13),
+(13, 17),
+(13, 20);
 
 -- --------------------------------------------------------
 
@@ -437,6 +442,7 @@ INSERT INTO `proposetheme` (`menu_id`, `theme_id`) VALUES
 (10, 3),
 (11, 3),
 (12, 3),
+(13, 3),
 (5, 4);
 
 -- --------------------------------------------------------
@@ -700,7 +706,7 @@ ALTER TABLE `horaire`
 -- AUTO_INCREMENT pour la table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `menu_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `menu_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT pour la table `messenger_messages`
