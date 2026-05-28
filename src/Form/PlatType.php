@@ -33,11 +33,7 @@ class PlatType extends AbstractType
         $builder->add('file', FileType::class, [
             'label' => 'Photo du plat (1 Mo max)',
             'attr' => ['placeholder' => 'Photo du plat (1 Mo max)'],
-            'required' => true, 
             'constraints' => [
-                new NotBlank([
-                    'message' => 'Veuillez télécharger une image du plat'
-                ]),
                 new FileConstraint([
                     'maxSize' => '1M',
                     'mimeTypes' => [

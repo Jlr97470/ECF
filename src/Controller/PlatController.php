@@ -113,15 +113,20 @@ class PlatController extends AbstractController
                 );
 
                 $imageOptimizer->resize($this->getParameter('upload_directory') . '/' . $fichier);
+    
+                $plat->setPhoto( file_get_contents($this->getParameter('upload_directory') . '/' . $fichier)  );
+
+                $this->addFlash('success', 'Image téléchargée avec succès');
+
+                $this->saveplat($plat, $mode,$em);
+
+                return $this->redirectToRoute('app_plat_index', ['id' => $plat->getPlatId()]);                
+
             }
-
-            $plat->setPhoto( file_get_contents($this->getParameter('upload_directory') . '/' . $fichier)  );
-
-            $this->addFlash('success', 'Image téléchargée avec succès');
-
-            $this->saveplat($plat, $mode,$em);
-
-            return $this->redirectToRoute('app_plat_index', ['id' => $plat->getPlatId()]);
+            else
+            {
+                $this->addFlash('danger', 'Veuillez télécharger une image du plat');
+            }
         }
 
         $parameters = array(
@@ -161,15 +166,22 @@ class PlatController extends AbstractController
                 );
 
                 $imageOptimizer->resize($this->getParameter('upload_directory') . '/' . $fichier);
-            }            
-  
-            $plat->setPhoto(file_get_contents($this->getParameter('upload_directory') . '/' . $fichier) );
+
+                $plat->setPhoto(file_get_contents($this->getParameter('upload_directory') . '/' . $fichier) );
             
-            $this->addFlash('success', 'Image téléchargée avec succès');           
+                $this->addFlash('success', 'Image téléchargée avec succès');           
 
-            $this->saveplat($plat, $mode,$em);
+            }            
 
-            return $this->redirectToRoute('app_plat_index', ['id' => $id]);
+            if (!$image&& !$plat->getPhoto()) {
+                $this->addFlash('danger', 'Veuillez télécharger une image du plat');
+            }
+            else
+            {    
+                $this->saveplat($plat, $mode,$em);
+
+                return $this->redirectToRoute('app_plat_index', ['id' => $id]);
+            }
         }
 
         $parameters = array(
