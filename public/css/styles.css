@@ -11033,3 +11033,7 @@ dialog:open::backdrop {
 .sorted {
   border: 1px solid;
 }
+
+.prixcategory {
+  color: red;
+}

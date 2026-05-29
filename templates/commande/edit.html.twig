@@ -102,13 +102,13 @@
                 </div>  
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
-                            'field': form['prixmenu'], 'attr': {'attr':{'size': '30'}}
+                            'field': form['prixmenu'], 'attr': {'attr':{'size': '30', 'class': 'prixcategory'}}
                         }) }}  
                         <p class="text-muted">Le prix du menu est calculé automatiquement en fonction du nombre de personnes et du prix par personne du menu sélectionné. Si le nombre de personnes dépasse le nombre minimum+5 requis pour bénéficier d'une réduction, une remise de 10% est appliquée sur le prix total du menu.</p> 
                 </div>
                 <div class="input-field col s12 m6 l6 offset-m3 offset-l3">        
                 {{ include('helpers/form/group.html.twig', {
-                            'field': form['prixlivraison'], 'attr': {'attr':{'size': '30'}}
+                            'field': form['prixlivraison'], 'attr': {'attr':{'size': '30', 'class': 'prixcategory'}}
                         }) }}   
                 </div>
                 {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}      
