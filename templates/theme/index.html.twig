@@ -80,6 +80,9 @@
             </div>        
         </div>
         <div class="container px-4 px-lg-5 py-3">
+            {{ knp_pagination_filter(pagination, {'menu.titre': 'Titre','menu.nombre_personne_minimum': 'Nb. pers. min','menu.prix_par_personne': 'Prix pers.','menu.regime': 'Régime','menu.quantite_restante': 'Qt. rest.'}) }}
+        </div>         
+        <div class="container px-4 px-lg-5 py-3">
             <form method="get" action="{{ path('app_theme_index', {'id': theme.themeid}) }}">
             <input name="page" type="hidden" value="{{page}}">
             <input name="sort" type="hidden" value="{{sort}}">
@@ -113,9 +116,6 @@
             </div>          
             </form>
         </div>   
-        <div class="container px-4 px-lg-5 py-3">
-            {{ knp_pagination_filter(pagination, {'menu.titre': 'Titre','menu.nombre_personne_minimum': 'Nb. pers. min','menu.prix_par_personne': 'Prix pers.','menu.regime': 'Régime','menu.quantite_restante': 'Qt. rest.'}) }}
-        </div>         
         <div class="container px-4 px-lg-5 py-3">
             <table class="table">
                 <thead>
