@@ -161,7 +161,7 @@ class ThemeController extends AbstractController
     }
 
     #[Route('/theme/remove/{id}', name: 'app_theme_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, Request $request, int $id): Response
     {
         // On récupère l'Theme qui correspond à l'id passé dans l'URL
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $id]);
@@ -171,11 +171,15 @@ class ThemeController extends AbstractController
             return $this->redirectToRoute('app_theme_liste');
         }
 
-        // L'Theme est supprimé
-        $em->remove($theme);
-        $em->flush();
+        if ($this->isCsrfTokenValid('delete' . $theme->getThemeId(), $request->request->get('_token'))) {
+            // L'Theme est supprimé
+            $em->remove($theme);
+            $em->flush();
 
-        $this->addFlash('success', 'L"Theme a été supprimé avec succès');
+            $this->addFlash('success', 'L"Theme a été supprimé avec succès');
+        } else {
+            $this->addFlash('danger', 'Le token CSRF est invalide. Le theme n"a pas été supprimé.');
+        }
 
         return $this->redirectToRoute('app_theme_liste');
     }
@@ -220,7 +224,7 @@ class ThemeController extends AbstractController
     }   
     
     #[Route('/theme/menuremove/{idtheme}/{idmenu}', name: 'app_theme_menuremove')]
-    public function menuremove(EntityManagerInterface $em, int $idtheme, int $idmenu): Response
+    public function menuremove(EntityManagerInterface $em, Request $request, int $idtheme, int $idmenu): Response
     {
         // On récupère le Theme qui correspond à l'id passé dans l'url
         $theme = $em->getRepository(Theme::class)->findOneBy(['theme_id' => $idtheme]);
@@ -235,11 +239,16 @@ class ThemeController extends AbstractController
         })->first();
 
         if ($proposetheme) {
-            $em->remove($proposetheme);
-            $em->flush();
+            if ($this->isCsrfTokenValid('delete' . $proposetheme->getMenuId()->getMenuId(), $request->request->get('_token'))) {
+                $em->remove($proposetheme);
+                $em->flush();
+                $this->addFlash('success', 'Le menu a été supprimé avec succès');
+            } else {
+                $this->addFlash('danger', 'Le token CSRF est invalide. Le menu n"a pas été supprimé.');
+            }
+        } else {
+            $this->addFlash('danger', 'Le menu n"est pas associé à ce theme.');
         }
-
-        $this->addFlash('success', 'Le menu a été supprimé avec succès');
 
         return $this->redirectToRoute('app_theme_index', ['id' => $idtheme]);
     }     

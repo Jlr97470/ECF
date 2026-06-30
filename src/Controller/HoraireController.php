@@ -107,7 +107,7 @@ class HoraireController extends AbstractController
     }
 
     #[Route('/horaire/remove/{id}', name: 'app_horaire_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, Request $request, int $id): Response
     {
         // On récupère l'Allergene qui correspond à l'id passé dans l'URL
         $horaire = $em->getRepository(Horaire::class)->findOneBy(['horaire_id' => $id]);
@@ -117,11 +117,15 @@ class HoraireController extends AbstractController
             return $this->redirectToRoute('app_horaire_liste');
         }
 
-        // L'Allergene est supprimé
-        $em->remove($horaire);
-        $em->flush();
+        if ($this->isCsrfTokenValid('delete' . $horaire->getHoraireId(), $request->request->get('_token'))) {
+            // L'Allergene est supprimé
+            $em->remove($horaire);
+            $em->flush();
 
-        $this->addFlash('success', 'L"Horaire a été supprimé avec succès');
+            $this->addFlash('success', 'L"Horaire a été supprimé avec succès');
+        } else {
+            $this->addFlash('danger', 'Le token CSRF est invalide. L"Horaire n"a pas été supprimé.');
+        }
 
         return $this->redirectToRoute('app_horaire_liste');
     }

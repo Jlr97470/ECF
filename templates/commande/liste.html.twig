@@ -3,6 +3,7 @@
 {% block title %}Liste des Commande{% endblock %}
 
 {% block content %}
+{% include 'helpers/form/_delete_form.html.twig' %}
     <section>               
         <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
@@ -104,7 +105,7 @@
                         </th>
                         <td colspan="2" >
                             {% if commande.statut == 'En cours' %}
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_commande_remove', {'id': commande.numerocommande}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.getElementById('delete').action='{{ path('app_commande_remove', {'id': commande.numerocommande}) }}';document.getElementById('_token').value='{{ csrf_token('delete' ~ commande.numerocommande) }}';document.getElementById('delete').submit();};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
                             {% endif %}
                             <a href="{{ path('app_commande_edit', {'id': commande.numerocommande}) }}" role="button" class="btn btn-info">Modifier</a>
                         </td>

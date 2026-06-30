@@ -161,7 +161,7 @@ class RegimeController extends AbstractController
     }
 
     #[Route('/regime/remove/{id}', name: 'app_regime_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, Request $request, int $id): Response
     {
         // On récupère l'regime qui correspond à l'id passé dans l'URL
         $regime = $em->getRepository(regime::class)->findOneBy(['regime_id' => $id]);
@@ -170,12 +170,16 @@ class RegimeController extends AbstractController
             $this->addFlash('danger', 'L"regime n"existe pas');
             return $this->redirectToRoute('app_regime_liste');
         }
-        // L'regime est supprimé
-        $em->remove($regime);
-        $em->flush();
+        if ($this->isCsrfTokenValid('delete' . $regime->getRegimeId(), $request->request->get('_token'))) {
+            // L'regime est supprimé
+            $em->remove($regime);
+            $em->flush();
 
-        $this->addFlash('success', 'L"regime a été supprimé avec succès');
-
+            $this->addFlash('success', 'L"regime a été supprimé avec succès');
+        } else {
+            $this->addFlash('danger', 'Le token CSRF est invalide. L"regime n"a pas été supprimé.');
+        }
+     
         return $this->redirectToRoute('app_regime_liste');
     }
     #[Route('/regime/menuadd/{idregime}/{idmenu}', name: 'app_regime_menuadd')]
@@ -219,7 +223,7 @@ class RegimeController extends AbstractController
     }   
     
     #[Route('/regime/menuremove/{idregime}/{idmenu}', name: 'app_regime_menuremove')]
-    public function menuremove(EntityManagerInterface $em, int $idregime, int $idmenu): Response
+    public function menuremove(EntityManagerInterface $em, Request $request, int $idregime, int $idmenu): Response
     {
         // On récupère le regime qui correspond à l'id passé dans l'url
         $regime = $em->getRepository(Regime::class)->findOneBy(['regime_id' => $idregime]);
@@ -241,11 +245,16 @@ class RegimeController extends AbstractController
         })->first();
 
         if ($adapte) {
-            $em->remove($adapte);
-            $em->flush();
+            if ($this->isCsrfTokenValid('delete' . $adapte->getMenuId()->getMenuId(), $request->request->get('_token'))) {
+                $em->remove($adapte);
+                $em->flush();
+                $this->addFlash('success', 'Le menu a été supprimé avec succès');
+            } else {
+                $this->addFlash('danger', 'Le token CSRF est invalide. Le menu n"a pas été supprimé.');
+            }
+        } else {
+            $this->addFlash('danger', 'Le menu n"est pas associé à ce régime.');
         }
-
-        $this->addFlash('success', 'Le menu a été supprimé avec succès');
 
         return $this->redirectToRoute('app_regime_index', ['id' => $idregime]);
     }     

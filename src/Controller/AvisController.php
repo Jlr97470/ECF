@@ -12,6 +12,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use App\Entity\Avis;
 use App\Entity\Publie;
 use App\Form\AvisType;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 class AvisController extends AbstractController
 {
@@ -154,7 +155,7 @@ class AvisController extends AbstractController
     }
 
     #[Route('/avis/remove/{id}', name: 'app_avis_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, Request $request, int $id): Response
     {
         // On récupère l'Avis qui correspond à l'id passé dans l'URL
         $avis = $em->getRepository(Avis::class)->findOneBy(['avis_id' => $id]);
@@ -164,11 +165,14 @@ class AvisController extends AbstractController
             return $this->redirectToRoute('app_avis_liste');
         }
 
-        // L'Avis est supprimé
-        $em->remove($avis);
-        $em->flush();
+        if ($this->isCsrfTokenValid('delete' . $avis->getAvisId(), $request->request->get('_token'))) {
+            $em->remove($avis);
+            $em->flush();
 
-        $this->addFlash('success', 'L"Avis a été supprimé avec succès');
+            $this->addFlash('success', 'L"Avis a été supprimé avec succès');
+        } else {
+            $this->addFlash('danger', 'Jeton CSRF invalide. L"Avis n"a pas été supprimé.');
+        }
 
         return $this->redirectToRoute('app_avis_liste');
     }

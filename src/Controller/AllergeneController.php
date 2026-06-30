@@ -145,7 +145,7 @@ class AllergeneController extends AbstractController
     }
 
     #[Route('/allergene/remove/{id}', name: 'app_allergene_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, int $id, Request $request): Response
     {
         // On récupère l'Allergene qui correspond à l'id passé dans l'URL
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $id]);
@@ -155,11 +155,15 @@ class AllergeneController extends AbstractController
             return $this->redirectToRoute('app_allergene_liste');
         }
 
-        // L'Allergene est supprimé
-        $em->remove($allergene);
-        $em->flush();
-
-        $this->addFlash('success', 'L"Allergene a été supprimé avec succès');
+        if ($this->isCsrfTokenValid('delete' . $id, $request->request->get('_token'))) {
+            // L'Allergene est supprimé
+            $em->remove($allergene);
+            $em->flush();
+            $this->addFlash('success', 'L"Allergene a été supprimé avec succès');
+        }
+        else {
+            $this->addFlash('danger', 'Le token CSRF est invalide. L"Allergene n"a pas été supprimé');
+        }
 
         return $this->redirectToRoute('app_allergene_liste');
     }
@@ -194,7 +198,7 @@ class AllergeneController extends AbstractController
     }   
     
     #[Route('/allergene/platremove/{idallergene}/{idplat}', name: 'app_allergene_platremove')]
-    public function platremove(EntityManagerInterface $em, int $idallergene, int $idplat): Response
+    public function platremove(EntityManagerInterface $em, int $idallergene, int $idplat, Request $request): Response
     {
         // On récupère l'Allergene qui correspond à l'id passé dans l'url
         $allergene = $em->getRepository(Allergene::class)->findOneBy(['allergene_id' => $idallergene]);
@@ -209,11 +213,15 @@ class AllergeneController extends AbstractController
         })->first();
 
         if ($contient) {
-            $em->remove($contient);
-            $em->flush();
-        }
-
-        $this->addFlash('success', 'Le plat a été supprimé avec succès');
+            if ($this->isCsrfTokenValid('delete' . $contient->getPlatId()->getPlatId(), $request->request->get('_token'))) {
+                $em->remove($contient);
+                $em->flush();
+            } else {
+                $this->addFlash('danger', 'Le token CSRF est invalide. Le plat n"a pas été supprimé.');
+            }
+        } else {
+            $this->addFlash('danger', 'Le plat n"est pas associé à cet allergène.');
+        }   
 
         return $this->redirectToRoute('app_allergene_index', ['id' => $idallergene]);
     }     

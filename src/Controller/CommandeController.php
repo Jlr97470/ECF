@@ -17,6 +17,7 @@ use App\Entity\Menu;
 use App\Entity\Horaire;
 use App\Entity\Utilisateur;
 use App\Form\CommandeType;
+use Symfony\Component\Security\Csrf\CsrfToken;
 
 class CommandeController extends AbstractController
 {
@@ -411,7 +412,7 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/commande/remove/{id}', name: 'app_commande_remove')]
-    public function remove(EntityManagerInterface $em, string $id): Response
+    public function remove(EntityManagerInterface $em, Request $request, string $id): Response
     {
         // On récupère l'commande qui correspond à l'id passé dans l'URL
         $commande = $em->getRepository(Commande::class)->findOneBy(['numero_commande' => $id]);
@@ -433,11 +434,18 @@ class CommandeController extends AbstractController
             $em->persist($menu);
         }
 
-        // L'commande est supprimé
-        $em->remove($commande);
-        $em->flush();
-        
-        $this->addFlash('success', 'Le commande a été supprimé avec succès');
+        if ($this->isCsrfTokenValid('delete' . $commande->getNumeroCommande(), $request->request->get('_token'))) {
+            // L'ID du token CSRF est valide, on peut supprimer l'article
+            // L'commande est supprimé
+            $em->remove($commande);
+            $em->flush();
+            
+            $this->addFlash('success', 'Le commande a été supprimé avec succès');
+
+        } else {
+            // L'ID du token CSRF n'est pas valide, on ne supprime pas l'article
+            $this->addFlash('danger', 'Le token CSRF est invalide. La commande n\'a pas été supprimée.');
+        }
 
         return $this->redirectToRoute('app_commande_liste');
     }

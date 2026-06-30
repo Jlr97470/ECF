@@ -220,7 +220,7 @@ class UtilisateurController extends AbstractController
     }
 
     #[Route('/utilisateur/remove/{id}', name: 'app_utilisateur_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, int $id, Request $request): Response
     {
         // On récupère l'utilisateur qui correspond à l'id passé dans l'URL
         $utilisateur = $em->getRepository(Utilisateur::class)->findOneBy(['utilisateur_id' => $id]);
@@ -230,11 +230,17 @@ class UtilisateurController extends AbstractController
             return $this->redirectToRoute('app_utilisateur_liste');
         }
 
-        // L'utilisateur est supprimé
-        $em->remove($utilisateur);
-        $em->flush();
-        
-        $this->addFlash('success', 'L\'utilisateur a été supprimé avec succès');
+        $token = $request->request->get('_token');
+
+        if ($this->isCsrfTokenValid('delete' . $utilisateur->getUtilisateurId(), $request->request->get('_token'))) {
+            // L'utilisateur est supprimé
+            $em->remove($utilisateur);
+            $em->flush();
+            
+            $this->addFlash('success', 'L\'utilisateur a été supprimé avec succès');
+        } else {
+            $this->addFlash('danger', 'Le token CSRF est invalide. L\'utilisateur n\'a pas été supprimé.');
+        }
 
         return $this->redirectToRoute('app_utilisateur_liste');
     }

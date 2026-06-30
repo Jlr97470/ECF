@@ -3,6 +3,7 @@
 {% block title %}{{ menu.titre }} {% endblock %}
 
 {% block content %}
+{% include 'helpers/form/_delete_form.html.twig' %}
     <section>               
          <div class="container px-4 px-lg-5 py-3">
             {# Titre de la page #}
@@ -87,7 +88,7 @@
                 </div>
                 {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
                 <div class="col-xs-3 col-sm-2">   
-                    <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_menu_remove', {'id': menu.menuid}) }}';};});diadialog.showModal();" role="button" class="btn btn-danger">Supprimer</a>
+                    <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.getElementById('delete').action='{{ path('app_menu_remove', {'id': menu.menuid}) }}';document.getElementById('_token').value='{{ csrf_token('delete'~ menu.menuid) }}';document.getElementById('delete').submit();};});document.getElementById('diadialog').showModal();" role="button" class="btn btn-danger">Supprimer</a>
                     <a href="{{ path('app_menu_edit', {'id': menu.menuid}) }}" role="button" class="btn btn-info">Modifier</a>
                 </div>
                 {% endif %}
@@ -118,7 +119,7 @@
                         </th>
                         <td>
                             {% if (app.user and 'ROLE_ADMIN' in app.user.roles) or (app.user and 'ROLE_USE' in app.user.roles) %}
-                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.location.href='{{ path('app_menu_platremove', {'idmenu': menu.menuid, 'idplat': plat.platid}) }}';};});diadialog.showModal();" class="btn btn-danger">Supprimer plat</a>
+                            <a href="JavaScript:InitDialog(YesNo,'Confirmation','Voulez-vous supprimer ?',() => { if (document.getElementById('diadialog').returnValue=='Yes') {document.getElementById('delete').action='{{ path('app_menu_platremove', {'idmenu': menu.menuid, 'idplat': plat.platid}) }}';document.getElementById('_token').value='{{ csrf_token('delete'~ plat.platid) }}';document.getElementById('delete').submit();};});document.getElementById('diadialog').showModal();" class="btn btn-danger">Supprimer plat</a>
                             {% endif %}
                         </td>
                     </tr>

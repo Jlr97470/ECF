@@ -180,7 +180,7 @@ class MenuController extends AbstractController
     }
 
     #[Route('/menu/remove/{id}', name: 'app_menu_remove')]
-    public function remove(EntityManagerInterface $em, int $id): Response
+    public function remove(EntityManagerInterface $em, Request $request, int $id): Response
     {
         // On récupère l'Menu qui correspond à l'id passé dans l'URL
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $id]);
@@ -190,11 +190,15 @@ class MenuController extends AbstractController
             return $this->redirectToRoute('app_menu_liste');
         }
 
-        // L'Menu est supprimé
-        $em->remove($menu);
-        $em->flush();
-        
-        $this->addFlash('success', 'Le menu a été supprimé avec succès');
+        if ($this->isCsrfTokenValid('delete' . $menu->getMenuId(), $request->request->get('_token'))) {
+            // L'Menu est supprimé
+            $em->remove($menu);
+            $em->flush();
+            
+            $this->addFlash('success', 'Le menu a été supprimé avec succès');
+        } else {
+            $this->addFlash('danger', 'Le token CSRF est invalide. Le menu n\'a pas été supprimé');
+        }
 
         return $this->redirectToRoute('app_menu_liste');
     }
@@ -229,7 +233,7 @@ class MenuController extends AbstractController
     }   
     
       #[Route('/menu/platremove/{idmenu}/{idplat}', name: 'app_menu_platremove')]
-    public function platremove(EntityManagerInterface $em, int $idmenu, int $idplat): Response
+    public function platremove(EntityManagerInterface $em, Request $request, int $idmenu, int $idplat): Response
     {
         // On récupère l'Menu qui correspond à l'id passé dans l'url
         $menu = $em->getRepository(Menu::class)->findOneBy(['menu_id' => $idmenu]);
@@ -244,11 +248,16 @@ class MenuController extends AbstractController
         })->first();
 
         if ($proposeplat) {
-            $em->remove($proposeplat);
-            $em->flush();
+            if ($this->isCsrfTokenValid('delete' . $proposeplat->getPlatId()->getPlatId(), $request->request->get('_token'))) {
+                $em->remove($proposeplat);
+                $em->flush();
+                $this->addFlash('success', 'Le plat a été supprimé avec succès');
+            } else {
+                $this->addFlash('danger', 'Le token CSRF est invalide. Le plat n\'a pas été supprimé');
+            }
+        } else {
+            $this->addFlash('danger', 'Le plat n\'est pas associé à ce menu');
         }
-
-        $this->addFlash('success', 'Le plat a été supprimé avec succès');
 
         return $this->redirectToRoute('app_menu_index', ['id' => $idmenu]);
     }     
