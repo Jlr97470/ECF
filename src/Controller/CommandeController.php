@@ -160,6 +160,7 @@ class CommandeController extends AbstractController
     
         if ($user && (in_array('ROLE_ADMIN', $user->getRoles()) || in_array('ROLE_USE', $user->getRoles())))
         {
+            return $this->redirectToRoute('app_commande_liste');
         }
         else
         {
