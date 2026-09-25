@@ -19,10 +19,9 @@ return static function (ContainerConfigurator $configurator): void
             'default_limit' => 10                 // default number of items per page
         ],
         'template' => [
-            'pagination' => '@KnpPaginator/Pagination/sliding.html.twig',     // sliding pagination controls template
-            'rel_links' => '@KnpPaginator/Pagination/rel_links.html.twig',    // <link rel=...> tags template
-            'sortable' => '@KnpPaginator/Pagination/sortable_link.html.twig', // sort link template
-            'filtration' => '@KnpPaginator/Pagination/filtration.html.twig'   // filters template
+            'pagination' => '@KnpPaginator/Pagination/bootstrap_v5_pagination.html.twig',     // sliding pagination controls template
+            'sortable' => '@KnpPaginator/Pagination/bootstrap_v5_fa_sortable_link.html.twig', // sort link template
+            'filtration' => '@KnpPaginator/Pagination/bootstrap_v5_filtration.html.twig'   // filters template
         ]
     ]);
 };
