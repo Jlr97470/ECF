@@ -248,7 +248,7 @@ class CommandeController extends AbstractController
             $utilisateur = $commande->getUtilisateurId();
 
             $message = (new TemplatedEmail())
-                ->from($email)
+                ->from($this->getParameter('email_from'))
                 ->to($utilisateur->getEmail())
                 ->subject('Votre commande sur notre site Vite & Gourmand')
                 ->htmlTemplate('emails/commande.html.twig')
@@ -381,7 +381,7 @@ class CommandeController extends AbstractController
                 $utilisateur = $commande->getUtilisateurId();
 
                 $message = (new TemplatedEmail())
-                    ->from($email)
+                    ->from($this->getParameter('email_from'))
                     ->to($utilisateur->getEmail())
                     ->subject('Votre commande sur notre site Vite & Gourmand')
                     ->htmlTemplate('emails/commandeterminer.html.twig')

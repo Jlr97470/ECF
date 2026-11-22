@@ -6,6 +6,7 @@
 parameters:
     upload_directory: '%kernel.project_dir%/public/uploads'
     images_directory: '%kernel.project_dir%/public/images'
+    email_from: 'royerjeanlaurent@gmail.com'    
     locale: 'fr'
 services:
     # default configuration for services in *this* file
